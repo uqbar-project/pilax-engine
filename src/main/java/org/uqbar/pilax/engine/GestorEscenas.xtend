@@ -1,13 +1,11 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 import java.util.List
-import java.util.ArrayList
 
 class GestorEscenas {
 	List<EscenaBase> escenas = newArrayList
 
-	def cambiarEscena(EscenaBase escena) {
+	def void cambiarEscena(EscenaBase escena) {
 		limpiar
 		escenas.add(escena)
 		escena.iniciar
@@ -15,8 +13,8 @@ class GestorEscenas {
 	}
 
 	def limpiar() {
-		self.escenas.forEach[it.limpiar]
-        self.escenas = newArrayList
+		escenas.forEach[it.limpiar]
+        escenas = newArrayList
 	}
 
 	def escenaActual() {
@@ -26,11 +24,10 @@ class GestorEscenas {
 	def actualizar() {
         val escena = escenaActual
         if (escena != null) {
-            if (escena.iniciada)
+            if (escena.iniciada) {
                 escena.actualizarEventos
-
-            for (e : escenas)
-                e.actualizarFisica
+			}
+			escenas.forEach[actualizarFisica]
         }
 	}
 	

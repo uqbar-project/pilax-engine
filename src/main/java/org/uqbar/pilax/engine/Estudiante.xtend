@@ -97,9 +97,9 @@ class Estudiante {
 	}
 
     def adoptarElSiguienteComportamiento() {
-        if (comportamientos != null) {
+        if (!comportamientos.nullOrEmpty) {
             comportamientoActual = comportamientos.pop(0)
-            comportamientoActual.iniciar(self)
+            comportamientoActual.iniciar(this)
         }
         else
             comportamientoActual = None

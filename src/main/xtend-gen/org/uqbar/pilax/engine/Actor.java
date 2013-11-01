@@ -136,7 +136,12 @@ public class Actor extends Estudiante {
     this._fijo = fijo;
   }
   
-  private Pair<Integer,Integer> _centro;
+  private Pair<Integer,Integer> _centro = new Function0<Pair<Integer,Integer>>() {
+    public Pair<Integer,Integer> apply() {
+      Pair<Integer,Integer> _mappedTo = Pair.<Integer, Integer>of(Integer.valueOf(0), Integer.valueOf(0));
+      return _mappedTo;
+    }
+  }.apply();
   
   public Pair<Integer,Integer> getCentro() {
     return this._centro;
@@ -269,13 +274,10 @@ public class Actor extends Estudiante {
   }
   
   public int getIzquierda() {
-    Actor _self = PythonUtils.<Actor>self(this);
-    int _x = _self.getX();
-    Actor _self_1 = PythonUtils.<Actor>self(this);
-    Pair<Integer,Integer> _centro = _self_1.getCentro();
+    int _x = this.getX();
+    Pair<Integer,Integer> _centro = this.getCentro();
     Integer _key = _centro.getKey();
-    Actor _self_2 = PythonUtils.<Actor>self(this);
-    int _escala = _self_2.getEscala();
+    int _escala = this.getEscala();
     int _multiply = ((_key).intValue() * _escala);
     return (_x - _multiply);
   }

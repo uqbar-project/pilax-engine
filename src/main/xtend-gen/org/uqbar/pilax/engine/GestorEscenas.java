@@ -8,7 +8,6 @@ import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.uqbar.pilax.engine.EscenaBase;
-import org.uqbar.pilax.engine.PythonUtils;
 
 @SuppressWarnings("all")
 public class GestorEscenas {
@@ -29,16 +28,14 @@ public class GestorEscenas {
   public List<EscenaBase> limpiar() {
     List<EscenaBase> _xblockexpression = null;
     {
-      GestorEscenas _self = PythonUtils.<GestorEscenas>self(this);
       final Procedure1<EscenaBase> _function = new Procedure1<EscenaBase>() {
           public void apply(final EscenaBase it) {
             it.limpiar();
           }
         };
-      IterableExtensions.<EscenaBase>forEach(_self.escenas, _function);
-      GestorEscenas _self_1 = PythonUtils.<GestorEscenas>self(this);
+      IterableExtensions.<EscenaBase>forEach(this.escenas, _function);
       ArrayList<EscenaBase> _newArrayList = CollectionLiterals.<EscenaBase>newArrayList();
-      List<EscenaBase> _escenas = _self_1.escenas = _newArrayList;
+      List<EscenaBase> _escenas = this.escenas = _newArrayList;
       _xblockexpression = (_escenas);
     }
     return _xblockexpression;
@@ -65,9 +62,12 @@ public class GestorEscenas {
       if (_isIniciada) {
         escena.actualizarEventos();
       }
-      for (final EscenaBase e : this.escenas) {
-        e.actualizarFisica();
-      }
+      final Procedure1<EscenaBase> _function = new Procedure1<EscenaBase>() {
+          public void apply(final EscenaBase it) {
+            it.actualizarFisica();
+          }
+        };
+      IterableExtensions.<EscenaBase>forEach(this.escenas, _function);
     }
   }
 }

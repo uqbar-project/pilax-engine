@@ -1,5 +1,6 @@
 package org.uqbar.pilax.engine.motor
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QPixmap
 import org.uqbar.pilax.engine.Pilas
@@ -98,7 +99,7 @@ class ImagenMotor {
 	private String ruta
 	
 	new(String path) {
-		ruta = path
+		ruta = path.resolveFullPathFromClassPath
 		if (ruta.toLowerCase.endsWith("jpeg") || ruta.toLowerCase.endsWith("jpg")) {
            self.imagen = self.cargarJpeg(ruta)
         }

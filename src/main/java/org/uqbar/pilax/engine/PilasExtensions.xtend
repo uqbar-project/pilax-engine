@@ -1,5 +1,9 @@
 package org.uqbar.pilax.engine
 
+import java.io.File
+import java.util.List
+import org.eclipse.xtext.xbase.lib.Pair
+
 class PilasExtensions {
 	
 	def static boolean esActor(Object obj) {
@@ -22,5 +26,20 @@ class PilasExtensions {
 	def static camaraY() {
 		Pilas.instance.mundo.motor.camaraY
 	}
+	
+	// *********************************
+	// ** generales
+	// *********************************
+	
+	def static resolveFullPathFromClassPath(String fileName) {
+		val url = typeof(PilasExtensions).classLoader.getResource(fileName)
+		new File(url.toURI).absolutePath
+	}
+	
+	def static <E> Iterable<E> copy(Iterable<E> aList) {
+		val temp = newArrayList
+		temp.addAll(aList)
+		temp
+	} 
 	
 }

@@ -215,8 +215,7 @@ public class CanvasNormalWidget extends QWidget {
     DataEvento _dataEvento = new DataEvento();
     _actualizar.emitir(_dataEvento);
     try {
-      CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
-      EscenaBase _escenaActual_1 = _self.gestorEscenas.escenaActual();
+      EscenaBase _escenaActual_1 = this.gestorEscenas.escenaActual();
       List<Actor> _actores = _escenaActual_1.getActores();
       final Procedure1<Actor> _function = new Procedure1<Actor>() {
           public void apply(final Actor it) {

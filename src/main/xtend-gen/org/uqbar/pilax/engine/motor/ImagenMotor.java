@@ -7,6 +7,7 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import org.uqbar.pilax.engine.Motor;
 import org.uqbar.pilax.engine.Mundo;
 import org.uqbar.pilax.engine.Pilas;
+import org.uqbar.pilax.engine.PilasExtensions;
 import org.uqbar.pilax.engine.PythonUtils;
 
 @SuppressWarnings("all")
@@ -24,7 +25,8 @@ public class ImagenMotor {
   private String ruta;
   
   public ImagenMotor(final String path) {
-    this.ruta = path;
+    String _resolveFullPathFromClassPath = PilasExtensions.resolveFullPathFromClassPath(path);
+    this.ruta = _resolveFullPathFromClassPath;
     boolean _or = false;
     String _lowerCase = this.ruta.toLowerCase();
     boolean _endsWith = _lowerCase.endsWith("jpeg");

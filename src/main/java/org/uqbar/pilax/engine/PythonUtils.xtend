@@ -1,8 +1,7 @@
 package org.uqbar.pilax.engine
 
-import java.util.List
-import com.trolltech.qt.core.Qt
 import com.google.common.reflect.Reflection
+import java.util.List
 
 class PythonUtils {
 	static boolean printNotImplemented = true

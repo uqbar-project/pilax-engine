@@ -1,12 +1,13 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import com.trolltech.qt.gui.QPainter
 
 class Fondo extends Actor {
 	
 	new(String imagen) {
         super(imagen, 0, 0)
-		eliminarFondoActual()
+		eliminarFondosAnteriores
         z = 1000
 	}
 	
@@ -14,15 +15,8 @@ class Fondo extends Actor {
 		true
 	}
 	
-	def protected eliminarFondoActual() {
-        val aEliminar = newArrayList()
-        for (f : Pilas.instance.fondos) {
-            aEliminar.add(f)
-        }
-
-        for (fondo : aEliminar) {
-            fondo.eliminar
-        }
+	def protected eliminarFondosAnteriores() {
+		Pilas.instance.fondos.copy.forEach[ if (it != this) eliminar]
 	}
 	
 }

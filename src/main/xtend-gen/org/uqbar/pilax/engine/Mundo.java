@@ -36,7 +36,7 @@ public class Mundo {
     this.setGestorEscenas(_gestorEscenas);
     Motor _motor = this.getMotor();
     GestorEscenas _gestorEscenas_1 = this.getGestorEscenas();
-    _motor.iniciarVentana(ancho, alto, "Pilas", false, _gestorEscenas_1, 60);
+    _motor.iniciarVentana(ancho, alto, "PilaX (Pilas Engine en XTend)", false, _gestorEscenas_1, 60);
     int _minus = (-10);
     Pair<Integer,Integer> _mappedTo = Pair.<Integer, Integer>of(Integer.valueOf(0), Integer.valueOf(_minus));
     this.gravedad = _mappedTo;

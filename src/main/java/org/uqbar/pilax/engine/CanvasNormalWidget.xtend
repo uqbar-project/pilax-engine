@@ -139,7 +139,7 @@ class CanvasNormalWidget extends QWidget {
         Pilas.instance.escenaActual.actualizar.emitir(new DataEvento)
 
         try {
-        	self.gestorEscenas.escenaActual.actores.forEach[preActualizar; actualizar]
+        	gestorEscenas.escenaActual.actores.forEach[preActualizar; actualizar]
         }
         catch (Exception e) {
             e.printStackTrace

@@ -18,14 +18,14 @@ import org.uqbar.pilax.engine.Ventana;
 public class Pilas {
   private static Pilas INSTANCE;
   
-  private Mundo _mundoActual;
+  private Mundo _mundo;
   
-  public Mundo getMundoActual() {
-    return this._mundoActual;
+  public Mundo getMundo() {
+    return this._mundo;
   }
   
-  public void setMundoActual(final Mundo mundoActual) {
-    this._mundoActual = mundoActual;
+  public void setMundo(final Mundo mundo) {
+    this._mundo = mundo;
   }
   
   private List<Actor> _todosActores = new Function0<List<Actor>>() {
@@ -49,8 +49,9 @@ public class Pilas {
     Motor _motor = new Motor();
     final Motor motor = _motor;
     Mundo _mundo = new Mundo(motor, 640, 480);
-    Pilas.INSTANCE._mundoActual = _mundo;
-    GestorEscenas _gestorEscenas = Pilas.INSTANCE._mundoActual.getGestorEscenas();
+    Pilas.INSTANCE.setMundo(_mundo);
+    Mundo _mundo_1 = Pilas.INSTANCE.getMundo();
+    GestorEscenas _gestorEscenas = _mundo_1.getGestorEscenas();
     EscenaNormal _escenaNormal = new EscenaNormal();
     _gestorEscenas.cambiarEscena(_escenaNormal);
     Ventana _ventana = motor.getVentana();
@@ -68,8 +69,8 @@ public class Pilas {
   }
   
   public EscenaBase escenaActual() {
-    Mundo _mundoActual = this.getMundoActual();
-    GestorEscenas _gestorEscenas = _mundoActual.getGestorEscenas();
+    Mundo _mundo = this.getMundo();
+    GestorEscenas _gestorEscenas = _mundo.getGestorEscenas();
     EscenaBase _escenaActual = _gestorEscenas.escenaActual();
     return _escenaActual;
   }
@@ -85,10 +86,6 @@ public class Pilas {
       };
     Iterable<Actor> _filter = IterableExtensions.<Actor>filter(_actores, _function);
     return _filter;
-  }
-  
-  public Mundo getMundo() {
-    return this._mundoActual;
   }
   
   public static void main(final String[] args) {

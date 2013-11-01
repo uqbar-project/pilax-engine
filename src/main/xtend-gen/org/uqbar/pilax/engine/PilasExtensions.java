@@ -1,6 +1,13 @@
 package org.uqbar.pilax.engine;
 
+import com.google.common.collect.Iterables;
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.uqbar.pilax.engine.Actor;
 import org.uqbar.pilax.engine.EscenaBase;
@@ -52,5 +59,32 @@ public class PilasExtensions {
     Motor _motor = _mundo.getMotor();
     int _camaraY = _motor.getCamaraY();
     return _camaraY;
+  }
+  
+  public static String resolveFullPathFromClassPath(final String fileName) {
+    try {
+      String _xblockexpression = null;
+      {
+        ClassLoader _classLoader = PilasExtensions.class.getClassLoader();
+        final URL url = _classLoader.getResource(fileName);
+        URI _uRI = url.toURI();
+        File _file = new File(_uRI);
+        String _absolutePath = _file.getAbsolutePath();
+        _xblockexpression = (_absolutePath);
+      }
+      return _xblockexpression;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  public static <E extends Object> Iterable<E> copy(final Iterable<E> aList) {
+    ArrayList<E> _xblockexpression = null;
+    {
+      final ArrayList<E> temp = CollectionLiterals.<E>newArrayList();
+      Iterables.<E>addAll(temp, aList);
+      _xblockexpression = (temp);
+    }
+    return _xblockexpression;
   }
 }

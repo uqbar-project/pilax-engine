@@ -239,14 +239,14 @@ public class Estudiante {
   
   public void adoptarElSiguienteComportamiento() {
     List<Comportamiento> _comportamientos = this.getComportamientos();
-    boolean _notEquals = (!Objects.equal(_comportamientos, null));
-    if (_notEquals) {
+    boolean _isNullOrEmpty = IterableExtensions.isNullOrEmpty(_comportamientos);
+    boolean _not = (!_isNullOrEmpty);
+    if (_not) {
       List<Comportamiento> _comportamientos_1 = this.getComportamientos();
       Comportamiento _pop = PythonUtils.<Comportamiento>pop(_comportamientos_1, 0);
       this.setComportamientoActual(_pop);
       Comportamiento _comportamientoActual = this.getComportamientoActual();
-      Estudiante _self = PythonUtils.<Estudiante>self(this);
-      _comportamientoActual.iniciar(_self);
+      _comportamientoActual.iniciar(this);
     } else {
       Comportamiento _None = PythonUtils.<Comportamiento>None(this);
       this.setComportamientoActual(_None);

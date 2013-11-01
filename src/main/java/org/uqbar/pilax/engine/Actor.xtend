@@ -22,7 +22,7 @@ class Actor extends Estudiante {
 	@Property int dy
 	// velocidad
 	@Property boolean fijo
-	@Property Pair<Integer, Integer> centro
+	@Property Pair<Integer, Integer> centro = 0 -> 0
 	
 	new(String imagen, int x, int y) {
 		actorMotor = Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
@@ -80,7 +80,7 @@ class Actor extends Estudiante {
     }
     
     def getIzquierda() {
-        return self.x - (self.centro.key * self.escala)
+        return x - (centro.key * escala)
     }
 
     def setIzquierda(int x) {
