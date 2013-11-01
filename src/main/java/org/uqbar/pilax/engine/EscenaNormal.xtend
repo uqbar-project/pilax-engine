@@ -20,7 +20,7 @@ abstract class EscenaBase {
 	@Property Evento actualizar
 	@Property Evento log
 	Control control
-	Tareas tareas
+	@Property Tareas tareas
 	Colisiones colisiones
 	Tweener tweener
 	FisicaDeshabilitada fisica

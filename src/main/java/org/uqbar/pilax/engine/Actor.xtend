@@ -4,6 +4,7 @@ import static extension org.uqbar.pilax.engine.PythonUtils.*
 import java.util.List
 import org.uqbar.pilax.engine.motor.ActorMotor
 import com.trolltech.qt.gui.QPainter
+import org.uqbar.pilax.engine.motor.ImagenMotor
 
 class Actor extends Estudiante {
 	boolean vivo = true
@@ -35,6 +36,11 @@ class Actor extends Estudiante {
 	
 	def getImagen() {
 		actorMotor.imagen
+	}
+	
+	def void setImagen(ImagenMotor imagen) {
+        self.actorMotor.imagen = imagen
+        self.centro = 0 -> 0
 	}
 	
 	def esFondo() {

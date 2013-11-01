@@ -1,6 +1,7 @@
 package org.uqbar.pilax.engine
 
 import org.eclipse.xtext.xbase.lib.Pair
+import org.eclipse.xtext.xbase.lib.Functions.Function0
 
 class Mundo {
 	@Property GestorEscenas gestorEscenas
@@ -21,5 +22,13 @@ class Mundo {
 	def crearMotorFisica() {
 		return Fisica.crearMotorFisica(motor.area, gravedad)
 	}
+	
+	// *********************************
+	// ** TAREAS
+	// *********************************
+	
+	def agregarTareaUnaVez(int time_out, Function0<Boolean> function) { // tenia params
+        return gestorEscenas.escenaActual.tareas.unaVez(time_out, function)
+    }
 	
 }

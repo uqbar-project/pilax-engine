@@ -59,12 +59,7 @@ class ActorMotor extends ActorBaseMotor {
 	
 	new(String imagen, int x, int y) {
 		super(x,y)
-		this.imagen = cargarImagen(imagen)
-	}
-	
-	def ImagenMotor cargarImagen(String path) {
-		// probablemente habria que delegar en el motor
-		new ImagenMotor(path)
+		this.imagen = Pilas.instance.mundo.motor.cargarImagen(imagen)
 	}
 
     def dibujar(QPainter painter) {
@@ -90,6 +85,15 @@ class ActorMotor extends ActorBaseMotor {
         y = self.y - dy
 
         self.imagen.dibujar(painter, x, y, self.centro_x, self.centro_y, escala_x, escala_y, self.rotacion, self.transparencia)
+    }
+    
+    def void setImagen(ImagenMotor imagen) {
+    	// permite que varios actores usen la misma grilla.
+    	// PILAX!
+//        if (imagen instanceof Grilla)
+//            self._imagen = copy.copy(imagen)
+//        else:
+            self._imagen = imagen
     }
 	
 }

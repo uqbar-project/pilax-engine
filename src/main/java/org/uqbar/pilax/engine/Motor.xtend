@@ -5,6 +5,7 @@ import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.motor.ActorMotor
 
 import static extension org.uqbar.pilax.engine.PythonUtils.*
+import org.uqbar.pilax.engine.motor.ImagenMotor
 
 class Motor {
 	QApplication application
@@ -83,6 +84,10 @@ class Motor {
 	def setCentroDeLaCamara(Pair<Integer, Integer> centro) {
 		self.camaraX = centro.key
         self.camaraY = centro.value
+	}
+	
+	def cargarImagen(String path) {
+		new ImagenMotor(path)
 	}
 
 }
