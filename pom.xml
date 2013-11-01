@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.uqbar-project</groupId>
+  <artifactId>pilax.engine</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <parent>
+    <groupId>org.uqbar-project</groupId>
+    <artifactId>uqbar-xtend-parent</artifactId>
+    <version>1.0</version>
+  </parent>
+  
+   <dependencies>
+   <!-- 
+   		<dependency>
+			<groupId>org.jbox2d</groupId>
+			<artifactId>jbox2d</artifactId>
+			<version>2.2.1.1</version>
+		</dependency>
+		 -->
+		 <dependency>
+			<groupId>org.jbox2d</groupId>
+			<artifactId>jbox2d-library</artifactId>
+			<version>2.2.1.1</version>
+		</dependency>
+            
+		<!-- QT -->
+		<dependency>
+        	<groupId>net.sf.qtjambi</groupId>
+        	<artifactId>qtjambi</artifactId>
+        	<version>4.6.3.2</version>
+    	</dependency>
+    	<!-- /QT -->
+   </dependencies>
+   
+   <repositories>
+    <repository>
+        <id>qtjambi</id>
+        <name>qtjambi</name>
+        <url>http://qtjambi.sourceforge.net/maven2/</url>
+        <releases>
+            <checksumPolicy>ignore</checksumPolicy>
+        </releases>
+        <snapshots>
+            <checksumPolicy>ignore</checksumPolicy>
+        </snapshots>
+    </repository>
+</repositories>
+
+<pluginRepositories>
+    <pluginRepository>
+        <id>qtjambi</id>
+        <name>qtjambi</name>
+        <url>http://qtjambi.sourceforge.net/maven2/</url>
+        <releases>
+            <checksumPolicy>ignore</checksumPolicy>
+        </releases>
+        <snapshots>
+            <checksumPolicy>ignore</checksumPolicy>
+        </snapshots>
+    </pluginRepository>
+</pluginRepositories>
+  
+</project>
