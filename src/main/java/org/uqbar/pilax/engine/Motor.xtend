@@ -49,9 +49,8 @@ class Motor {
         self.ventana.canvas = self.canvas
         self.canvas.setFocus
 
-
-        if (true) {
-            self.ventana.show()
+		if (true) {
+            self.ventana.show
             self.ventana.raise
         }
 

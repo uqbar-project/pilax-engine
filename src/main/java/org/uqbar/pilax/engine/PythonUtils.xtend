@@ -47,4 +47,10 @@ class PythonUtils {
 		}
 	}
 	
+	def static <T> T newInstanceWith(Class<T> aClass, Object... params) {
+		// dummy impl !!!
+		val c = aClass.constructors.findFirst[c| c.parameterTypes.length == params.length]
+		c.newInstance(params) as T
+	}
+	
 }

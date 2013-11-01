@@ -1,13 +1,34 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 import java.util.List
+
+import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 class Estudiante {
 	@Property List<Habilidad> habilidades = newArrayList
 	@Property List<Comportamiento> comportamientos = newArrayList
 	@Property Comportamiento comportamientoActual
 	boolean repetirComportamientosPorSiempre
+	
+        /**Comienza a realizar una habilidad indicada por parametros.
+        :param classname: Referencia a la clase que representa la habilidad.
+        */
+	def aprender(Class classname) {
+        if (self.tieneHabilidad(classname)) {
+            self.eliminar_habilidad(classname)
+            self.agregar_habilidad(classname)
+        }
+        else
+            self.agregar_habilidad(classname)
+	}	
+	
+	/** Agrega una habilidad a la lista de cosas que puede hacer un actor.
+        :param classname: Referencia a la clase que representa la habilidad.
+        */
+	def agregar_habilidad(Class classname) {
+        val objeto_habilidad = classname.newInstanceWith(this) as Habilidad
+        self._habilidades.add(objeto_habilidad)
+	}
 	
 	/**""" Elimina una habilidad asociada a un Actor.
 

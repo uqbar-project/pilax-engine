@@ -1,9 +1,14 @@
 package org.uqbar.pilax.engine
 
 abstract class Habilidad {
+	@Property Actor receptor
 	
-	def void actualizar()
+	new(Actor receptor) {
+		this.receptor = receptor
+	}
 	
-	def void eliminar()
+	def void actualizar() {}
+	
+	def void eliminar() {}
 	
 }

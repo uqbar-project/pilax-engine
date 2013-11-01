@@ -9,8 +9,6 @@ import org.uqbar.pilax.engine.motor.ImagenMotor
 class Actor extends Estudiante {
 	boolean vivo = true
 	List<Actor> anexados = newArrayList
-	@Property int x
-	@Property int y
 	@Property int z = 0
 	private ActorMotor actorMotor
 	@Property EscenaBase escena
@@ -27,11 +25,25 @@ class Actor extends Estudiante {
 	
 	new(String imagen, int x, int y) {
 		actorMotor = Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
-		this.x = x
-		this.y = y
 		Pilas.instance.escenaActual.agregarActor(this)
         dx = x
         dy = y
+	}
+	
+	def getX() {
+		this.actorMotor.x
+	}
+	
+	def void setX(int x) {
+		this.actorMotor.x = x
+	}
+	
+	def getY() {
+		this.actorMotor.y
+	}
+	
+	def void setY(int y) {
+		this.actorMotor.y = y
 	}
 	
 	def getImagen() {

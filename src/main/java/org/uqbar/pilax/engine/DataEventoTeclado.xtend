@@ -37,7 +37,7 @@ class DataEventoRuedaMouse extends DataEvento {
 	
 }
 
-class DataEventoMouse extends DataMovimiento {
+class DataEventoMouse extends DataEventoMovimiento {
 	@Property MouseButton boton
 	
 	new(Float x, Float y, Float dx, Float dy, MouseButton boton) {
@@ -47,7 +47,7 @@ class DataEventoMouse extends DataMovimiento {
 	
 }
 
-class DataMovimiento extends DataEvento {
+class DataEventoMovimiento extends DataEvento {
 	@Property float x
 	@Property float y
 	@Property float dx
