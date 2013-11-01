@@ -1,5 +1,6 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PythonUtils.*
 import com.trolltech.qt.core.Qt.MouseButton
 import java.util.Map
 
@@ -16,23 +17,23 @@ class Evento {
 	}
 	//codigo=codigo_de_tecla, es_repeticion=event.isAutoRepeat(), texto=event.text())
 	def emitir(Object codigo, boolean es_repeticion, String texto) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		notImplementedYet
 	}
 	
 	def emitir() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		notImplementedYet
 	}
 	
 	def emitir(float x, float y, float dx, float dy) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		notImplementedYet
 	}
 	
 	def emitir(float x, float y, float dx, float dy, MouseButton botonPulsado) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		notImplementedYet
 	}
 	
 	def emitir(float delta) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		notImplementedYet
 	}
 	
 	def desconectar(HandlerEvento respuesta) {

@@ -11,7 +11,6 @@ import com.trolltech.qt.core.Qt.MouseButton;
 import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QKeyEvent;
 import com.trolltech.qt.gui.QMouseEvent;
-import com.trolltech.qt.gui.QPaintDeviceInterface;
 import com.trolltech.qt.gui.QPaintEvent;
 import com.trolltech.qt.gui.QPainter;
 import com.trolltech.qt.gui.QPainter.RenderHint;
@@ -71,8 +70,7 @@ public class CanvasNormalWidget extends QWidget {
   private ActorPausa actorPausa;
   
   public CanvasNormalWidget(final Motor motor, final List<Actor> lista_actores, final int ancho, final int alto, final GestorEscenas gestor_escenas, final boolean permitir_depuracion, final double rendimiento) {
-    QPainter _qPainter = new QPainter();
-    this.painter = _qPainter;
+    super(((QWidget) null));
     this.setMouseTracking(true);
     this.pausaHabilitada = false;
     this.mouseX = 0;
@@ -120,8 +118,9 @@ public class CanvasNormalWidget extends QWidget {
   }
   
   protected void paintEvent(final QPaintEvent event) {
-    QPaintDeviceInterface _device = this.painter.device();
-    this.painter.begin(_device);
+    QPainter _qPainter = new QPainter();
+    this.painter = _qPainter;
+    this.painter.begin(this);
     this.painter.scale(this.escala, this.escala);
     this.painter.setRenderHint(RenderHint.HighQualityAntialiasing, true);
     this.painter.setRenderHint(RenderHint.SmoothPixmapTransform, true);

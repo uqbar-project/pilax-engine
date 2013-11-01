@@ -5,11 +5,17 @@ import org.eclipse.xtext.xbase.lib.Pair
 class Utils {
 	
 	def static Pair<Float,Float> convertirDePosicionFisicaRelativa(float x, float y) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val centroFisico = Pilas.instance.mundo.motor.centroFisico
+		val dx = centroFisico.key
+		val dy = centroFisico.value 
+    	x - dx -> dy - y
 	}
 	
 	def static Area obtenerBordes() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val area = Pilas.instance.mundo.motor.area
+		val ancho = area.key
+		val alto = area.value
+    	return new Area(-ancho/2, ancho/2, alto/2, -alto/2)
 	}
 	
 	def static colisionan(Actor a, Actor b) {

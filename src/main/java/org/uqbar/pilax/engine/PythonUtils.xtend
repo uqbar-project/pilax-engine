@@ -5,6 +5,7 @@ import com.trolltech.qt.core.Qt
 import com.google.common.reflect.Reflection
 
 class PythonUtils {
+	static boolean printNotImplemented = false
 	
 	def static <T> T self(T aThis) {
 		aThis
@@ -39,6 +40,12 @@ class PythonUtils {
 	
 	def static setattr(Object target, String attributeName, Object value) {
 		Reflection.methods.findFirst[m| m.name.equals("set" + attributeName.toFirstUpper)].invoke(target, value)
+	}
+	
+	def static void notImplementedYet(Object o) {
+		if (printNotImplemented) {
+			new UnsupportedOperationException("TODO: auto-generated method stub").printStackTrace
+		}
 	}
 	
 }

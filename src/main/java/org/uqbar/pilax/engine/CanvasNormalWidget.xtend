@@ -31,7 +31,8 @@ class CanvasNormalWidget extends QWidget {
 	ActorPausa actorPausa
 	
 	new(Motor motor, List<Actor> lista_actores, int ancho, int alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
-        this.painter = new QPainter()
+		super(null as QWidget)
+//        this.painter = new QPainter(this)
         setMouseTracking = true
         this.pausaHabilitada = false
         mouseX = 0
@@ -71,7 +72,10 @@ class CanvasNormalWidget extends QWidget {
 	}
 	
 	override protected paintEvent(QPaintEvent event) {
-		painter.begin(painter.device)
+		//PILAX ( tuve que mover esto para que genere un nuevo painter cada
+		// vez, sino me fallaba. En pilas no es así! :(
+		this.painter = new QPainter() 
+		painter.begin(this)
         painter.scale(escala, escala)
 
         painter.setRenderHint(QPainter.RenderHint.HighQualityAntialiasing, true)

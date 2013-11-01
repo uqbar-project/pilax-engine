@@ -12,6 +12,7 @@ import org.uqbar.pilax.engine.EscenaNormal;
 import org.uqbar.pilax.engine.GestorEscenas;
 import org.uqbar.pilax.engine.Motor;
 import org.uqbar.pilax.engine.Mundo;
+import org.uqbar.pilax.engine.Ventana;
 
 @SuppressWarnings("all")
 public class Pilas {
@@ -52,6 +53,8 @@ public class Pilas {
     GestorEscenas _gestorEscenas = Pilas.INSTANCE._mundoActual.getGestorEscenas();
     EscenaNormal _escenaNormal = new EscenaNormal();
     _gestorEscenas.cambiarEscena(_escenaNormal);
+    Ventana _ventana = motor.getVentana();
+    _ventana.show();
   }
   
   public static Pilas instance() {

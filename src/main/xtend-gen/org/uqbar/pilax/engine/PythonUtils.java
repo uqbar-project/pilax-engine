@@ -12,6 +12,8 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
 public class PythonUtils {
+  private static boolean printNotImplemented = false;
+  
   public static <T extends Object> T self(final T aThis) {
     return aThis;
   }
@@ -63,6 +65,13 @@ public class PythonUtils {
       return _invoke;
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
+    }
+  }
+  
+  public static void notImplementedYet(final Object o) {
+    if (PythonUtils.printNotImplemented) {
+      UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
+      _unsupportedOperationException.printStackTrace();
     }
   }
 }

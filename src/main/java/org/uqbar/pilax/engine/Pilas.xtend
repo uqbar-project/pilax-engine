@@ -12,6 +12,7 @@ class Pilas {
 		val motor = new Motor;
 		INSTANCE._mundoActual = new Mundo(motor, 640, 480)
 		INSTANCE._mundoActual.gestorEscenas.cambiarEscena(new EscenaNormal())
+        motor.ventana.show
 	}
 	
 	def static Pilas instance() {

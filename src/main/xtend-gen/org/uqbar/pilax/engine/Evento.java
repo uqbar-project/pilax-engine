@@ -10,6 +10,7 @@ import java.util.Set;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.uqbar.pilax.engine.HandlerEvento;
+import org.uqbar.pilax.engine.PythonUtils;
 
 @SuppressWarnings("all")
 public class Evento {
@@ -50,28 +51,23 @@ public class Evento {
   }
   
   public void emitir(final Object codigo, final boolean es_repeticion, final String texto) {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    PythonUtils.notImplementedYet(this);
   }
   
   public void emitir() {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    PythonUtils.notImplementedYet(this);
   }
   
   public void emitir(final float x, final float y, final float dx, final float dy) {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    PythonUtils.notImplementedYet(this);
   }
   
   public void emitir(final float x, final float y, final float dx, final float dy, final MouseButton botonPulsado) {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    PythonUtils.notImplementedYet(this);
   }
   
   public void emitir(final float delta) {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    PythonUtils.notImplementedYet(this);
   }
   
   public HandlerEvento desconectar(final HandlerEvento respuesta) {

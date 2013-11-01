@@ -3,17 +3,44 @@ package org.uqbar.pilax.engine;
 import org.eclipse.xtext.xbase.lib.Pair;
 import org.uqbar.pilax.engine.Actor;
 import org.uqbar.pilax.engine.Area;
+import org.uqbar.pilax.engine.Motor;
+import org.uqbar.pilax.engine.Mundo;
+import org.uqbar.pilax.engine.Pilas;
 
 @SuppressWarnings("all")
 public class Utils {
   public static Pair<Float,Float> convertirDePosicionFisicaRelativa(final float x, final float y) {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    Pair<Float,Float> _xblockexpression = null;
+    {
+      Pilas _instance = Pilas.instance();
+      Mundo _mundo = _instance.getMundo();
+      Motor _motor = _mundo.getMotor();
+      final Pair<Integer,Integer> centroFisico = _motor.centroFisico();
+      final Integer dx = centroFisico.getKey();
+      final Integer dy = centroFisico.getValue();
+      float _minus = (x - (dx).intValue());
+      float _minus_1 = ((dy).intValue() - y);
+      Pair<Float,Float> _mappedTo = Pair.<Float, Float>of(Float.valueOf(_minus), Float.valueOf(_minus_1));
+      _xblockexpression = (_mappedTo);
+    }
+    return _xblockexpression;
   }
   
   public static Area obtenerBordes() {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+    Pilas _instance = Pilas.instance();
+    Mundo _mundo = _instance.getMundo();
+    Motor _motor = _mundo.getMotor();
+    final Pair<Integer,Integer> area = _motor.getArea();
+    final Integer ancho = area.getKey();
+    final Integer alto = area.getValue();
+    int _minus = (-(ancho).intValue());
+    int _divide = (_minus / 2);
+    int _divide_1 = ((ancho).intValue() / 2);
+    int _divide_2 = ((alto).intValue() / 2);
+    int _minus_1 = (-(alto).intValue());
+    int _divide_3 = (_minus_1 / 2);
+    Area _area = new Area(_divide, _divide_1, _divide_2, _divide_3);
+    return _area;
   }
   
   public static boolean colisionan(final Actor a, final Actor b) {
