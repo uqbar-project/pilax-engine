@@ -1,16 +1,19 @@
 package org.uqbar.pilax.engine;
 
 import com.google.common.base.Objects;
-import com.trolltech.qt.core.Qt.MouseButton;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
+import org.uqbar.pilax.engine.DataEvento;
 import org.uqbar.pilax.engine.HandlerEvento;
-import org.uqbar.pilax.engine.PythonUtils;
 
 @SuppressWarnings("all")
 public class Evento {
@@ -34,40 +37,35 @@ public class Evento {
     this._nombre = nombre;
   }
   
-  private Integer _codigo;
-  
-  public Integer getCodigo() {
-    return this._codigo;
-  }
-  
-  public void setCodigo(final Integer codigo) {
-    this._codigo = codigo;
-  }
-  
   public Evento(final String nombre) {
     this.setNombre(nombre);
     HashMap<String,HandlerEvento> _newHashMap = CollectionLiterals.<String, HandlerEvento>newHashMap();
     this.setRespuestas(_newHashMap);
   }
   
-  public void emitir(final Object codigo, final boolean es_repeticion, final String texto) {
-    PythonUtils.notImplementedYet(this);
-  }
-  
-  public void emitir() {
-    PythonUtils.notImplementedYet(this);
-  }
-  
-  public void emitir(final float x, final float y, final float dx, final float dy) {
-    PythonUtils.notImplementedYet(this);
-  }
-  
-  public void emitir(final float x, final float y, final float dx, final float dy, final MouseButton botonPulsado) {
-    PythonUtils.notImplementedYet(this);
-  }
-  
-  public void emitir(final float delta) {
-    PythonUtils.notImplementedYet(this);
+  public void emitir(final DataEvento data) {
+    final ArrayList<HandlerEvento> a_eliminar = CollectionLiterals.<HandlerEvento>newArrayList();
+    Map<String,HandlerEvento> _respuestas = this.getRespuestas();
+    Collection<HandlerEvento> _values = _respuestas.values();
+    HashSet<HandlerEvento> _hashSet = new HashSet<HandlerEvento>(_values);
+    for (final HandlerEvento respuesta : _hashSet) {
+      try {
+        respuesta.manejar(data);
+      } catch (final Throwable _t) {
+        if (_t instanceof Exception) {
+          final Exception e = (Exception)_t;
+          a_eliminar.add(respuesta);
+        } else {
+          throw Exceptions.sneakyThrow(_t);
+        }
+      }
+    }
+    final Procedure1<HandlerEvento> _function = new Procedure1<HandlerEvento>() {
+        public void apply(final HandlerEvento it) {
+          Evento.this.desconectar(it);
+        }
+      };
+    IterableExtensions.<HandlerEvento>forEach(a_eliminar, _function);
   }
   
   public HandlerEvento desconectar(final HandlerEvento respuesta) {

@@ -4,6 +4,8 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.Map;
+import org.uqbar.pilax.engine.DataEvento;
+import org.uqbar.pilax.engine.DataEventoTeclado;
 import org.uqbar.pilax.engine.EscenaBase;
 import org.uqbar.pilax.engine.Evento;
 import org.uqbar.pilax.engine.HandlerEvento;
@@ -66,16 +68,16 @@ public class Control {
   
   public Control(final EscenaBase escena, final Map<Integer,String> mapa_teclado) {
     Evento _pulsaTecla = escena.getPulsaTecla();
-    final HandlerEvento _function = new HandlerEvento() {
-        public void manejar(final Evento e) {
-          Control.this.cuando_pulsa_una_tecla(e);
+    final HandlerEvento<DataEvento> _function = new HandlerEvento<DataEvento>() {
+        public void manejar(final DataEvento data) {
+          Control.this.cuando_pulsa_una_tecla(data);
         }
       };
     _pulsaTecla.conectar("control", _function);
     Evento _sueltaTecla = escena.getSueltaTecla();
-    final HandlerEvento _function_1 = new HandlerEvento() {
-        public void manejar(final Evento e) {
-          Control.this.cuando_suelta_una_tecla(e);
+    final HandlerEvento<DataEvento> _function_1 = new HandlerEvento<DataEvento>() {
+        public void manejar(final DataEvento data) {
+          Control.this.cuando_suelta_una_tecla(data);
         }
       };
     _sueltaTecla.conectar("control", _function_1);
@@ -98,21 +100,21 @@ public class Control {
     }
   }
   
-  public Object cuando_pulsa_una_tecla(final Evento evento) {
+  public Object cuando_pulsa_una_tecla(final DataEvento evento) {
     Control _self = PythonUtils.<Control>self(this);
-    Integer _codigo = evento.getCodigo();
-    Object _procesar_cambio_de_estado_en_la_tecla = _self.procesar_cambio_de_estado_en_la_tecla(_codigo, true);
+    Object _codigoDeTecla = ((DataEventoTeclado) evento).getCodigoDeTecla();
+    Object _procesar_cambio_de_estado_en_la_tecla = _self.procesar_cambio_de_estado_en_la_tecla(_codigoDeTecla, true);
     return _procesar_cambio_de_estado_en_la_tecla;
   }
   
-  public Object cuando_suelta_una_tecla(final Evento evento) {
+  public Object cuando_suelta_una_tecla(final DataEvento evento) {
     Control _self = PythonUtils.<Control>self(this);
-    Integer _codigo = evento.getCodigo();
-    Object _procesar_cambio_de_estado_en_la_tecla = _self.procesar_cambio_de_estado_en_la_tecla(_codigo, false);
+    Object _codigoDeTecla = ((DataEventoTeclado) evento).getCodigoDeTecla();
+    Object _procesar_cambio_de_estado_en_la_tecla = _self.procesar_cambio_de_estado_en_la_tecla(_codigoDeTecla, false);
     return _procesar_cambio_de_estado_en_la_tecla;
   }
   
-  public Object procesar_cambio_de_estado_en_la_tecla(final Integer codigo, final boolean estado) {
+  public Object procesar_cambio_de_estado_en_la_tecla(final Object codigo, final boolean estado) {
     Object _xifexpression = null;
     Control _self = PythonUtils.<Control>self(this);
     boolean _containsKey = _self.mapa_teclado.containsKey(codigo);

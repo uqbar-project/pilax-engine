@@ -1,7 +1,7 @@
 package org.uqbar.pilax.engine
 
-interface HandlerEvento {
+interface HandlerEvento<D extends DataEvento> {
 	
-	def void manejar(Evento e)
+	def void manejar(D data)
 	
 }

@@ -1,39 +1,30 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
-import com.trolltech.qt.core.Qt.MouseButton
+import java.util.HashSet
 import java.util.Map
 
+// Esto sería más acertado llamarlo TipoEvento o luego tener InstanciaEvento como 
+// una en particular con sus datos.
 class Evento {
 	@Property Map<String, HandlerEvento> respuestas
     @Property String nombre
     
-    // solo para los de teclado!
-    @Property Integer codigo
-	
 	new(String nombre) {
         this.nombre = nombre
         this.respuestas = newHashMap()
 	}
-	//codigo=codigo_de_tecla, es_repeticion=event.isAutoRepeat(), texto=event.text())
-	def emitir(Object codigo, boolean es_repeticion, String texto) {
-		notImplementedYet
-	}
-	
-	def emitir() {
-		notImplementedYet
-	}
-	
-	def emitir(float x, float y, float dx, float dy) {
-		notImplementedYet
-	}
-	
-	def emitir(float x, float y, float dx, float dy, MouseButton botonPulsado) {
-		notImplementedYet
-	}
-	
-	def emitir(float delta) {
-		notImplementedYet
+
+	def emitir(DataEvento data) {
+		val a_eliminar = newArrayList
+        for (respuesta : new HashSet(respuestas.values)) {
+            try {
+				respuesta.manejar(data)
+            }
+            catch (Exception e) {
+                a_eliminar.add(respuesta)
+            }
+        }
+		a_eliminar.forEach[desconectar(it)]
 	}
 	
 	def desconectar(HandlerEvento respuesta) {

@@ -5,7 +5,7 @@ import com.trolltech.qt.core.Qt
 import com.google.common.reflect.Reflection
 
 class PythonUtils {
-	static boolean printNotImplemented = false
+	static boolean printNotImplemented = true
 	
 	def static <T> T self(T aThis) {
 		aThis

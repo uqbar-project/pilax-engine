@@ -12,7 +12,7 @@ import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
 public class PythonUtils {
-  private static boolean printNotImplemented = false;
+  private static boolean printNotImplemented = true;
   
   public static <T extends Object> T self(final T aThis) {
     return aThis;

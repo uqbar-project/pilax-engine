@@ -54,7 +54,7 @@ class Camara {
         }
         
         def setX(int x) {
-        	Pilas.instance.escenaActual.mueveCamara.emitir(x, self.y, x - self.x, 0)
+        	Pilas.instance.escenaActual.mueveCamara.emitir(new DataMovimiento(x.floatValue, self.y.floatValue, (x - self.x).floatValue, 0f))
         	Pilas.instance.mundo.motor.centroDeLaCamara = (x -> self.y)
         }
         
@@ -67,7 +67,7 @@ class Camara {
         :param y: Posición vertical.
         */
 	    def setY(int y) {
-	        Pilas.instance.escenaActual.mueveCamara.emitir(self.x, y, 0, y - self.y)
+	        Pilas.instance.escenaActual.mueveCamara.emitir(new DataMovimiento(self.x.floatValue, y.floatValue, 0f, (y - self.y).floatValue))
     	    Pilas.instance.mundo.motor.centroDeLaCamara = (self.x -> y)
     	}
 

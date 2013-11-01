@@ -26,6 +26,10 @@ import org.eclipse.xtext.xbase.lib.Pair;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.uqbar.pilax.engine.Actor;
 import org.uqbar.pilax.engine.ActorPausa;
+import org.uqbar.pilax.engine.DataEvento;
+import org.uqbar.pilax.engine.DataEventoMouse;
+import org.uqbar.pilax.engine.DataEventoRuedaMouse;
+import org.uqbar.pilax.engine.DataEventoTeclado;
 import org.uqbar.pilax.engine.DepuradorDeshabilitado;
 import org.uqbar.pilax.engine.EscenaBase;
 import org.uqbar.pilax.engine.Evento;
@@ -170,7 +174,7 @@ public class CanvasNormalWidget extends QWidget {
   protected void timerEvent(final QTimerEvent event) {
     try {
       CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
-      _self._realizarActualizacionLogica();
+      _self.realizarActualizacionLogica();
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception e = (Exception)_t;
@@ -183,7 +187,7 @@ public class CanvasNormalWidget extends QWidget {
     _self_1.update();
   }
   
-  public void _realizarActualizacionLogica() {
+  public void realizarActualizacionLogica() {
     CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
     int _actualizar = _self.fps.actualizar();
     IntegerRange _range = PythonUtils.range(_actualizar);
@@ -192,7 +196,7 @@ public class CanvasNormalWidget extends QWidget {
       boolean _not = (!_self_1.pausaHabilitada);
       if (_not) {
         CanvasNormalWidget _self_2 = PythonUtils.<CanvasNormalWidget>self(this);
-        _self_2.actualizar_eventos_y_actores();
+        _self_2.actualizarEventosYActores();
         CanvasNormalWidget _self_3 = PythonUtils.<CanvasNormalWidget>self(this);
         _self_3.actualizarEscena();
       }
@@ -204,11 +208,12 @@ public class CanvasNormalWidget extends QWidget {
     _self.gestorEscenas.actualizar();
   }
   
-  public void actualizar_eventos_y_actores() {
+  public void actualizarEventosYActores() {
     Pilas _instance = Pilas.instance();
     EscenaBase _escenaActual = _instance.escenaActual();
     Evento _actualizar = _escenaActual.getActualizar();
-    _actualizar.emitir();
+    DataEvento _dataEvento = new DataEvento();
+    _actualizar.emitir(_dataEvento);
     try {
       CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
       EscenaBase _escenaActual_1 = _self.gestorEscenas.escenaActual();
@@ -261,7 +266,8 @@ public class CanvasNormalWidget extends QWidget {
     CanvasNormalWidget _self_3 = PythonUtils.<CanvasNormalWidget>self(this);
     EscenaBase _escenaActual = _self_3.gestorEscenas.escenaActual();
     Evento _mueveMouse = _escenaActual.getMueveMouse();
-    _mueveMouse.emitir((x).floatValue(), (y).floatValue(), dx, dy);
+    DataEventoMouse _dataEventoMouse = new DataEventoMouse(x, y, Float.valueOf(dx), Float.valueOf(dy), null);
+    _mueveMouse.emitir(_dataEventoMouse);
     CanvasNormalWidget _self_4 = PythonUtils.<CanvasNormalWidget>self(this);
     int _intValue = x.intValue();
     _self_4.mouseX = _intValue;
@@ -283,7 +289,8 @@ public class CanvasNormalWidget extends QWidget {
     if (_equals) {
       EscenaBase _eventos = PilasExtensions.eventos(this);
       Evento _pulsaTeclaEscape = _eventos.getPulsaTeclaEscape();
-      _pulsaTeclaEscape.emitir();
+      DataEvento _dataEvento = new DataEvento();
+      _pulsaTeclaEscape.emitir(_dataEvento);
     }
     boolean _and = false;
     int _key_2 = event.key();
@@ -317,7 +324,8 @@ public class CanvasNormalWidget extends QWidget {
     Evento _pulsaTecla = _eventos_1.getPulsaTecla();
     boolean _isAutoRepeat = event.isAutoRepeat();
     String _text = event.text();
-    _pulsaTecla.emitir(codigo_de_tecla, _isAutoRepeat, _text);
+    DataEventoTeclado _dataEventoTeclado = new DataEventoTeclado(codigo_de_tecla, _isAutoRepeat, _text);
+    _pulsaTecla.emitir(_dataEventoTeclado);
     CanvasNormalWidget _self_3 = PythonUtils.<CanvasNormalWidget>self(this);
     String _text_1 = event.text();
     _self_3.depurador.cuando_pulsa_tecla(codigo_de_tecla, _text_1);
@@ -331,7 +339,8 @@ public class CanvasNormalWidget extends QWidget {
     Evento _sueltaTecla = _eventos.getSueltaTecla();
     boolean _isAutoRepeat = event.isAutoRepeat();
     String _text = event.text();
-    _sueltaTecla.emitir(codigo_de_tecla, _isAutoRepeat, _text);
+    DataEventoTeclado _dataEventoTeclado = new DataEventoTeclado(codigo_de_tecla, _isAutoRepeat, _text);
+    _sueltaTecla.emitir(_dataEventoTeclado);
   }
   
   protected void wheelEvent(final QWheelEvent e) {
@@ -340,41 +349,23 @@ public class CanvasNormalWidget extends QWidget {
     Evento _mueveRueda = _escenaActual.getMueveRueda();
     int _delta = e.delta();
     int _divide = (_delta / 120);
-    _mueveRueda.emitir(_divide);
+    DataEventoRuedaMouse _dataEventoRuedaMouse = new DataEventoRuedaMouse(_divide);
+    _mueveRueda.emitir(_dataEventoRuedaMouse);
   }
   
   protected void mousePressEvent(final QMouseEvent e) {
-    CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
-    final float escala = _self.escala;
-    QPoint _pos = e.pos();
-    int _x = _pos.x();
-    float _divide = (_x / escala);
-    QPoint _pos_1 = e.pos();
-    int _y = _pos_1.y();
-    float _divide_1 = (_y / escala);
-    final Pair<Float,Float> posRelativa = Utils.convertirDePosicionFisicaRelativa(_divide, _divide_1);
-    Float x = posRelativa.getKey();
-    Float y = posRelativa.getValue();
-    final MouseButton boton_pulsado = e.button();
-    Pilas _instance = Pilas.instance();
-    Mundo _mundo = _instance.getMundo();
-    Motor _motor = _mundo.getMotor();
-    int _camaraX = _motor.getCamaraX();
-    float _plus = ((x).floatValue() + _camaraX);
-    x = Float.valueOf(_plus);
-    Pilas _instance_1 = Pilas.instance();
-    Mundo _mundo_1 = _instance_1.getMundo();
-    Motor _motor_1 = _mundo_1.getMotor();
-    int _camaraY = _motor_1.getCamaraY();
-    float _plus_1 = ((y).floatValue() + _camaraY);
-    y = Float.valueOf(_plus_1);
-    CanvasNormalWidget _self_1 = PythonUtils.<CanvasNormalWidget>self(this);
-    EscenaBase _escenaActual = _self_1.gestorEscenas.escenaActual();
+    EscenaBase _escenaActual = this.gestorEscenas.escenaActual();
     Evento _clickDeMouse = _escenaActual.getClickDeMouse();
-    _clickDeMouse.emitir((x).floatValue(), (y).floatValue(), 0, 0, boton_pulsado);
+    this.triggerearEventoDeMouseClick(e, _clickDeMouse);
   }
   
   protected void mouseReleaseEvent(final QMouseEvent e) {
+    EscenaBase _escenaActual = this.gestorEscenas.escenaActual();
+    Evento _terminaClick = _escenaActual.getTerminaClick();
+    this.triggerearEventoDeMouseClick(e, _terminaClick);
+  }
+  
+  protected void triggerearEventoDeMouseClick(final QMouseEvent e, final Evento evento) {
     CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
     final float escala = _self.escala;
     QPoint _pos = e.pos();
@@ -383,26 +374,13 @@ public class CanvasNormalWidget extends QWidget {
     QPoint _pos_1 = e.pos();
     int _y = _pos_1.y();
     float _divide_1 = (_y / escala);
-    final Pair<Float,Float> posRelativa = Utils.convertirDePosicionFisicaRelativa(_divide, _divide_1);
+    Pair<Float,Float> _convertirDePosicionFisicaRelativa = Utils.convertirDePosicionFisicaRelativa(_divide, _divide_1);
+    final Pair<Float,Float> posRelativa = PilasExtensions.relativaALaCamara(_convertirDePosicionFisicaRelativa);
     Float x = posRelativa.getKey();
     Float y = posRelativa.getValue();
-    final MouseButton boton_pulsado = e.button();
-    Pilas _instance = Pilas.instance();
-    Mundo _mundo = _instance.getMundo();
-    Motor _motor = _mundo.getMotor();
-    int _camaraX = _motor.getCamaraX();
-    float _plus = ((x).floatValue() + _camaraX);
-    x = Float.valueOf(_plus);
-    Pilas _instance_1 = Pilas.instance();
-    Mundo _mundo_1 = _instance_1.getMundo();
-    Motor _motor_1 = _mundo_1.getMotor();
-    int _camaraY = _motor_1.getCamaraY();
-    float _plus_1 = ((y).floatValue() + _camaraY);
-    y = Float.valueOf(_plus_1);
-    CanvasNormalWidget _self_1 = PythonUtils.<CanvasNormalWidget>self(this);
-    EscenaBase _escenaActual = _self_1.gestorEscenas.escenaActual();
-    Evento _terminaClick = _escenaActual.getTerminaClick();
-    _terminaClick.emitir((x).floatValue(), (y).floatValue(), 0, 0, boton_pulsado);
+    MouseButton _button = e.button();
+    DataEventoMouse _dataEventoMouse = new DataEventoMouse(x, y, Float.valueOf(0f), Float.valueOf(0f), _button);
+    evento.emitir(_dataEventoMouse);
   }
   
   public Object _obtener_codigo_de_tecla_normalizado(final int tecla_qt) {
@@ -503,9 +481,9 @@ public class CanvasNormalWidget extends QWidget {
         _self_5.actorPausa.setFijo(true);
         EscenaBase _eventos_1 = PilasExtensions.eventos(this);
         Evento _pulsaTecla_1 = _eventos_1.getPulsaTecla();
-        final HandlerEvento _function = new HandlerEvento() {
-            public void manejar(final Evento e) {
-              CanvasNormalWidget.this.avanzar_un_solo_cuadro_de_animacion(e);
+        final HandlerEvento<DataEventoTeclado> _function = new HandlerEvento<DataEventoTeclado>() {
+            public void manejar(final DataEventoTeclado data) {
+              CanvasNormalWidget.this.avanzar_un_solo_cuadro_de_animacion(data);
             }
           };
         HandlerEvento _conectar = _pulsaTecla_1.conectar("tecla_en_pausa", _function);
@@ -516,9 +494,9 @@ public class CanvasNormalWidget extends QWidget {
     return _xifexpression;
   }
   
-  public void avanzar_un_solo_cuadro_de_animacion(final Evento evento) {
+  public void avanzar_un_solo_cuadro_de_animacion(final DataEventoTeclado data) {
     CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
-    _self.actualizar_eventos_y_actores();
+    _self.actualizarEventosYActores();
   }
   
   /**

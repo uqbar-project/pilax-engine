@@ -114,7 +114,7 @@ class CanvasNormalWidget extends QWidget {
 	
 	override protected timerEvent(QTimerEvent event) {
         try {
-            self._realizarActualizacionLogica
+            self.realizarActualizacionLogica
 	    }
         catch(Exception e) {
         	e.printStackTrace
@@ -122,10 +122,10 @@ class CanvasNormalWidget extends QWidget {
         self.update()
     }
 
-    def _realizarActualizacionLogica() {
+    def realizarActualizacionLogica() {
         for (x : range(self.fps.actualizar())){
             if (!self.pausaHabilitada) {
-                self.actualizar_eventos_y_actores
+                self.actualizarEventosYActores
                 self.actualizarEscena
             }
         }
@@ -135,8 +135,8 @@ class CanvasNormalWidget extends QWidget {
         self.gestorEscenas.actualizar
 	}
 
-    def actualizar_eventos_y_actores() {
-        Pilas.instance.escenaActual.actualizar.emitir()
+    def actualizarEventosYActores() {
+        Pilas.instance.escenaActual.actualizar.emitir(new DataEvento)
 
         try {
         	self.gestorEscenas.escenaActual.actores.forEach[preActualizar; actualizar]
@@ -166,7 +166,7 @@ class CanvasNormalWidget extends QWidget {
         val dx = x - self.mouseX
         val dy = y - self.mouseY
 
-        self.gestorEscenas.escenaActual.mueveMouse.emitir(x, y, dx, dy)
+        self.gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(x, y, dx, dy, null))
 
         self.mouseX = x.intValue
         self.mouseY = y.intValue
@@ -178,52 +178,42 @@ class CanvasNormalWidget extends QWidget {
 
         // Se mantiene este lanzador de eventos por la clase Control
         if (event.key() == Qt.Key.Key_Escape)
-            eventos.pulsaTeclaEscape.emitir()
+            eventos.pulsaTeclaEscape.emitir(new DataEvento)
         if (event.key() == Qt.Key.Key_P && event.modifiers() == Qt.KeyboardModifier.AltModifier)
             self.alternar_pausa()
         if (event.key() == Qt.Key.Key_F && event.modifiers() == Qt.KeyboardModifier.AltModifier)
             self.alternar_pantalla_completa()
 
-        eventos.pulsaTecla.emitir(codigo_de_tecla, event.isAutoRepeat(), event.text())
+        eventos.pulsaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat(), event.text()))
         self.depurador.cuando_pulsa_tecla(codigo_de_tecla, event.text())
     }
     
 	override protected keyReleaseEvent(QKeyEvent event) {
         val codigo_de_tecla = self._obtener_codigo_de_tecla_normalizado(event.key())
         // Se mantiene este lanzador de eventos por la clase Control
-        eventos.sueltaTecla.emitir(codigo_de_tecla, event.isAutoRepeat(), event.text())
+        eventos.sueltaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat(), event.text()))
     }
     
 	override protected wheelEvent(QWheelEvent e) {
-        self.gestorEscenas.escenaActual.mueveRueda.emitir(e.delta() / 120)
+        self.gestorEscenas.escenaActual.mueveRueda.emitir(new DataEventoRuedaMouse(e.delta() / 120))
 	}
 	
 	override protected mousePressEvent(QMouseEvent e) {
-        val escala = self.escala
-        val posRelativa = Utils.convertirDePosicionFisicaRelativa(e.pos().x()/escala, e.pos().y()/escala)
-        var x = posRelativa.key
-        var y = posRelativa.value
-        val boton_pulsado = e.button()
-
-        x = x + Pilas.instance.mundo.motor.camaraX
-        y = y + Pilas.instance.mundo.motor.camaraY
-
-        self.gestorEscenas.escenaActual.clickDeMouse.emitir(x, y, 0, 0, boton_pulsado)
+		triggerearEventoDeMouseClick(e, gestorEscenas.escenaActual.clickDeMouse)
 	}
 	
 	override protected mouseReleaseEvent(QMouseEvent e) {
-		// codigo repetido !!
-        val escala = self.escala
-        val posRelativa = Utils.convertirDePosicionFisicaRelativa(e.pos().x()/escala, e.pos().y()/escala)
-        var x = posRelativa.key
-        var y = posRelativa.value
-        val boton_pulsado = e.button()
-
-        x = x + Pilas.instance.mundo.motor.camaraX
-        y = y + Pilas.instance.mundo.motor.camaraY
-
-        self.gestorEscenas.escenaActual.terminaClick.emitir(x, y, 0, 0, boton_pulsado)
+		triggerearEventoDeMouseClick(e, gestorEscenas.escenaActual.terminaClick)        
     }
+    
+    def protected triggerearEventoDeMouseClick(QMouseEvent e, Evento evento) {
+		val escala = self.escala
+        val posRelativa = Utils.convertirDePosicionFisicaRelativa(e.pos.x / escala, e.pos.y / escala).relativaALaCamara
+        var x = posRelativa.key 
+        var y = posRelativa.value
+
+        evento.emitir(new DataEventoMouse(x, y, 0f, 0f, e.button()))
+	}
 
     def _obtener_codigo_de_tecla_normalizado(int tecla_qt) {
         val teclas = #{
@@ -302,12 +292,12 @@ class CanvasNormalWidget extends QWidget {
             self.actorPausa = new ActorPausa()
             self.actorPausa.fijo = true
             //No parece usarse el id en pilas
-            /*self.idEvento = */eventos.pulsaTecla.conectar('tecla_en_pausa', [Evento e | avanzar_un_solo_cuadro_de_animacion(e)])
+            /*self.idEvento = */eventos.pulsaTecla.conectar('tecla_en_pausa', [DataEventoTeclado data | avanzar_un_solo_cuadro_de_animacion(data)])
         }
 	}
 	
-    def avanzar_un_solo_cuadro_de_animacion(Evento evento) {
-        self.actualizar_eventos_y_actores
+    def avanzar_un_solo_cuadro_de_animacion(DataEventoTeclado data) {
+        self.actualizarEventosYActores
     }
 
     /**Permite cambiar el modo de video.
