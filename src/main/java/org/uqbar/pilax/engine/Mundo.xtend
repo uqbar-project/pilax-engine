@@ -10,7 +10,7 @@ class Mundo {
 	new(Motor motor, int ancho, int alto) {
 		this.motor = motor
 		this.gestorEscenas = new GestorEscenas
-		this.motor.iniciarVentana(ancho, alto, "Pilas", gestorEscenas)
+		this.motor.iniciarVentana(ancho, alto, "Pilas", false, gestorEscenas, 60)
         gravedad = (0 -> -10)
 	}
 	

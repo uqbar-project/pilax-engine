@@ -1,9 +1,13 @@
 package org.uqbar.pilax.engine;
 
 import com.trolltech.qt.gui.QApplication;
+import java.util.List;
 import org.eclipse.xtext.xbase.lib.Pair;
+import org.uqbar.pilax.engine.Actor;
+import org.uqbar.pilax.engine.CanvasNormalWidget;
 import org.uqbar.pilax.engine.GestorEscenas;
 import org.uqbar.pilax.engine.Mundo;
+import org.uqbar.pilax.engine.Pilas;
 import org.uqbar.pilax.engine.PythonUtils;
 import org.uqbar.pilax.engine.Ventana;
 import org.uqbar.pilax.engine.motor.ActorMotor;
@@ -50,14 +54,20 @@ public class Motor {
   
   private boolean mostrarVentana;
   
+  private CanvasNormalWidget canvas;
+  
+  private boolean permitirDepuracion = false;
+  
   public Motor() {
+    Motor _self = PythonUtils.<Motor>self(this);
+    _self.iniciarAplicacion();
   }
   
   public QApplication iniciarAplicacion() {
     QApplication _xblockexpression = null;
     {
-      final String[] a = {};
-      QApplication.initialize(a);
+      String[] _newArrayOfSize = new String[0];
+      QApplication.initialize(_newArrayOfSize);
       QApplication _instance = QApplication.instance();
       QApplication _application = this.application = _instance;
       _xblockexpression = (_application);
@@ -65,20 +75,46 @@ public class Motor {
     return _xblockexpression;
   }
   
-  public Object iniciarVentana(final int ancho, final int alto, final String nombre, final GestorEscenas gestor) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field canvas is undefined for the type Motor"
-      + "\nThe method CanvasNormalWidget is undefined for the type Motor"
-      + "\nThe method or field actores is undefined for the type Motor"
-      + "\nThe method or field gestor_escenas is undefined for the type Motor"
-      + "\nThe method permitir_depuracion is undefined for the type Motor"
-      + "\nThe method or field rendimiento is undefined for the type Motor"
-      + "\ntodos cannot be resolved");
-  }
-  
-  public static void main(final String[] args) {
-    Motor _motor = new Motor();
-    _motor.iniciarAplicacion();
+  public void iniciarVentana(final int ancho, final int alto, final String titulo, final boolean pantalla_completa, final GestorEscenas gestor, final float rendimiento) {
+    this.anchoOriginal = ancho;
+    this.altoOriginal = alto;
+    Motor _self = PythonUtils.<Motor>self(this);
+    _self.titulo = titulo;
+    Motor _self_1 = PythonUtils.<Motor>self(this);
+    Ventana _ventana = new Ventana(null);
+    _self_1.setVentana(_ventana);
+    Motor _self_2 = PythonUtils.<Motor>self(this);
+    Ventana _ventana_1 = _self_2.getVentana();
+    _ventana_1.resize(ancho, alto);
+    Motor _self_3 = PythonUtils.<Motor>self(this);
+    Ventana _ventana_2 = _self_3.getVentana();
+    Motor _self_4 = PythonUtils.<Motor>self(this);
+    _ventana_2.setWindowTitle(_self_4.titulo);
+    Motor _self_5 = PythonUtils.<Motor>self(this);
+    Motor _self_6 = PythonUtils.<Motor>self(this);
+    Pilas _instance = Pilas.instance();
+    List<Actor> _todosActores = _instance.getTodosActores();
+    Motor _self_7 = PythonUtils.<Motor>self(this);
+    CanvasNormalWidget _canvasNormalWidget = new CanvasNormalWidget(_self_6, _todosActores, ancho, alto, gestor, _self_7.permitirDepuracion, rendimiento);
+    _self_5.canvas = _canvasNormalWidget;
+    Motor _self_8 = PythonUtils.<Motor>self(this);
+    Ventana _ventana_3 = _self_8.getVentana();
+    Motor _self_9 = PythonUtils.<Motor>self(this);
+    _ventana_3.setCanvas(_self_9.canvas);
+    Motor _self_10 = PythonUtils.<Motor>self(this);
+    _self_10.canvas.setFocus();
+    if (true) {
+      Motor _self_11 = PythonUtils.<Motor>self(this);
+      Ventana _ventana_4 = _self_11.getVentana();
+      _ventana_4.show();
+      Motor _self_12 = PythonUtils.<Motor>self(this);
+      Ventana _ventana_5 = _self_12.getVentana();
+      _ventana_5.raise();
+    }
+    if (pantalla_completa) {
+      Motor _self_13 = PythonUtils.<Motor>self(this);
+      _self_13.canvas.pantallaCompleta();
+    }
   }
   
   public ActorMotor obtenerActor(final String imagen, final int x, final int y) {

@@ -41,7 +41,7 @@ abstract class EscenaBase {
         self.actualizar = new Evento('actualizar')                   // []
         self.log = new Evento('log')                                 // ['data']
 
-        self.control = new Control(this)
+        self.control = new Control(this, null)
 
         // Gestor de tareas
         self.tareas = new Tareas
@@ -84,6 +84,16 @@ abstract class EscenaBase {
 //            // Ya que las paredes ya vienen definidas al crear la fisica.
 //            if (self.fisica.mundo.bodies.size > 4)
 //                self.fisica.actualizar()
+	}
+	
+	def limpiar() {
+		self.actores.forEach[destruir]
+
+        self.tareas.eliminar_todas()
+        //TODO PILAX
+//        self.tweener.eliminar_todas()
+//        if self.fisica:
+//            self.fisica.reiniciar()
 	}
 	
 }

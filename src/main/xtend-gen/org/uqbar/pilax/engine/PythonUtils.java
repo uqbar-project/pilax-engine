@@ -1,7 +1,14 @@
 package org.uqbar.pilax.engine;
 
+import com.google.common.reflect.Reflection;
+import java.lang.reflect.Method;
 import java.util.List;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IntegerRange;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
 public class PythonUtils {
@@ -31,7 +38,31 @@ public class PythonUtils {
   public static void pass(final Object obj) {
   }
   
-  public static <T extends Object> T QtCore(final T t) {
-    return t;
+  public static boolean False(final Object obj) {
+    return false;
+  }
+  
+  public static boolean True(final Object obj) {
+    return true;
+  }
+  
+  public static Object setattr(final Object target, final String attributeName, final Object value) {
+    try {
+      Method[] _methods = Reflection.class.getMethods();
+      final Function1<Method,Boolean> _function = new Function1<Method,Boolean>() {
+          public Boolean apply(final Method m) {
+            String _name = m.getName();
+            String _firstUpper = StringExtensions.toFirstUpper(attributeName);
+            String _plus = ("set" + _firstUpper);
+            boolean _equals = _name.equals(_plus);
+            return Boolean.valueOf(_equals);
+          }
+        };
+      Method _findFirst = IterableExtensions.<Method>findFirst(((Iterable<Method>)Conversions.doWrapArray(_methods)), _function);
+      Object _invoke = _findFirst.invoke(target, value);
+      return _invoke;
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
   }
 }

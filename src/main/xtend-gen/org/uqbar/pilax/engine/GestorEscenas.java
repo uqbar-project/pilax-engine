@@ -3,16 +3,19 @@ package org.uqbar.pilax.engine;
 import com.google.common.base.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.uqbar.pilax.engine.EscenaBase;
+import org.uqbar.pilax.engine.PythonUtils;
 
 @SuppressWarnings("all")
 public class GestorEscenas {
   private List<EscenaBase> escenas = new Function0<List<EscenaBase>>() {
     public List<EscenaBase> apply() {
-      ArrayList<EscenaBase> _arrayList = new ArrayList<EscenaBase>();
-      return _arrayList;
+      ArrayList<EscenaBase> _newArrayList = CollectionLiterals.<EscenaBase>newArrayList();
+      return _newArrayList;
     }
   }.apply();
   
@@ -23,9 +26,22 @@ public class GestorEscenas {
     escena.setIniciada(true);
   }
   
-  public void limpiar() {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+  public List<EscenaBase> limpiar() {
+    List<EscenaBase> _xblockexpression = null;
+    {
+      GestorEscenas _self = PythonUtils.<GestorEscenas>self(this);
+      final Procedure1<EscenaBase> _function = new Procedure1<EscenaBase>() {
+          public void apply(final EscenaBase it) {
+            it.limpiar();
+          }
+        };
+      IterableExtensions.<EscenaBase>forEach(_self.escenas, _function);
+      GestorEscenas _self_1 = PythonUtils.<GestorEscenas>self(this);
+      ArrayList<EscenaBase> _newArrayList = CollectionLiterals.<EscenaBase>newArrayList();
+      List<EscenaBase> _escenas = _self_1.escenas = _newArrayList;
+      _xblockexpression = (_escenas);
+    }
+    return _xblockexpression;
   }
   
   public EscenaBase escenaActual() {

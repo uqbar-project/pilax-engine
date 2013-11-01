@@ -1,7 +1,6 @@
 package org.uqbar.pilax.engine
 
-class Simbolos {
-
+public class Simbolos {
 	public static int IZQUIERDA = 1
 	public static int DERECHA = 2
 	public static int ARRIBA = 3

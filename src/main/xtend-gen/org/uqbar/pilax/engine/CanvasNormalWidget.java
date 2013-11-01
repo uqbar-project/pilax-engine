@@ -5,6 +5,8 @@ import com.google.common.collect.Maps;
 import com.trolltech.qt.core.QPoint;
 import com.trolltech.qt.core.QTimerEvent;
 import com.trolltech.qt.core.Qt.Key;
+import com.trolltech.qt.core.Qt.KeyboardModifier;
+import com.trolltech.qt.core.Qt.KeyboardModifiers;
 import com.trolltech.qt.core.Qt.MouseButton;
 import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QKeyEvent;
@@ -69,7 +71,6 @@ public class CanvasNormalWidget extends QWidget {
   private ActorPausa actorPausa;
   
   public CanvasNormalWidget(final Motor motor, final List<Actor> lista_actores, final int ancho, final int alto, final GestorEscenas gestor_escenas, final boolean permitir_depuracion, final double rendimiento) {
-    super(null);
     QPainter _qPainter = new QPainter();
     this.painter = _qPainter;
     this.setMouseTracking(true);
@@ -275,13 +276,63 @@ public class CanvasNormalWidget extends QWidget {
   }
   
   protected void keyPressEvent(final QKeyEvent event) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from Object to int");
+    CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
+    int _key = event.key();
+    final Object codigo_de_tecla = _self._obtener_codigo_de_tecla_normalizado(_key);
+    int _key_1 = event.key();
+    boolean _equals = Objects.equal(Integer.valueOf(_key_1), Key.Key_Escape);
+    if (_equals) {
+      EscenaBase _eventos = PilasExtensions.eventos(this);
+      Evento _pulsaTeclaEscape = _eventos.getPulsaTeclaEscape();
+      _pulsaTeclaEscape.emitir();
+    }
+    boolean _and = false;
+    int _key_2 = event.key();
+    boolean _equals_1 = Objects.equal(Integer.valueOf(_key_2), Key.Key_P);
+    if (!_equals_1) {
+      _and = false;
+    } else {
+      KeyboardModifiers _modifiers = event.modifiers();
+      boolean _equals_2 = Objects.equal(_modifiers, KeyboardModifier.AltModifier);
+      _and = (_equals_1 && _equals_2);
+    }
+    if (_and) {
+      CanvasNormalWidget _self_1 = PythonUtils.<CanvasNormalWidget>self(this);
+      _self_1.alternar_pausa();
+    }
+    boolean _and_1 = false;
+    int _key_3 = event.key();
+    boolean _equals_3 = Objects.equal(Integer.valueOf(_key_3), Key.Key_F);
+    if (!_equals_3) {
+      _and_1 = false;
+    } else {
+      KeyboardModifiers _modifiers_1 = event.modifiers();
+      boolean _equals_4 = Objects.equal(_modifiers_1, KeyboardModifier.AltModifier);
+      _and_1 = (_equals_3 && _equals_4);
+    }
+    if (_and_1) {
+      CanvasNormalWidget _self_2 = PythonUtils.<CanvasNormalWidget>self(this);
+      _self_2.alternar_pantalla_completa();
+    }
+    EscenaBase _eventos_1 = PilasExtensions.eventos(this);
+    Evento _pulsaTecla = _eventos_1.getPulsaTecla();
+    boolean _isAutoRepeat = event.isAutoRepeat();
+    String _text = event.text();
+    _pulsaTecla.emitir(codigo_de_tecla, _isAutoRepeat, _text);
+    CanvasNormalWidget _self_3 = PythonUtils.<CanvasNormalWidget>self(this);
+    String _text_1 = event.text();
+    _self_3.depurador.cuando_pulsa_tecla(codigo_de_tecla, _text_1);
   }
   
   protected void keyReleaseEvent(final QKeyEvent event) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nType mismatch: cannot convert from Object to int");
+    CanvasNormalWidget _self = PythonUtils.<CanvasNormalWidget>self(this);
+    int _key = event.key();
+    final Object codigo_de_tecla = _self._obtener_codigo_de_tecla_normalizado(_key);
+    EscenaBase _eventos = PilasExtensions.eventos(this);
+    Evento _sueltaTecla = _eventos.getSueltaTecla();
+    boolean _isAutoRepeat = event.isAutoRepeat();
+    String _text = event.text();
+    _sueltaTecla.emitir(codigo_de_tecla, _isAutoRepeat, _text);
   }
   
   protected void wheelEvent(final QWheelEvent e) {

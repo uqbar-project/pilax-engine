@@ -3,6 +3,7 @@ package org.uqbar.pilax.engine;
 import com.google.common.base.Objects;
 import com.trolltech.qt.core.Qt.MouseButton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -22,12 +23,33 @@ public class Evento {
     this._respuestas = respuestas;
   }
   
-  public Evento(final String string) {
-    UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
-    throw _unsupportedOperationException;
+  private String _nombre;
+  
+  public String getNombre() {
+    return this._nombre;
   }
   
-  public void emitir(final int codigo, final boolean es_repeticion, final String texto) {
+  public void setNombre(final String nombre) {
+    this._nombre = nombre;
+  }
+  
+  private Integer _codigo;
+  
+  public Integer getCodigo() {
+    return this._codigo;
+  }
+  
+  public void setCodigo(final Integer codigo) {
+    this._codigo = codigo;
+  }
+  
+  public Evento(final String nombre) {
+    this.setNombre(nombre);
+    HashMap<String,HandlerEvento> _newHashMap = CollectionLiterals.<String, HandlerEvento>newHashMap();
+    this.setRespuestas(_newHashMap);
+  }
+  
+  public void emitir(final Object codigo, final boolean es_repeticion, final String texto) {
     UnsupportedOperationException _unsupportedOperationException = new UnsupportedOperationException("TODO: auto-generated method stub");
     throw _unsupportedOperationException;
   }

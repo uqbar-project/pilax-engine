@@ -5,7 +5,7 @@ import java.util.List
 import java.util.ArrayList
 
 class GestorEscenas {
-	List<EscenaBase> escenas = new ArrayList
+	List<EscenaBase> escenas = newArrayList
 
 	def cambiarEscena(EscenaBase escena) {
 		limpiar
@@ -15,7 +15,8 @@ class GestorEscenas {
 	}
 
 	def limpiar() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		self.escenas.forEach[it.limpiar]
+        self.escenas = newArrayList
 	}
 
 	def escenaActual() {

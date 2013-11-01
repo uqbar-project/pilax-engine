@@ -1,8 +1,11 @@
 package org.uqbar.pilax.engine
 
+import java.util.List
+
 class Pilas {
 	private static Pilas INSTANCE 
 	@Property Mundo mundoActual
+	@Property List<Actor> todosActores = newArrayList
 	
 	def static iniciar() {
 		INSTANCE = new Pilas()
@@ -20,7 +23,7 @@ class Pilas {
 	}
 	
 	def escenaActual() {
-		_mundoActual.gestorEscenas.escenaActual
+		mundoActual.gestorEscenas.escenaActual
 	}
 	
 	def fondos() {

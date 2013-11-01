@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Functions.Function0;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.uqbar.pilax.engine.Actor;
 import org.uqbar.pilax.engine.Camara;
 import org.uqbar.pilax.engine.Colisiones;
@@ -14,6 +16,7 @@ import org.uqbar.pilax.engine.Fondo;
 import org.uqbar.pilax.engine.Mundo;
 import org.uqbar.pilax.engine.Pilas;
 import org.uqbar.pilax.engine.PythonUtils;
+import org.uqbar.pilax.engine.Tarea;
 import org.uqbar.pilax.engine.Tareas;
 import org.uqbar.pilax.engine.Tweener;
 
@@ -209,7 +212,7 @@ public abstract class EscenaBase {
     Evento _evento_9 = new Evento("log");
     _self_10.setLog(_evento_9);
     EscenaBase _self_11 = PythonUtils.<EscenaBase>self(this);
-    Control _control = new Control(this);
+    Control _control = new Control(this, null);
     _self_11.control = _control;
     EscenaBase _self_12 = PythonUtils.<EscenaBase>self(this);
     Tareas _tareas = new Tareas();
@@ -253,5 +256,23 @@ public abstract class EscenaBase {
   
   public Object actualizarFisica() {
     return null;
+  }
+  
+  public List<Tarea> limpiar() {
+    List<Tarea> _xblockexpression = null;
+    {
+      EscenaBase _self = PythonUtils.<EscenaBase>self(this);
+      List<Actor> _actores = _self.getActores();
+      final Procedure1<Actor> _function = new Procedure1<Actor>() {
+          public void apply(final Actor it) {
+            it.destruir();
+          }
+        };
+      IterableExtensions.<Actor>forEach(_actores, _function);
+      EscenaBase _self_1 = PythonUtils.<EscenaBase>self(this);
+      List<Tarea> _eliminar_todas = _self_1.tareas.eliminar_todas();
+      _xblockexpression = (_eliminar_todas);
+    }
+    return _xblockexpression;
   }
 }

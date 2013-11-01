@@ -2,6 +2,7 @@ package org.uqbar.pilax.engine
 
 import java.util.List
 import com.trolltech.qt.core.Qt
+import com.google.common.reflect.Reflection
 
 class PythonUtils {
 	
@@ -28,8 +29,16 @@ class PythonUtils {
 	def static void pass(Object obj) {
 	}
 	
-	def static <T> T QtCore(T t) {
-		t
+	def static boolean False(Object obj) {
+		false
+	}
+	
+	def static boolean True(Object obj) {
+		true
+	}
+	
+	def static setattr(Object target, String attributeName, Object value) {
+		Reflection.methods.findFirst[m| m.name.equals("set" + attributeName.toFirstUpper)].invoke(target, value)
 	}
 	
 }

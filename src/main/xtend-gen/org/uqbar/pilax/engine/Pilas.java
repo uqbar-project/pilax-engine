@@ -1,6 +1,9 @@
 package org.uqbar.pilax.engine;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.uqbar.pilax.engine.Actor;
@@ -22,6 +25,21 @@ public class Pilas {
   
   public void setMundoActual(final Mundo mundoActual) {
     this._mundoActual = mundoActual;
+  }
+  
+  private List<Actor> _todosActores = new Function0<List<Actor>>() {
+    public List<Actor> apply() {
+      ArrayList<Actor> _newArrayList = CollectionLiterals.<Actor>newArrayList();
+      return _newArrayList;
+    }
+  }.apply();
+  
+  public List<Actor> getTodosActores() {
+    return this._todosActores;
+  }
+  
+  public void setTodosActores(final List<Actor> todosActores) {
+    this._todosActores = todosActores;
   }
   
   public static void iniciar() {
@@ -47,7 +65,8 @@ public class Pilas {
   }
   
   public EscenaBase escenaActual() {
-    GestorEscenas _gestorEscenas = this._mundoActual.getGestorEscenas();
+    Mundo _mundoActual = this.getMundoActual();
+    GestorEscenas _gestorEscenas = _mundoActual.getGestorEscenas();
     EscenaBase _escenaActual = _gestorEscenas.escenaActual();
     return _escenaActual;
   }

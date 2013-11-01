@@ -31,7 +31,6 @@ class CanvasNormalWidget extends QWidget {
 	ActorPausa actorPausa
 	
 	new(Motor motor, List<Actor> lista_actores, int ancho, int alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
-        super(null)
         this.painter = new QPainter()
         setMouseTracking = true
         this.pausaHabilitada = false
@@ -224,7 +223,7 @@ class CanvasNormalWidget extends QWidget {
 
     def _obtener_codigo_de_tecla_normalizado(int tecla_qt) {
         val teclas = #{
-        	Qt.Key.Key_Left -> Simbolos::IZQUIERDA,
+        	Qt.Key.Key_Left -> Simbolos.IZQUIERDA,
         	Qt.Key.Key_Right -> Simbolos::DERECHA,
             Qt.Key.Key_Up -> Simbolos::ARRIBA,
             Qt.Key.Key_Down -> Simbolos::ABAJO,

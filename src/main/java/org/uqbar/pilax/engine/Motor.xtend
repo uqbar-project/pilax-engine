@@ -15,14 +15,16 @@ class Motor {
 	@Property int camaraX = 0
 	@Property int camaraY = 0
 	boolean mostrarVentana
+	CanvasNormalWidget canvas
+	boolean permitirDepuracion = false
 	
 	new(/* faltan parametros */) {
-		// iniciar audio		
+		// iniciar audio
+		self.iniciarAplicacion()
 	}
 	
 	def iniciarAplicacion() {
-		val String [] a = #[] 
-		QApplication.initialize(a)
+		QApplication.initialize(newArrayOfSize(0))
 		application = QApplication.instance()
 		
 		// HARDCODEO PARA PROBAR!
@@ -33,22 +35,28 @@ class Motor {
 //		hello.show
 	}	
 	
-	def iniciarVentana(int ancho, int alto, String nombre, GestorEscenas gestor) {
+	def iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
 		this.anchoOriginal = ancho
 		this.altoOriginal = alto
 		
 		self.titulo = titulo
 		self.ventana = new Ventana(null)
 		self.ventana.resize(ancho, alto)
-		//TODO: falta !!
+        self.ventana.setWindowTitle(self.titulo)
 		
-		this.mostrarVentana = true
-		
-		self.canvas = CanvasNormalWidget(self, actores.todos, ancho, alto, gestor_escenas, self.permitir_depuracion, rendimiento)
-	}
-	
-	def static void main(String[] args) {
-		new Motor().iniciarAplicacion
+		self.canvas = new CanvasNormalWidget(self, Pilas.instance.todosActores, ancho, alto, gestor, self.permitirDepuracion, rendimiento)
+        self.ventana.canvas = self.canvas
+        self.canvas.setFocus
+
+
+        if (true) {
+            self.ventana.show()
+            self.ventana.raise
+        }
+
+        if (pantalla_completa) {
+            self.canvas.pantallaCompleta
+        }		
 	}
 	
 	def obtenerActor(String imagen, int x, int y) {

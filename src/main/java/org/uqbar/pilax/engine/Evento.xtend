@@ -5,12 +5,17 @@ import java.util.Map
 
 class Evento {
 	@Property Map<String, HandlerEvento> respuestas
+    @Property String nombre
+    
+    // solo para los de teclado!
+    @Property Integer codigo
 	
-	new(String string) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	new(String nombre) {
+        this.nombre = nombre
+        this.respuestas = newHashMap()
 	}
 	//codigo=codigo_de_tecla, es_repeticion=event.isAutoRepeat(), texto=event.text())
-	def emitir(int codigo, boolean es_repeticion, String texto) {
+	def emitir(Object codigo, boolean es_repeticion, String texto) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -59,4 +64,5 @@ class Evento {
 //        else:
 //            raise ValueError("Solo se permite conectar nombres de funciones o metodos.")
     }
+	
 }
