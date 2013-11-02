@@ -72,7 +72,7 @@ class ActorMotor extends ActorBaseMotor {
 		var int dx
 		var int dy
 		
-        if (self.fijo == 0) {
+        if (this.fijo == 0) {
             dx = Pilas.instance.mundo.motor.camaraX
             dy = Pilas.instance.mundo.motor.camaraY
         }
@@ -81,8 +81,8 @@ class ActorMotor extends ActorBaseMotor {
             dy = 0
 		}
 		
-        x = self.x - dx
-        y = self.y - dy
+        val x = this.x - dx
+        val y = this.y - dy
 
         self.imagen.dibujar(painter, x, y, self.centro_x, self.centro_y, escala_x, escala_y, self.rotacion, self.transparencia)
     }

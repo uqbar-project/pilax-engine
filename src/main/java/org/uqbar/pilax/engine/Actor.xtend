@@ -21,13 +21,18 @@ class Actor extends Estudiante {
 	@Property int dy
 	// velocidad
 	@Property boolean fijo
-	@Property Pair<Integer, Integer> centro = 0 -> 0
+	@Property Pair<Integer, Integer> centro
 	
 	new(String imagen, int x, int y) {
 		actorMotor = Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
 		Pilas.instance.escenaActual.agregarActor(this)
         dx = x
         dy = y
+        centro = centroDeImagen
+	}
+	
+	def centroDeImagen() {
+		(ancho / 2 -> alto / 2)
 	}
 	
 	def getX() {
@@ -46,13 +51,18 @@ class Actor extends Estudiante {
 		this.actorMotor.y = y
 	}
 	
+	def void setCentro(Pair<Integer,Integer> centro) {
+		_centro = centro
+        actorMotor.centro = centro
+	}
+	
 	def getImagen() {
 		actorMotor.imagen
 	}
 	
 	def void setImagen(ImagenMotor imagen) {
-        self.actorMotor.imagen = imagen
-        self.centro = 0 -> 0
+        actorMotor.imagen = imagen
+        centro = centroDeImagen
 	}
 	
 	def esFondo() {
