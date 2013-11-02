@@ -104,7 +104,15 @@ class Actor extends Estudiante {
 	}
 	
     def getEscala() {
-    	return actorMotor.escala
+    	actorMotor.escala
+    }
+    
+    def getRotacion() {
+    	actorMotor.rotacion
+    }
+    
+    def void setRotacion(int rotacion) {
+    	actorMotor.rotacion = rotacion
     }
     
     def getIzquierda() {

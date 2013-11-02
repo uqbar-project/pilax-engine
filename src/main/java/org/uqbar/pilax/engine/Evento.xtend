@@ -21,6 +21,7 @@ class Evento {
 				respuesta.manejar(data)
             }
             catch (Exception e) {
+            	e.printStackTrace
                 a_eliminar.add(respuesta)
             }
         }

@@ -19,7 +19,7 @@ abstract class EscenaBase {
 	@Property Evento pulsaTeclaEscape
 	@Property Evento actualizar
 	@Property Evento log
-	Control control
+	@Property Control control
 	@Property Tareas tareas
 	Colisiones colisiones
 	Tweener tweener

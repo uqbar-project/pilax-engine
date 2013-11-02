@@ -6,6 +6,10 @@ import org.eclipse.xtext.xbase.lib.Pair
 
 class PilasExtensions {
 	
+	def static Pilas pilas(Object obj) {
+		Pilas.instance
+	}
+	
 	def static boolean esActor(Object obj) {
 		Pilas.instance.escenaActual.actores.contains(obj)
 	}

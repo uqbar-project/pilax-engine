@@ -38,7 +38,7 @@ class PythonUtils {
 	}
 	
 	def static setattr(Object target, String attributeName, Object value) {
-		Reflection.methods.findFirst[m| m.name.equals("set" + attributeName.toFirstUpper)].invoke(target, value)
+		target.class.methods.findFirst[m| m.name.equals("set" + attributeName.toFirstUpper)].invoke(target, value)
 	}
 	
 	def static void notImplementedYet(Object o) {
