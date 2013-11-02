@@ -57,9 +57,9 @@ class ActorBaseMotor {
 class ActorMotor extends ActorBaseMotor {
 	@Property ImagenMotor imagen
 	
-	new(String imagen, int x, int y) {
+	new(ImagenMotor imagen, int x, int y) {
 		super(x,y)
-		this.imagen = Pilas.instance.mundo.motor.cargarImagen(imagen)
+		this.imagen = imagen
 	}
 
     def dibujar(QPainter painter) {
@@ -101,6 +101,10 @@ class ActorMotor extends ActorBaseMotor {
 class ImagenMotor {
 	@Property QPixmap imagen
 	private String ruta
+	
+	new() {
+		//hack para la subclase Texto ?
+	}
 	
 	new(String path) {
 		ruta = path.resolveFullPathFromClassPath
@@ -148,7 +152,7 @@ class ImagenMotor {
         painter.restore
 	}
 	
-	def private dibujarPixmap(QPainter painter, int x, int y) {
+	def protected dibujarPixmap(QPainter painter, int x, int y) {
         painter.drawPixmap(x, y, self.imagen)
     }
     

@@ -1,11 +1,15 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.Pilas.*
+import static extension org.uqbar.pilax.engine.PythonUtils.*
 import com.trolltech.qt.gui.QApplication
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.motor.ActorMotor
 
 import static extension org.uqbar.pilax.engine.PythonUtils.*
 import org.uqbar.pilax.engine.motor.ImagenMotor
+import com.trolltech.qt.gui.QFont
+import com.trolltech.qt.gui.QFontMetrics
 
 class Motor {
 	QApplication application
@@ -59,7 +63,7 @@ class Motor {
         }		
 	}
 	
-	def obtenerActor(String imagen, int x, int y) {
+	def obtenerActor(ImagenMotor imagen, int x, int y) {
 		new ActorMotor(imagen, x, y)
 	}
 	
@@ -87,6 +91,33 @@ class Motor {
 	
 	def cargarImagen(String path) {
 		new ImagenMotor(path)
+	}
+	
+	def obtenerTexto(String texto, int magnitud, QFont fuente) {
+       new Texto(texto, magnitud, self, false, fuente)
+    }
+	
+	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, QFont fuente) {
+		var ancho = 0
+        var alto = 0
+
+		val nombre_de_fuente = /*if (fuente != null)
+            						Texto.cargar_fuente_desde_cache(fuente)
+        						else*/
+            						""
+
+        val lafuente = new QFont(nombre_de_fuente, magnitud)
+        val metrica = new QFontMetrics(lafuente)
+
+		val lineas = //if (vertical) texto.asStringArray else //[t for t in texto]  PILAX  NO SE COMO HACER ESTO !
+        			 texto.split('\n')
+
+        for (linea : lineas) {
+            ancho = Math.max(ancho, metrica.width(linea))
+            alto = alto + metrica.height()
+        }
+
+        return ancho -> alto
 	}
 
 }

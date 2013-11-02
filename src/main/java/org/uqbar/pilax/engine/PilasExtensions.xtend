@@ -1,7 +1,8 @@
 package org.uqbar.pilax.engine
 
+import com.trolltech.qt.gui.QColor
+import java.awt.Color
 import java.io.File
-import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 
 class PilasExtensions {
@@ -44,6 +45,21 @@ class PilasExtensions {
 		val temp = newArrayList
 		temp.addAll(aList)
 		temp
+	}
+	
+	def static String[] asStringArray(String aString) {
+		val array = newArrayList()
+		var i = 0
+		while (i < aString.length) {
+			array.add(aString.charAt(i))
+			i = i + 1
+		}
+		val String[] t = newArrayOfSize(0) 
+		array.toArray(t)
+	}
+	
+	def static QColor asQColor(Color color) {
+		new QColor(color.red, color.green, color.blue)	
 	} 
 	
 }

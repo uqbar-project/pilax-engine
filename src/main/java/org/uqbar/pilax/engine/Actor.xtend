@@ -6,6 +6,9 @@ import org.uqbar.pilax.engine.motor.ActorMotor
 import com.trolltech.qt.gui.QPainter
 import org.uqbar.pilax.engine.motor.ImagenMotor
 
+/**
+ * 
+ */
 class Actor extends Estudiante {
 	boolean vivo = true
 	List<Actor> anexados = newArrayList
@@ -24,11 +27,20 @@ class Actor extends Estudiante {
 	@Property Pair<Integer, Integer> centro
 	
 	new(String imagen, int x, int y) {
-		actorMotor = Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
+		this(Pilas.instance.mundo.motor.cargarImagen(imagen), x, y)
+	}
+	
+	new(ImagenMotor imagen, int x, int y) {
+		actorMotor = crearActorMotor(imagen, x, y)
 		Pilas.instance.escenaActual.agregarActor(this)
         dx = x
         dy = y
         centro = centroDeImagen
+	}
+	
+	/** Sobrescribir para crear otro actor de motor */
+	def protected crearActorMotor(ImagenMotor imagen, int x, int y) {
+		Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
 	}
 	
 	def centroDeImagen() {
