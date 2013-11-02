@@ -3,6 +3,7 @@ package org.uqbar.pilax.engine
 import com.trolltech.qt.gui.QColor
 import java.awt.Color
 import java.io.File
+import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 
 class PilasExtensions {
@@ -60,6 +61,10 @@ class PilasExtensions {
 	
 	def static QColor asQColor(Color color) {
 		new QColor(color.red, color.green, color.blue)	
+	}
+	
+	def static <E> E first(List<E> aList) {
+		aList.get(0)
 	} 
 	
 }

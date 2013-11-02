@@ -1,5 +1,7 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
+
 import org.eclipse.xtext.xbase.lib.Pair
 
 class Utils {
@@ -36,6 +38,20 @@ class Utils {
 	
 	def static distancia(Integer a, Integer b) {
 		Math.abs(b - a)
+	}
+
+	/**
+		Busca la ruta a un archivo de recursos.
+
+    	Los archivos de recursos (como las imagenes) se buscan en varios
+    	directorios (ver docstring de image.load), así que esta
+    	función intentará dar con el archivo en cuestión.
+
+    	:param ruta: Ruta al archivo (recurso) a inspeccionar.
+    */
+    // En PILAS buscar en los directorios del sistema operativo. Acá usamos el classpath	
+	def static obtenerRutaAlRecurso(String pathRelativo) {
+		pathRelativo.resolveFullPathFromClassPath    	
 	}
 	
 }

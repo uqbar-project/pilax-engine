@@ -1,15 +1,13 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.Pilas.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 import com.trolltech.qt.gui.QApplication
-import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.engine.motor.ActorMotor
-
-import static extension org.uqbar.pilax.engine.PythonUtils.*
-import org.uqbar.pilax.engine.motor.ImagenMotor
 import com.trolltech.qt.gui.QFont
 import com.trolltech.qt.gui.QFontMetrics
+import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.engine.motor.ActorMotor
+import org.uqbar.pilax.engine.motor.ImagenMotor
+
+import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 class Motor {
 	QApplication application
@@ -93,17 +91,17 @@ class Motor {
 		new ImagenMotor(path)
 	}
 	
-	def obtenerTexto(String texto, int magnitud, QFont fuente) {
-       new Texto(texto, magnitud, self, false, fuente)
+	def obtenerTexto(String texto, int magnitud, String fuente) {
+       new TextoMotor(texto, magnitud, self, false, fuente)
     }
 	
-	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, QFont fuente) {
+	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, String fuente) {
 		var ancho = 0
         var alto = 0
 
-		val nombre_de_fuente = /*if (fuente != null)
-            						Texto.cargar_fuente_desde_cache(fuente)
-        						else*/
+		val nombre_de_fuente = if (fuente != null)
+            						TextoMotor.cargar_fuente_desde_cache(fuente)
+        						else
             						""
 
         val lafuente = new QFont(nombre_de_fuente, magnitud)
