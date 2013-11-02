@@ -1,10 +1,14 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Functions.Function0
 
 import static extension org.uqbar.pilax.engine.PythonUtils.*
 
+/**
+ * 
+ */
 class Tareas {
 	var List<Tarea> tareas_planificadas = newArrayList
     var contador_de_tiempo = 0f
@@ -18,7 +22,8 @@ class Tareas {
        :param tarea: Referencia a la tarea que se debe agregar.
     */
 	def agregar(Tarea tarea) {
-        self.tareas_planificadas.add(tarea)
+        tareas_planificadas.add(tarea)
+        tarea
     }
     
     /**
@@ -26,7 +31,7 @@ class Tareas {
         :param tarea: Referencia a la tarea que se tiene que eliminar.
         """ */
     def eliminarTarea(Tarea tarea) {
-        self.tareas_planificadas.remove(tarea)
+        tareas_planificadas.remove(tarea)
     }
 
         /**Actualiza los contadores de tiempo y ejecuta las tareas pendientes.
@@ -34,69 +39,63 @@ class Tareas {
         :param dt: Tiempo transcurrido desde la anterior llamada.
         */
     def actualizar(float dt) {
-        self.contador_de_tiempo = self.contador_de_tiempo + dt
-        val tareas_a_eliminar = newArrayList
+        contador_de_tiempo = contador_de_tiempo + dt
+        val tareasAEliminar = newArrayList
 
-        for (tarea : self.tareas_planificadas){
-            if (self.contador_de_tiempo > tarea.time_out) {
-                tarea.ejecutar()
+        for (tarea : tareas_planificadas){
+            if (contador_de_tiempo > tarea.time_out) {
+                tarea.ejecutar
 
                 if (tarea.una_vez)
-                    tareas_a_eliminar.add(tarea)
+                    tareasAEliminar.add(tarea)
                 else {
-                    val w = self.contador_de_tiempo - tarea.time_out
-                    val parte_entera = ((w)/ tarea.dt.floatValue).intValue
-                    val resto = w - (parte_entera * tarea.dt)
-
-                    for (x : range(parte_entera))
-                        tarea.ejecutar()
-
-                    tarea.time_out = tarea.time_out + tarea.dt + (parte_entera * tarea.dt) - resto
+                    val w = contador_de_tiempo - tarea.time_out
+                    val parteEntera = ((w)/ tarea.dt.floatValue).intValue
+                    val resto = w - (parteEntera * tarea.dt)
+					
+					[|tarea.ejecutar()].nTimes(parteEntera)
+					
+                    tarea.time_out = tarea.time_out + tarea.dt + (parteEntera * tarea.dt) - resto
                 }
             }
 		}
-        for (x : tareas_a_eliminar) {
-            if (self.tareas_planificadas.contains(x))
-                self.tareas_planificadas.remove(x)
-        }
+		
+		tareasAEliminar.forEach[tareas_planificadas.removeIfContains(it)]
 	}
-	
-    def unaVez(int time_out, Function0<Boolean> function) { // tenia params
-        /**Genera una tarea que se ejecutará usan sola vez.
+
+	/**Genera una tarea que se ejecutará usan sola vez.
 
         :param time_out: Cantidad se segundos que deben transcurrir para ejecutar la tarea.
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
-        */
-        val tarea = new Tarea(self, self.contador_de_tiempo + time_out, time_out, function, true)
-        self.agregar(tarea)
-        tarea
+    */	
+    def unaVez(int time_out, Function0<Boolean> function) { // tenia params
+        agregarTarea(time_out, function, true)
+    }
+    
+    def protected agregarTarea(int timeOut, Function0<Boolean> function, boolean unaVez) {
+        agregar(new Tarea(this, contador_de_tiempo + timeOut, timeOut, function, unaVez))
     }
 
-    def siempre(int time_out, Function0<Boolean> function) { // tenia params
-        /**Genera una tarea para ejecutar todo el tiempo, sin expiración.
-
+	/**	Genera una tarea para ejecutar todo el tiempo, sin expiración.
         :param time_out: Cantidad se segundos que deben transcurrir para ejecutar la tarea.
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
-        */
-        val tarea = new Tarea(self, self.contador_de_tiempo + time_out, time_out, function, false)
-        self.agregar(tarea)
-        tarea
+    */
+    def siempre(int time_out, Function0<Boolean> function) { // tenia params
+        agregarTarea(time_out, function, false)
 	}
 
-    def condicional(int time_out, Function0<Boolean> function) { // tenia params
-        /**Genera una tarea que se puede ejecutar una vez o mas, pero que tiene una condición.
+	/**Genera una tarea que se puede ejecutar una vez o mas, pero que tiene una condición.
 
         La tarea se ejecutará hasta que la función a ejecutar revuelva False.
 
         :param time_out: Cantidad se segundos que deben transcurrir para ejecutar la tarea.
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
-        */
-        val tarea = new TareaCondicional(self, self.contador_de_tiempo + time_out, time_out, function, false)
-        self.agregar(tarea)
-        tarea
+    */
+    def condicional(int time_out, Function0<Boolean> function) { // tenia params
+        agregar(new TareaCondicional(this, contador_de_tiempo + time_out, time_out, function, false))
     }
 
        /**Elimina una tarea de la lista de tareas planificadas.
@@ -104,12 +103,12 @@ class Tareas {
         :param tarea: Referencia a la tarea que se tiene que eliminar.
         */
     def eliminar_tarea(Tarea tarea) {
-        self.tareas_planificadas.remove(tarea)
+        tareas_planificadas.remove(tarea)
     }
 
         /**Elimina todas las tareas de la lista de planificadas.*/
-    def eliminar_todas() {
-        self.tareas_planificadas = newArrayList
+    def eliminarTodas() {
+        tareas_planificadas = newArrayList
     }
     
 }

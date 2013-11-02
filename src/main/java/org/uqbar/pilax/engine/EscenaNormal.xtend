@@ -2,8 +2,6 @@ package org.uqbar.pilax.engine
 
 import java.util.List
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
-
 abstract class EscenaBase {
 	@Property boolean iniciada
 	@Property List<Actor> actores = newArrayList
@@ -27,36 +25,28 @@ abstract class EscenaBase {
 	
 	new() {
         // Camara de la escena.
-        self.camara = new Camara(this)
-
-        // Eventos asociados a la escena.
-        self.mueveCamara = new Evento('mueve_camara')               // ['x', 'y', 'dx', 'dy']
-        self.mueveMouse = new Evento('mueve_mouse')                 // ['x', 'y', 'dx', 'dy']
-        self.clickDeMouse = new Evento('click_de_mouse')           // ['button', 'x', 'y']
-        self.terminaClick = new Evento('termina_click')             // ['button', 'x', 'y']
-        self.mueveRueda = new Evento('mueve_rueda')                 // ['delta']
-        self.pulsaTecla = new Evento('pulsa_tecla')                 // ['codigo', 'texto']
-        self.sueltaTecla = new Evento('suelta_tecla')               // ['codigo', 'texto']
-        self.pulsaTeclaEscape = new Evento('pulsa_tecla_escape')   // []
-        self.actualizar = new Evento('actualizar')                   // []
-        self.log = new Evento('log')                                 // ['data']
-
-        self.control = new Control(this, null)
-
-        // Gestor de tareas
-        self.tareas = new Tareas
-
-        // Gestor de colisiones
-        self.colisiones = new Colisiones
-
+        camara = new Camara(this)
+		crearEventos
+        control = new Control(this, null)
+        tareas = new Tareas
+        colisiones = new Colisiones
         // Generador de interpolaciones
-        self.tweener = new Tweener
-
-        // Administrador de la fisica de la escena.
-        self.fisica = Pilas.instance.mundo.crearMotorFisica
-
-        // Control para saber si se ha iniciado la escena y poder actualizarla.
-        self.iniciada = false
+        tweener = new Tweener
+        fisica = Pilas.instance.mundo.crearMotorFisica
+        iniciada = false
+	}
+	def protected crearEventos() {
+		// Eventos asociados a la escena.
+        mueveCamara = new Evento('mueve_camara')               // ['x', 'y', 'dx', 'dy']
+        mueveMouse = new Evento('mueve_mouse')                 // ['x', 'y', 'dx', 'dy']
+        clickDeMouse = new Evento('click_de_mouse')           // ['button', 'x', 'y']
+        terminaClick = new Evento('termina_click')             // ['button', 'x', 'y']
+        mueveRueda = new Evento('mueve_rueda')                 // ['delta']
+        pulsaTecla = new Evento('pulsa_tecla')                 // ['codigo', 'texto']
+        sueltaTecla = new Evento('suelta_tecla')               // ['codigo', 'texto']
+        pulsaTeclaEscape = new Evento('pulsa_tecla_escape')   // []
+        actualizar = new Evento('actualizar')                   // []
+        log = new Evento('log')                                 // ['data']
 	}
 	
 	
@@ -72,14 +62,14 @@ abstract class EscenaBase {
 	}
 	
 	def void actualizarEventos() {
-//		self.tweener.update(16)
-        self.tareas.actualizar(1 / 60.0f)
-        self.colisiones.verificarColisiones()
+//		tweener.update(16)
+        tareas.actualizar(1 / 60.0f)
+        colisiones.verificarColisiones()
 	}
 	
 	def actualizarFisica() {
 		//TODO PILAX BOX2D
-//        if (self.fisica)
+//        if (fisica)
 //            // Solo actualizamos la fisica si existen más de 4 bodies.
 //            // Ya que las paredes ya vienen definidas al crear la fisica.
 //            if (self.fisica.mundo.bodies.size > 4)
@@ -87,11 +77,10 @@ abstract class EscenaBase {
 	}
 	
 	def limpiar() {
-		self.actores.forEach[destruir]
-
-        self.tareas.eliminar_todas()
+		actores.forEach[destruir]
+        tareas.eliminarTodas()
         //TODO PILAX
-//        self.tweener.eliminar_todas()
+//        tweener.eliminar_todas()
 //        if self.fisica:
 //            self.fisica.reiniciar()
 	}

@@ -3,7 +3,9 @@ package org.uqbar.pilax.engine
 import com.trolltech.qt.gui.QColor
 import java.awt.Color
 import java.io.File
+import java.util.Collection
 import java.util.List
+import org.eclipse.xtext.xbase.lib.Functions.Function0
 import org.eclipse.xtext.xbase.lib.Pair
 
 class PilasExtensions {
@@ -65,6 +67,29 @@ class PilasExtensions {
 	
 	def static <E> E first(List<E> aList) {
 		aList.get(0)
-	} 
+	}
+	
+	def static void nTimes(Function0 procedure, int times) {
+		for (n : 0..times) {
+			procedure.apply
+		}
+	}
+	
+	def static <E> void removeIfContains(Collection<E> collection, E element) {
+		if (collection.contains(element))
+        	collection.remove(element)
+	}
+	
+	// ************************************
+	// ** Pairs as coordinates
+	// ************************************
+	
+	def static <K,V> K x(Pair<K,V> pair) {
+		pair.key
+	}
+	
+	def static <K,V> V y(Pair<K,V> pair) {
+		pair.value
+	}
 	
 }

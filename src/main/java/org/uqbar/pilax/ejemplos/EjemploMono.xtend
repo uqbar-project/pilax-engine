@@ -14,7 +14,9 @@ class EjemploMono {
 //		mono.aprender(SeguirAlMouse)
 		mono.aprender(MoverseConTeclado)
 		
-		new ActorTexto("Hola Mundo Mono", 100, 100)
+		new ActorTexto("Hola Mundo Mono", 100, 100) => [
+			fuente = "Droid Sans"
+		]
 		
 		Pilas.instance.ejecutar
 	}

@@ -26,7 +26,15 @@ class ActorTexto extends Actor {
 	int _ancho
 	int _alto
 
-    new(String texto, int x, int y) {
+	new(String texto) {
+		this(texto, 0, 0)
+	} 
+
+	new(String texto, int x, int y) {
+		this(texto, x, y, null)
+	} 
+
+    new(String texto, int x, int y, String fuente) {
         /**Inicializa el actor.
 
         :param texto: Texto a mostrar.
@@ -37,7 +45,7 @@ class ActorTexto extends Actor {
         :param fuente: Nombre de la fuente a utilizar.
         :param fijo: Determina si el texto se queda fijo aunque se mueva la camara. Por defecto está fijo.
         */
-        super(Pilas.instance.mundo.motor.obtenerTexto(texto, 20, null), x, y)
+        super(Pilas.instance.mundo.motor.obtenerTexto(texto, 20, fuente), x, y)
         _definir_area_de_texto(texto, magnitud)
         self.magnitud = magnitud
         self.texto = texto

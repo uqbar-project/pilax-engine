@@ -1,6 +1,5 @@
 package org.uqbar.pilax.engine
 
-import com.google.common.reflect.Reflection
 import java.util.List
 
 class PythonUtils {

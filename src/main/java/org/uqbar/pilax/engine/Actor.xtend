@@ -1,5 +1,6 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import static extension org.uqbar.pilax.engine.PythonUtils.*
 import java.util.List
 import org.uqbar.pilax.engine.motor.ActorMotor
@@ -48,19 +49,19 @@ class Actor extends Estudiante {
 	}
 	
 	def getX() {
-		this.actorMotor.x
+		actorMotor.x
 	}
 	
 	def void setX(int x) {
-		this.actorMotor.x = x
+		actorMotor.x = x
 	}
 	
 	def getY() {
-		this.actorMotor.y
+		actorMotor.y
 	}
 	
 	def void setY(int y) {
-		this.actorMotor.y = y
+		actorMotor.y = y
 	}
 	
 	def void setCentro(Pair<Integer,Integer> centro) {
@@ -102,17 +103,18 @@ class Actor extends Estudiante {
 	}
 	
 	def dibujar(QPainter aplicacion) {
-		this.actorMotor.dibujar(aplicacion)
+		actorMotor.dibujar(aplicacion)
 	}
 	/** Indica si el actor está fuera del area visible de la pantalla.*/
 	def estaFueraDeLaPantalla() {
-        if (self.fijo) {
+        if (fijo) {
             return false
         }
         val areaVisible = self.escena.camara.areaVisible
-        return self.derecha < areaVisible.izquierda ||
-        		self.izquierda > areaVisible.derecha ||
-        		self.abajo > areaVisible.arriba || self.arriba < areaVisible.abajo
+        return derecha < areaVisible.izquierda ||
+        		izquierda > areaVisible.derecha ||
+        		abajo > areaVisible.arriba || 
+        		arriba < areaVisible.abajo
 	}
 	
     def getEscala() {
@@ -128,19 +130,19 @@ class Actor extends Estudiante {
     }
     
     def getIzquierda() {
-        return x - (centro.key * escala)
+        x - (centro.x * escala)
     }
 
     def setIzquierda(int x) {
-        self.x = x + (self.centro.key * self.escala)
+        this.x = x + (centro.x * escala)
     }
     
     def getDerecha() {
-        self.izquierda + self.ancho * self.escala
+        izquierda + ancho * escala
     }
 	
 	def setDerecha(int x) {
-        self.setIzquierda(x - self.ancho)
+        setIzquierda(x - ancho)
     }
     
     def getAncho() {
@@ -152,49 +154,52 @@ class Actor extends Estudiante {
     }
     
     def getArriba() {
-    	return self.y + (self.centro.value * self.escala)
+    	return y + (centro.y * escala)
     }
     
     def setArriba(int y) {
-        self.y = y - (self.centro.value * self.escala)
+        this.y = y - (centro.y * escala)
     }
     
     def setAbajo(int y) {
-        self.setArriba(y + self.alto)
+        setArriba(y + alto)
     }
     
     def getAbajo() {
-        return self.arriba - self.alto * self.escala
+        return arriba - alto * escala
     }
 	
-	/** Actualiza comportamiento y habilidades antes de la actualización.
-        También actualiza la velocidad horizontal y vertical que lleva el actor.
-        */
+	/** 
+	 * Actualiza comportamiento y habilidades antes de la actualización.
+     * También actualiza la velocidad horizontal y vertical que lleva el actor.
+     */
 	def preActualizar() {
-        self.actualizarComportamientos
-        self.actualizarHabilidades
-        self.actualizarVelocidad
+        actualizarComportamientos
+        actualizarHabilidades
+        actualizarVelocidad
 	}
 	
 	def actualizar() {
 		pass
 	}
 
-	/** """ Calcula la velocidad horizontal y vertical del actor. """ */	
+	/** 
+	 * Calcula la velocidad horizontal y vertical del actor.
+	 */	
 	def protected actualizarVelocidad() {
-        if (self.dx != self.x) {
-            self._vx = Math.abs(self._dx - self.x)
-            self._dx = self.x
+        if (dx != x) {
+            _vx = Math.abs(_dx - x)
+            _dx = x
         }
         else
-            self._vx = 0
+            _vx = 0
 
-        if (self._dy != self.y) {
-            self._vy = Math.abs(self._dy - self.y)
-            self._dy = self.y
+        if (_dy != y) {
+            _vy = Math.abs(_dy - y)
+            _dy = y
         }
         else
-            self._vy = 0
+            _vy = 0
 	}
     
 }
