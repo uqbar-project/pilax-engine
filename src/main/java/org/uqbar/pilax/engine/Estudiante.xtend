@@ -13,7 +13,7 @@ class Estudiante {
         /**Comienza a realizar una habilidad indicada por parametros.
         :param classname: Referencia a la clase que representa la habilidad.
         */
-	def aprender(Class classname) {
+	def <H extends Habilidad> H aprender(Class<H> classname) {
         if (self.tieneHabilidad(classname)) {
             self.eliminar_habilidad(classname)
             self.agregar_habilidad(classname)
@@ -25,9 +25,10 @@ class Estudiante {
 	/** Agrega una habilidad a la lista de cosas que puede hacer un actor.
         :param classname: Referencia a la clase que representa la habilidad.
         */
-	def agregar_habilidad(Class classname) {
-        val objeto_habilidad = classname.newInstanceWith(this) as Habilidad
-        self._habilidades.add(objeto_habilidad)
+	def <H extends Habilidad> H agregar_habilidad(Class<H> classname) {
+        val H habilidad = classname.newInstanceWith(this)
+        habilidades.add(habilidad)
+        habilidad
 	}
 	
 	/**""" Elimina una habilidad asociada a un Actor.
@@ -37,21 +38,21 @@ class Estudiante {
     def eliminar_habilidad(Class aClass) {
         val habilidad = self.obtenerHabilidad(aClass)
         if (habilidad != null)
-            self._habilidades.remove(habilidad)
+            _habilidades.remove(habilidad)
     }
 
 	/** """Comprueba si el actor ha aprendido la habilidad indicada.
         :param classname: Referencia a la clase que representa la habilidad.
         """ */
     def tieneHabilidad(Class aClass) {
-        self._habilidades.map[h| h.class].contains(aClass)
+        habilidades.map[h| h.class].contains(aClass)
     }
 
 	/**"""Comprueba si el actor tiene el comportamiento indicado.
         :param classname: Referencia a la clase que representa el comportamiento.
         """ */
     def tieneComportamiento(Class aClass) {
-    	self.comportamientos.map[h| h.class].contains(aClass)
+    	comportamientos.map[h| h.class].contains(aClass)
     }
 
 	/** """Obtiene la habilidad asociada a un Actor.
@@ -60,11 +61,11 @@ class Estudiante {
         :return: Devuelve None si no se encontró.
         """ */
     def obtenerHabilidad(Class classname) {
-        for (habilidad : self._habilidades) {
+        for (habilidad : habilidades) {
             if (habilidad.class == classname)
                 return habilidad
         }
-        return None
+        return null
 	}
 
 	/** Define un nuevo comportamiento para realizar al final.
@@ -74,30 +75,30 @@ class Estudiante {
         :param repetir_por_siempre: Si el comportamiento se volverá a ejecutar luego de terminar.
         """ */	
     def hacerLuego(Comportamiento comportamiento, boolean repetir_por_siempre) {
-        self.comportamientos.add(comportamiento)
-        self.repetirComportamientosPorSiempre = repetir_por_siempre
+        comportamientos.add(comportamiento)
+        repetirComportamientosPorSiempre = repetir_por_siempre
     }
 
 	/** Define el comportamiento para el actor de manera inmediata.
         :param comportamiento: Referencia al comportamiento a realizar.
         */
     def hacer(Comportamiento comportamiento) {
-        self.comportamientos.add(comportamiento)
-        self.adoptarElSiguienteComportamiento
+        comportamientos.add(comportamiento)
+        adoptarElSiguienteComportamiento
 	}
 
 	/** "Elimina todas las habilidades asociadas al actor." */
     def eliminarHabilidades() {
-    	self._habilidades.forEach[eliminar]
+    	habilidades.forEach[eliminar]
 	}
 
 	/** "Elimina todos los comportamientos que tiene que hacer el actor." */
     def eliminarComportamientos() {
-    	self.comportamientos.forEach[eliminar]
+    	comportamientos.forEach[eliminar]
     }
 
     def actualizarHabilidades() {
-    	self._habilidades.forEach[actualizar]
+    	habilidades.forEach[actualizar]
     }
 
 	/** "Actualiza la lista de comportamientos" */	
@@ -123,8 +124,7 @@ class Estudiante {
             comportamientoActual.iniciar(this)
         }
         else
-            comportamientoActual = None
+            comportamientoActual = null
     }
-	
 	
 }

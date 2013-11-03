@@ -66,24 +66,24 @@ class TextoMotor extends ImagenMotor {
      * Permite a los usuarios referirse a las fuentes como ruta a archivos, sin
      *  tener que preocuparse por el font-family.
 	 *
-     * :param fuente_como_ruta: Ruta al archivo TTF que se quiere utilizar.
+     * :param fuenteComoRuta: Ruta al archivo TTF que se quiere utilizar.
 	 *	
      *  Ejemplo:
 	 *
      *      >>> Texto.cargar_fuente_desde_cache('myttffile.ttf')
      *      'Visitor TTF1'
      */    
-    def static String cargar_fuente_desde_cache(String fuente_como_ruta) {
-        var int fuente_id
-        if (!CACHE_FUENTES.containsKey(fuente_como_ruta)) {
-            val ruta_a_la_fuente = Utils.obtenerRutaAlRecurso(fuente_como_ruta)
-            fuente_id = QFontDatabase.addApplicationFont(ruta_a_la_fuente)
-            CACHE_FUENTES.put(fuente_como_ruta, fuente_id)
+    def static String cargar_fuente_desde_cache(String fuenteComoRuta) {
+        var int idFuente
+        if (!CACHE_FUENTES.containsKey(fuenteComoRuta)) {
+            val ruta_a_la_fuente = Utils.obtenerRutaAlRecurso(fuenteComoRuta)
+            idFuente = QFontDatabase.addApplicationFont(ruta_a_la_fuente)
+            CACHE_FUENTES.put(fuenteComoRuta, idFuente)
         }
         else
-            fuente_id = CACHE_FUENTES.get(fuente_como_ruta)
+            idFuente = CACHE_FUENTES.get(fuenteComoRuta)
 
-        return QFontDatabase.applicationFontFamilies(fuente_id).first
+        return QFontDatabase.applicationFontFamilies(idFuente).first
     }
 
     override ancho() {

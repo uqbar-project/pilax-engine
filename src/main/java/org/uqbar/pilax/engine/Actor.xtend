@@ -6,11 +6,16 @@ import java.util.List
 import org.uqbar.pilax.engine.motor.ActorMotor
 import com.trolltech.qt.gui.QPainter
 import org.uqbar.pilax.engine.motor.ImagenMotor
+import org.uqbar.pilax.habilidades.Imitar
+import java.util.UUID
+import org.uqbar.pilax.actores.ActorGlobo
+import org.uqbar.pilax.actores.PosicionCentro
 
 /**
  * 
  */
 class Actor extends Estudiante {
+	@Property UUID id
 	boolean vivo = true
 	List<Actor> anexados = newArrayList
 	@Property int z = 0
@@ -26,12 +31,15 @@ class Actor extends Estudiante {
 	// velocidad
 	@Property boolean fijo
 	@Property Pair<Integer, Integer> centro
+	// cosas raras
+	@Property Object figura
 	
 	new(String imagen, int x, int y) {
 		this(Pilas.instance.mundo.motor.cargarImagen(imagen), x, y)
 	}
 	
 	new(ImagenMotor imagen, int x, int y) {
+		id = uuid()
 		actorMotor = crearActorMotor(imagen, x, y)
 		Pilas.instance.escenaActual.agregarActor(this)
         dx = x
@@ -39,9 +47,17 @@ class Actor extends Estudiante {
         centro = centroDeImagen
 	}
 	
+	def getMotor() {
+		Pilas.instance.mundo.motor
+	}
+	
 	/** Sobrescribir para crear otro actor de motor */
 	def protected crearActorMotor(ImagenMotor imagen, int x, int y) {
 		Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
+	}
+	
+	def void setCentroRelativo(Pair<PosicionCentro, PosicionCentro> posicionCentro) {
+		centro = posicionCentro.x.interpretar(ancho) -> posicionCentro.x.interpretar(alto) 
 	}
 	
 	def centroDeImagen() {
@@ -201,5 +217,48 @@ class Actor extends Estudiante {
         else
             _vy = 0
 	}
-    
+	
+	def decir(String mensaje) {
+		decir(mensaje, true)
+	}
+
+	/**Emite un mensaje usando un globo similar al de los comics.
+
+        :param mensaje: Texto a mostrar en el mensaje.
+        :type mensaje: string
+        :param autoeliminar: Establece si se eliminará el globo al cabo de unos segundos.
+        :type autoeliminar: boolean
+        */	
+	def decir(String mensaje, boolean autoeliminar) {
+        val Actor nuevo_actor = new ActorGlobo(mensaje, x, y, autoeliminar)
+        nuevo_actor.imitar(this)
+        nuevo_actor.z = z - 1
+        anexar(nuevo_actor)
+//        pilas.atajos.leer(mensaje)
+	}
+
+        /** Agrega un Actor a la lista de actores anexados al Actor actual.
+        Cuando se elimina un Actor, se eliminan los actores anexados.
+
+        :param otro_actor: Actor a anexar.
+        :type otro_actor: `Actor`
+         */	
+    def anexar(Actor otro) {
+        anexados.add(otro)
+	}
+
+	/** Hace que un Actor copie la posición y la rotación de otro Actor o
+        Figura fisica.
+
+        Por ejemplo:
+
+        >>> circulo_dinamico = pilas.fisica.Circulo(10, 200, 50)
+        >>> mi_actor.imitar(circulo_dinamico)
+
+        :param otro_actor_o_figura: Actor o Figura física a imitar.
+        :type otro_actor_o_figura: `Actor`, `Figura`
+     */	
+	def imitar(Actor otro) {
+        aprender(Imitar) => [ objetoAImitar = otro ]
+	}
 }

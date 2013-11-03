@@ -7,6 +7,8 @@ import java.util.Collection
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Functions.Function0
 import org.eclipse.xtext.xbase.lib.Pair
+import java.util.UUID
+import com.trolltech.qt.core.Qt
 
 class PilasExtensions {
 	
@@ -62,7 +64,7 @@ class PilasExtensions {
 	}
 	
 	def static QColor asQColor(Color color) {
-		new QColor(color.red, color.green, color.blue)	
+		new QColor(color.red, color.green, color.blue, color.alpha)	
 	}
 	
 	def static <E> E first(List<E> aList) {
@@ -90,6 +92,26 @@ class PilasExtensions {
 	
 	def static <K,V> V y(Pair<K,V> pair) {
 		pair.value
+	}
+	// vistas como area
+	def static <K,V> K ancho(Pair<K,V> pair) {
+		pair.key
+	} 
+	
+	def static <K,V> V alto(Pair<K,V> pair) {
+		pair.value
+	}
+	
+	def static UUID uuid() {
+		UUID.randomUUID
+	}
+	
+	def static int operator_or(int a, int b) {
+		IntegerExtensions.bitwiseOr(a, b)
+	}
+	
+	def static <E> List<E> subList(List<E> list, int from) {
+		list.subList(from, list.size)
 	}
 	
 }

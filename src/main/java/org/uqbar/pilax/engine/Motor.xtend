@@ -8,6 +8,7 @@ import org.uqbar.pilax.engine.motor.ActorMotor
 import org.uqbar.pilax.engine.motor.ImagenMotor
 
 import static extension org.uqbar.pilax.engine.PythonUtils.*
+import org.uqbar.pilax.motor.Superficie
 
 class Motor {
 	QApplication application
@@ -94,7 +95,16 @@ class Motor {
 	def obtenerTexto(String texto, int magnitud, String fuente) {
        new TextoMotor(texto, magnitud, self, false, fuente)
     }
+    
+    def crearSuperficie(int ancho, int alto) {
+    	new Superficie(ancho, alto)
+    }
 	
+	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto) {
+		obtenerAreaDeTexto(texto, 10, false, null)
+	}
+	
+	//TODO: cambio en pilas 0.82!
 	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, String fuente) {
 		var ancho = 0
         var alto = 0

@@ -13,6 +13,7 @@ class EjemploMono {
 		val mono = new ActorMono()
 //		mono.aprender(SeguirAlMouse)
 		mono.aprender(MoverseConTeclado)
+		mono.decir("Hola mundo!")
 		
 		new ActorTexto("Hola Mundo Mono", 100, 100) => [
 			fuente = "Droid Sans"

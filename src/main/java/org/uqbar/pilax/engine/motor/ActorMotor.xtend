@@ -100,7 +100,7 @@ class ActorMotor extends ActorBaseMotor {
 
 class ImagenMotor {
 	@Property QPixmap imagen
-	private String ruta
+	@Property String ruta
 	
 	new() {
 		//hack para la subclase Texto ?

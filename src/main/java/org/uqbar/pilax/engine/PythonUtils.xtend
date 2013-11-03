@@ -1,12 +1,18 @@
 package org.uqbar.pilax.engine
 
 import java.util.List
+import java.util.Random
+import java.util.Arrays
 
 class PythonUtils {
 	static boolean printNotImplemented = true
 	
 	def static <T> T self(T aThis) {
 		aThis
+	}
+	
+	def static range(int from, int until, int step) {
+		new IntegerRange(from, until, step)
 	}
 	
 	def static range(int numero) {
@@ -50,6 +56,12 @@ class PythonUtils {
 		// dummy impl !!!
 		val c = aClass.constructors.findFirst[c| c.parameterTypes.length == params.length]
 		c.newInstance(params) as T
+	}
+	
+	def static String urandom(int size) {
+		val result = newByteArrayOfSize(25)
+		new Random().nextBytes(result)
+		Arrays.toString(result)
 	}
 	
 }
