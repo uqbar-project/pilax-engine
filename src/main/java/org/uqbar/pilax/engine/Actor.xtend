@@ -1,15 +1,17 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
-import java.util.List
-import org.uqbar.pilax.engine.motor.ActorMotor
 import com.trolltech.qt.gui.QPainter
-import org.uqbar.pilax.engine.motor.ImagenMotor
-import org.uqbar.pilax.habilidades.Imitar
+import java.util.List
 import java.util.UUID
+import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.actores.ActorGlobo
 import org.uqbar.pilax.actores.PosicionCentro
+import org.uqbar.pilax.habilidades.Imitar
+import org.uqbar.pilax.motor.ActorMotor
+import org.uqbar.pilax.motor.ImagenMotor
+
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 /**
  * 

@@ -1,4 +1,6 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.fisica
+
+import org.eclipse.xtext.xbase.lib.Pair
 
 class Fisica {
 	

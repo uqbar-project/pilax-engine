@@ -1,15 +1,15 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.motor
 
 import com.trolltech.qt.gui.QFont
+import com.trolltech.qt.gui.QFontDatabase
 import com.trolltech.qt.gui.QFontMetrics
 import com.trolltech.qt.gui.QPainter
 import java.awt.Color
+import java.util.Map
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.engine.motor.ImagenMotor
+import org.uqbar.pilax.engine.Utils
 
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import java.util.Map
-import com.trolltech.qt.gui.QFontDatabase
 
 /**
  * 

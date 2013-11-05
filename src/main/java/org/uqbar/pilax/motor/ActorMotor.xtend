@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine.motor
+package org.uqbar.pilax.motor
 
 import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QPixmap

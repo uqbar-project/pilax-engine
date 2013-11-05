@@ -1,14 +1,16 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.motor
 
 import com.trolltech.qt.gui.QApplication
 import com.trolltech.qt.gui.QFont
 import com.trolltech.qt.gui.QFontMetrics
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.engine.motor.ActorMotor
-import org.uqbar.pilax.engine.motor.ImagenMotor
+import org.uqbar.pilax.engine.CanvasNormalWidget
+import org.uqbar.pilax.engine.GestorEscenas
+import org.uqbar.pilax.engine.Mundo
+import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.engine.Ventana
 
 import static extension org.uqbar.pilax.engine.PythonUtils.*
-import org.uqbar.pilax.motor.Superficie
 
 class Motor {
 	QApplication application

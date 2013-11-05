@@ -1,6 +1,7 @@
 package org.uqbar.pilax.engine
 
 import java.util.List
+import org.uqbar.pilax.motor.Motor
 
 class Pilas {
 	private static Pilas INSTANCE 

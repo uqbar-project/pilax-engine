@@ -3,7 +3,7 @@ package org.uqbar.pilax.actores
 import java.awt.Color
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
-import org.uqbar.pilax.engine.TextoMotor
+import org.uqbar.pilax.motor.TextoMotor
 
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import static extension org.uqbar.pilax.engine.PythonUtils.*

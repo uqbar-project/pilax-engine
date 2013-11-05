@@ -1,7 +1,7 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import java.util.List
+import org.uqbar.pilax.fisica.FisicaDeshabilitada
 import org.uqbar.pilax.interpolacion.tweener.Tweener
 
 abstract class EscenaBase {

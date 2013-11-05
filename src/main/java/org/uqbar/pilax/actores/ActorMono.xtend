@@ -2,7 +2,7 @@ package org.uqbar.pilax.actores
 
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
-import org.uqbar.pilax.engine.motor.ImagenMotor
+import org.uqbar.pilax.motor.ImagenMotor
 
 class ActorMono extends Actor {
 	ImagenMotor image_normal

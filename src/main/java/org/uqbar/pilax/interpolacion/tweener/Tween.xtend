@@ -1,46 +1,37 @@
 package org.uqbar.pilax.interpolacion.tweener
 
-import java.util.Map
 import org.apache.commons.beanutils.PropertyUtils
-import org.eclipse.xtext.xbase.lib.Functions.Function4
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 class Tween {
+	// updating model
+	@Property Object target
+	@Property String propertyName
+	
 	@Property double duration
 	@Property double delay
-	@Property Object target
 	@Property Easing tween
 	@Property boolean complete = false
-	@Property Map<String, Tweenable> tweenables
-	double delta
+	double delta = 0
 	@Property Procedure0 completeFunction
 	@Property Procedure0 updateFunction
-	@Property String propertyName
 	Tweenable tweenable
 	@Property boolean paused
-	double value
 	
 	new(Object obj, double duration, Easing tweenType, Procedure0 completeFunction, Procedure0 updateFunction, double delay, 
 		String propertyName, Number startValue, Number endValue) {
 		this.duration = duration
         this.delay = delay
         this.target = obj
+        this.propertyName = propertyName
         this.tween = tweenType
-        this.delta = 0
         this.completeFunction = completeFunction
         this.updateFunction = updateFunction
-        this.complete = False
         this.paused = this.delay > 0
-        this.propertyName = propertyName
         
-        this.value = endValue.doubleValue
-        
-//        val startVal = PropertyUtils.getProperty(this.target, propertyName) as Number
-		val startVal = startValue
-        this.tweenable = new Tweenable(startVal, endValue.minus(startVal))
+        this.tweenable = new Tweenable(startValue, endValue.minus(startValue))
 	}
 	
 	
@@ -93,10 +84,8 @@ class Tween {
 		delta = Math.min(delta + ptime, this.duration)
 	}
     
-    def pause() {
-    	pause(-1)
-    }
-	
+    def pause() { pause(-1) }
+    
 	/**Pause this tween
             do tween.pause( 2 ) to pause for a specific time
             or tween.pause() which pauses indefinitely.*/

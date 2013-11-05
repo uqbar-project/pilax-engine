@@ -1,6 +1,5 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.utils.XtendUtils.*
 import com.trolltech.qt.core.QTimerEvent
 import com.trolltech.qt.core.Qt
 import com.trolltech.qt.gui.QColor
@@ -11,6 +10,7 @@ import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
 import java.util.List
+import org.uqbar.pilax.motor.Motor
 
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import static extension org.uqbar.pilax.engine.PythonUtils.*

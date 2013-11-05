@@ -11,30 +11,29 @@ import com.trolltech.qt.gui.QPixmap
 import java.awt.Color
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.engine.TextoMotor
-import org.uqbar.pilax.engine.motor.ImagenMotor
+
+import static org.uqbar.pilax.engine.PythonUtils.*
 
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 class Superficie extends ImagenMotor {
 	@Property QPainter canvas
 	
 	new(int ancho, int alto) {
-		self.imagen = new QPixmap(ancho, alto)
-        self.imagen.fill(new QColor(255, 255, 255, 0))
-        self.canvas = new QPainter()
-        self.ruta = urandom(25)//os.urandom(25)
+		imagen = new QPixmap(ancho, alto)
+        imagen.fill(new QColor(255, 255, 255, 0))
+        canvas = new QPainter
+        ruta = urandom(25)
     }
 
     def pintar(Color color) {
-        self.imagen.fill(color.asQColor)
+        imagen.fill(color.asQColor)
 	}
 	
     def pintar_parte_de_imagen(ImagenMotor imagen, int origen_x, int origen_y, int ancho, int alto, int x, int y) {
-        self.canvas.begin(self.imagen)
-        self.canvas.drawPixmap(x, y, imagen.imagen, origen_x, origen_y, ancho, alto)
-        self.canvas.end()
+        canvas.begin(this.imagen)
+        canvas.drawPixmap(x, y, imagen.imagen, origen_x, origen_y, ancho, alto)
+        canvas.end
     }
 
 	def pintar_imagen(ImagenMotor imagen) {
@@ -42,7 +41,7 @@ class Superficie extends ImagenMotor {
 	}
 
     def pintar_imagen(ImagenMotor imagen, int x, int y) {
-        self.pintar_parte_de_imagen(imagen, 0, 0, imagen.ancho(), imagen.alto(), x, y)
+        pintar_parte_de_imagen(imagen, 0, 0, imagen.ancho(), imagen.alto(), x, y)
 	}
 	
 	def texto(String cadena) {
@@ -55,28 +54,28 @@ class Superficie extends ImagenMotor {
 	
     def texto(String cadena, int x, int y, int magnitud, String fuente, Color color) {
     	//TODO: esto parece duplicado de Texto o algo asi
-        self.canvas.begin(self.imagen)
-        self.canvas.setPen(color.asQColor)
+        canvas.begin(this.imagen)
+        canvas.pen = color.asQColor
         val dx = x
         var dy = y
 	
         val nombre_de_fuente = if (fuente != null)
             						TextoMotor.cargar_fuente_desde_cache(fuente)
         						else
-            						self.canvas.font().family()
+            						canvas.font().family()
 
         val font = new QFont(nombre_de_fuente, magnitud)
-        self.canvas.setFont(font)
+        canvas.font = font
         val metrica = new QFontMetrics(font)
 
         for (line : cadena.split('\n')) {
         	val rect = new QRect(dx, dy, imagen.width(), imagen.height())
         	var flags = Qt.AlignmentFlag.AlignLeft.value || Qt.AlignmentFlag.AlignTop.value
-            self.canvas.drawText(rect, flags, line)
+            canvas.drawText(rect, flags, line)
             dy = dy + metrica.height
         }
 
-        canvas.end()
+        canvas.end
 	}
 	
 	def circulo(int x, int y, int radio) {
@@ -85,15 +84,11 @@ class Superficie extends ImagenMotor {
 	
     def circulo(int x, int y, int radio, Color color, boolean relleno, int grosor) {
         canvas.begin(imagen)
-
-        val pen = new QPen(color.asQColor, grosor)
-        canvas.setPen(pen)
-
+        canvas.pen = new QPen(color.asQColor, grosor)
         if (relleno)
-            canvas.setBrush(color.asQColor)
-
+            canvas.brush = color.asQColor
         canvas.drawEllipse(x-radio, y-radio, radio*2, radio*2)
-        canvas.end()
+        canvas.end
 	}
 	
 	def rectangulo(int x, int y, int ancho, int alto) {
@@ -102,15 +97,11 @@ class Superficie extends ImagenMotor {
 	
     def rectangulo(int x, int y, int ancho, int alto, Color color, boolean relleno, int grosor) {
         canvas.begin(imagen)
-
-        val pen = new QPen(color.asQColor, grosor)
-        self.canvas.setPen(pen)
-
+        canvas.pen = new QPen(color.asQColor, grosor)
         if (relleno)
-            self.canvas.setBrush(color.asQColor)
-
-        self.canvas.drawRect(x, y, ancho, alto)
-        self.canvas.end()
+            canvas.brush = color.asQColor
+        canvas.drawRect(x, y, ancho, alto)
+        canvas.end
 	}
 	
 	def linea(int x, int y, int x2, int y2) {
@@ -118,13 +109,10 @@ class Superficie extends ImagenMotor {
 	}
 	
     def linea(int x, int y, int x2, int y2, Color color, int grosor) {
-        self.canvas.begin(imagen)
-
-        val pen = new QPen(color.asQColor, grosor)
-        self.canvas.setPen(pen)
-
-        self.canvas.drawLine(x, y, x2, y2)
-        self.canvas.end()
+        canvas.begin(imagen)
+        canvas.pen = new QPen(color.asQColor, grosor)
+        canvas.drawLine(x, y, x2, y2)
+        canvas.end
 	}
 	
 	def poligono(List<Pair<Integer,Integer>> puntos, Color color, int grosor) {
@@ -132,8 +120,8 @@ class Superficie extends ImagenMotor {
 	}
 	
     def poligono(List<Pair<Integer,Integer>> puntos, Color color, int grosor, boolean cerrado) {
-        var x = puntos.get(0).key
-        var y = puntos.get(0).value
+        var x = puntos.get(0).x
+        var y = puntos.get(0).y
 
         if (cerrado)
             puntos.add((x -> y))
@@ -141,7 +129,7 @@ class Superficie extends ImagenMotor {
         for (p : puntos.subList(1)) {
             var nuevo_x = p.x
             var nuevo_y = p.y
-            self.linea(x, y, nuevo_x, nuevo_y, color, grosor)
+            linea(x, y, nuevo_x, nuevo_y, color, grosor)
             x = nuevo_x
             y = nuevo_y
         }
