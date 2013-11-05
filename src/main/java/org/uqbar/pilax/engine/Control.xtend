@@ -1,53 +1,42 @@
 package org.uqbar.pilax.engine
 
-import java.util.Map
-
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Control {
 	@Property boolean izquierda
 	@Property boolean derecha
 	@Property boolean arriba
 	@Property boolean abajo
-	@Property boolean boton 
-	Map<Integer,String> mapa_teclado
+	@Property boolean boton
 	
-	new(EscenaBase escena, Map<Integer,String> mapa_teclado) {
+	new(EscenaBase escena) {
         escena.pulsaTecla.conectar("control", [data| cuando_pulsa_una_tecla(data) ])
         escena.sueltaTecla.conectar("control", [data| cuando_suelta_una_tecla(data) ])
-        
-        if (mapa_teclado == None)
-        	// mapa <int:codigo tecla -> string: nombre property de esta instancia a invocar!
-            self.mapa_teclado = #{Simbolos.IZQUIERDA ->'izquierda',
-                                  Simbolos.DERECHA -> 'derecha',
-                                  Simbolos.ARRIBA -> 'arriba',
-                                  Simbolos.ABAJO -> 'abajo',
-                                  Simbolos.ESPACIO -> 'boton'}
-        else
-            self.mapa_teclado = mapa_teclado
     }
 
     def cuando_pulsa_una_tecla(DataEvento evento) {
-        self.procesar_cambio_de_estado_en_la_tecla((evento as DataEventoTeclado).codigoDeTecla, true)
+        self.procesar_cambio_de_estado_en_la_tecla((evento as DataEventoTeclado).tecla, true)
 	}
 	
     def cuando_suelta_una_tecla(DataEvento evento) {
-        self.procesar_cambio_de_estado_en_la_tecla((evento as DataEventoTeclado).codigoDeTecla, false)
+        self.procesar_cambio_de_estado_en_la_tecla((evento as DataEventoTeclado).tecla, false)
     }
 
-    def procesar_cambio_de_estado_en_la_tecla(Object codigo, boolean estado) {
-        if (self.mapa_teclado.containsKey(codigo)) {
-            setattr(self, self.mapa_teclado.get(codigo), estado)
-        }
+    def procesar_cambio_de_estado_en_la_tecla(Tecla codigo, boolean estado) {
+    	if (codigo == Tecla.IZQUIERDA) izquierda = true
+    	if (codigo == Tecla.DERECHA) derecha = true
+    	if (codigo == Tecla.ARRIBA) arriba = true
+    	if (codigo == Tecla.ABAJO) abajo = true
+    	if (codigo == Tecla.ESPACIO) boton = true
     }
 
     def limpiar() {
-        self.izquierda = False
-        self.derecha = False
-        self.arriba = False
-        self.abajo = False
-        self.boton = False
+        izquierda = false
+        derecha = false
+        arriba = false
+        abajo = false
+        boton = false
 	}
-	
 
 }

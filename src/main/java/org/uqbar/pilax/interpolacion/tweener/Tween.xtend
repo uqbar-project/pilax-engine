@@ -3,7 +3,8 @@ package org.uqbar.pilax.interpolacion.tweener
 import org.apache.commons.beanutils.PropertyUtils
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Tween {
 	// updating model

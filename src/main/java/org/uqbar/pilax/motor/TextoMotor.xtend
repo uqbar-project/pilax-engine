@@ -7,9 +7,11 @@ import com.trolltech.qt.gui.QPainter
 import java.awt.Color
 import java.util.Map
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.engine.Utils
+import org.uqbar.pilax.utils.Utils
+import org.uqbar.pilax.motor.qt.Motor
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 /**
  * 

@@ -14,8 +14,8 @@ abstract class EscenaBase {
 	@Property Evento clickDeMouse
 	@Property Evento terminaClick
 	@Property Evento mueveRueda
-	@Property Evento pulsaTecla
-	@Property Evento sueltaTecla
+	@Property Evento<DataEventoTeclado> pulsaTecla
+	@Property Evento<DataEventoTeclado> sueltaTecla
 	@Property Evento pulsaTeclaEscape
 	@Property Evento actualizar
 	@Property Evento log
@@ -29,7 +29,7 @@ abstract class EscenaBase {
         // Camara de la escena.
         camara = new Camara(this)
 		crearEventos
-        control = new Control(this, null)
+        control = new Control(this)
         tareas = new Tareas
         colisiones = new Colisiones
         // Generador de interpolaciones

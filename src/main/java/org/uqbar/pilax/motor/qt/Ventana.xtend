@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.motor.qt
 
 import com.trolltech.qt.gui.QMainWindow
 import com.trolltech.qt.gui.QResizeEvent

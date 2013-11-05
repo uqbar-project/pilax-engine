@@ -10,8 +10,8 @@ import org.uqbar.pilax.habilidades.Imitar
 import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 /**
  * 
@@ -67,19 +67,21 @@ class Actor extends Estudiante {
 	}
 	
 	def getX() {
-		actorMotor.x
+		// REVIEW: double para interpolar
+		actorMotor.x.doubleValue
 	}
 	
-	def void setX(int x) {
-		actorMotor.x = x
+	def void setX(double x) {
+		// REVIEW: double para interpolar
+		actorMotor.x = x.intValue
 	}
 	
 	def getY() {
-		actorMotor.y
+		actorMotor.y.doubleValue
 	}
 	
-	def void setY(int y) {
-		actorMotor.y = y
+	def void setY(double y) {
+		actorMotor.y = y.intValue
 	}
 	
 	def void setCentro(Pair<Integer,Integer> centro) {
@@ -222,15 +224,15 @@ class Actor extends Estudiante {
 	 */	
 	def protected actualizarVelocidad() {
         if (dx != x) {
-            _vx = Math.abs(_dx - x)
-            _dx = x
+            _vx = Math.abs(_dx - x).intValue  // intValue por tener forzado a double para interpolaciones
+            _dx = x.intValue
         }
         else
             _vx = 0
 
         if (_dy != y) {
-            _vy = Math.abs(_dy - y)
-            _dy = y
+            _vy = Math.abs(_dy - y).intValue
+            _dy = y.intValue
         }
         else
             _vy = 0
@@ -248,7 +250,7 @@ class Actor extends Estudiante {
         :type autoeliminar: boolean
         */	
 	def decir(String mensaje, boolean autoeliminar) {
-        val Actor globo = new ActorGlobo(mensaje, x, y, autoeliminar)
+        val Actor globo = new ActorGlobo(mensaje, x.intValue, y.intValue, autoeliminar)
         globo.imitar(this)
         globo.z = z - 1
         anexar(globo)

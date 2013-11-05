@@ -1,11 +1,15 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.utils
 
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.engine.Actor
+import org.uqbar.pilax.engine.Area
+import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.interpolacion.Interpolacion
+import org.uqbar.pilax.interpolacion.tweener.Easing
 import org.uqbar.pilax.interpolacion.tweener.easing.CubicEaseIn
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class Utils {
 	
@@ -28,7 +32,7 @@ class Utils {
 	}
 	
 	def static distanciaEntreDosActores(Actor a, Actor b) {
-		distanciaEntreDosPuntos((a.x -> a.y), (b.x -> b.y))
+		distanciaEntreDosPuntos((a.x.intValue -> a.y.intValue), (b.x.intValue -> b.y.intValue))
 	}
 	
 	def static distanciaEntreDosPuntos(Pair<Integer,Integer> pair, Pair<Integer,Integer> pair2) {
@@ -58,9 +62,11 @@ class Utils {
 	}
 	
 	def static interpolar(Object obj, String property, List<? extends Number> values) {
-		new Interpolacion(values, 1, 0, new CubicEaseIn).apply(obj, property)
-//		  new Interpolacion(values, 1, 0, new new LinearEasing).apply(obj, property)
+		interpolar(obj, property, values, new CubicEaseIn)
+	}
 
+	def static interpolar(Object obj, String property, List<? extends Number> values, Easing easing) {
+		new Interpolacion(values, 1, 0, easing).apply(obj, property)
 	}
 	
 }

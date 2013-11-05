@@ -1,7 +1,7 @@
 package org.uqbar.pilax.fisica
 
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.motor.qt.Motor
 
 class FisicaDeshabilitada {
 

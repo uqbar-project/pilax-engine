@@ -5,8 +5,8 @@ import com.trolltech.qt.gui.QPixmap
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Pilas
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class ActorBaseMotor {
 	@Property int x

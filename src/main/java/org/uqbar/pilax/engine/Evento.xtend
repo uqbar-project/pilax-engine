@@ -1,13 +1,15 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
+
 import java.util.HashSet
 import java.util.Map
 
 // Esto sería más acertado llamarlo TipoEvento o luego tener InstanciaEvento como 
 // una en particular con sus datos.
-class Evento {
-	@Property Map<String, HandlerEvento> respuestas
+class Evento<D extends DataEvento> {
+	@Property Map<String, HandlerEvento<D>> respuestas
     @Property String nombre
     
 	new(String nombre) {
@@ -15,7 +17,7 @@ class Evento {
         this.respuestas = newHashMap()
 	}
 
-	def emitir(DataEvento data) {
+	def emitir(D data) {
 		[|
 			val a_eliminar = newArrayList
 	        for (respuesta : new HashSet(respuestas.values)) {
@@ -31,7 +33,7 @@ class Evento {
 		].execAsync
 	}
 	
-	def desconectar(HandlerEvento respuesta) {
+	def desconectar(HandlerEvento<D> respuesta) {
         try {
             this.respuestas.remove(respuesta)
         }
@@ -51,7 +53,7 @@ class Evento {
             this.desconectar(x)
 	}
 	
-	def conectar(String id, HandlerEvento respuesta) {
+	def conectar(String id, HandlerEvento<D> respuesta) {
 		this.respuestas.put(id, respuesta)
 //        if inspect.isfunction(respuesta):
 //            self.respuestas.add(ProxyFuncion(respuesta, id))

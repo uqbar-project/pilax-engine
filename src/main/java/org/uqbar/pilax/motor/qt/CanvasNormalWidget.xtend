@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.motor.qt
 
 import com.trolltech.qt.core.QTimerEvent
 import com.trolltech.qt.core.Qt
@@ -10,10 +10,23 @@ import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
 import java.util.List
-import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.actores.ActorPausa
+import org.uqbar.pilax.engine.Actor
+import org.uqbar.pilax.engine.DataEvento
+import org.uqbar.pilax.engine.DataEventoMouse
+import org.uqbar.pilax.engine.DataEventoRuedaMouse
+import org.uqbar.pilax.engine.DataEventoTeclado
+import org.uqbar.pilax.engine.DepuradorDeshabilitado
+import org.uqbar.pilax.engine.Evento
+import org.uqbar.pilax.engine.FPS
+import org.uqbar.pilax.engine.GestorEscenas
+import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.engine.PilaxException
+import org.uqbar.pilax.engine.Tecla
+import org.uqbar.pilax.utils.Utils
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class CanvasNormalWidget extends QWidget {
 	QPainter painter
@@ -216,64 +229,64 @@ class CanvasNormalWidget extends QWidget {
     def protected triggerearEventoDeMouseClick(QMouseEvent e, Evento evento) {
 		val escala = self.escala
         val posRelativa = Utils.convertirDePosicionFisicaRelativa(e.pos.x / escala, e.pos.y / escala).relativaALaCamara
-        var x = posRelativa.key 
-        var y = posRelativa.value
+        var x = posRelativa.x 
+        var y = posRelativa.y
 
         evento.emitir(new DataEventoMouse(x, y, 0f, 0f, e.button()))
 	}
 
     def _obtener_codigo_de_tecla_normalizado(int tecla_qt) {
         val teclas = #{
-        	Qt.Key.Key_Left.value -> Simbolos.IZQUIERDA,
-        	Qt.Key.Key_Right.value -> Simbolos::DERECHA,
-            Qt.Key.Key_Up.value -> Simbolos::ARRIBA,
-            Qt.Key.Key_Down.value -> Simbolos::ABAJO,
-            Qt.Key.Key_Space.value -> Simbolos::ESPACIO,
-            Qt.Key.Key_Return.value -> Simbolos::SELECCION,
-            Qt.Key.Key_F1.value -> Simbolos::F1,
-            Qt.Key.Key_F2.value -> Simbolos::F2,
-            Qt.Key.Key_F3.value -> Simbolos::F3,
-            Qt.Key.Key_F4.value -> Simbolos::F4,
-            Qt.Key.Key_F5.value -> Simbolos::F5,
-            Qt.Key.Key_F6.value -> Simbolos::F6,
-            Qt.Key.Key_F7.value -> Simbolos::F7,
-            Qt.Key.Key_F8.value -> Simbolos::F8,
-            Qt.Key.Key_F9.value -> Simbolos::F9,
-            Qt.Key.Key_F10.value -> Simbolos::F10,
-            Qt.Key.Key_F11.value -> Simbolos::F11,
-            Qt.Key.Key_F12.value -> Simbolos::F12,
-            Qt.Key.Key_A.value -> Simbolos::a,
-            Qt.Key.Key_B.value -> Simbolos::b,
-            Qt.Key.Key_C.value -> Simbolos::c,
-            Qt.Key.Key_D.value -> Simbolos::d,
-            Qt.Key.Key_E.value -> Simbolos::e,
-            Qt.Key.Key_F.value -> Simbolos::f,
-            Qt.Key.Key_G.value -> Simbolos::g,
-            Qt.Key.Key_H.value -> Simbolos::h,
-            Qt.Key.Key_I.value -> Simbolos::i,
-            Qt.Key.Key_J.value -> Simbolos::j,
-            Qt.Key.Key_K.value -> Simbolos::k,
-            Qt.Key.Key_L.value -> Simbolos::l,
-            Qt.Key.Key_M.value -> Simbolos::m,
-            Qt.Key.Key_N.value -> Simbolos::n,
-            Qt.Key.Key_O.value -> Simbolos::o,
-            Qt.Key.Key_P.value -> Simbolos::p,
-            Qt.Key.Key_Q.value -> Simbolos::q,
-            Qt.Key.Key_R.value -> Simbolos::r,
-            Qt.Key.Key_S.value -> Simbolos::s,
-            Qt.Key.Key_T.value -> Simbolos::t,
-            Qt.Key.Key_U.value -> Simbolos::u,
-            Qt.Key.Key_V.value -> Simbolos::v,
-            Qt.Key.Key_W.value -> Simbolos::w,
-            Qt.Key.Key_X.value -> Simbolos::x,
-            Qt.Key.Key_Y.value -> Simbolos::y,
-            Qt.Key.Key_Z.value -> Simbolos::z
+        	Qt.Key.Key_Left.value -> Tecla.IZQUIERDA,
+        	Qt.Key.Key_Right.value -> Tecla::DERECHA,
+            Qt.Key.Key_Up.value -> Tecla::ARRIBA,
+            Qt.Key.Key_Down.value -> Tecla::ABAJO,
+            Qt.Key.Key_Space.value -> Tecla::ESPACIO,
+            Qt.Key.Key_Return.value -> Tecla::SELECCION,
+            Qt.Key.Key_F1.value -> Tecla::F1,
+            Qt.Key.Key_F2.value -> Tecla::F2,
+            Qt.Key.Key_F3.value -> Tecla::F3,
+            Qt.Key.Key_F4.value -> Tecla::F4,
+            Qt.Key.Key_F5.value -> Tecla::F5,
+            Qt.Key.Key_F6.value -> Tecla::F6,
+            Qt.Key.Key_F7.value -> Tecla::F7,
+            Qt.Key.Key_F8.value -> Tecla::F8,
+            Qt.Key.Key_F9.value -> Tecla::F9,
+            Qt.Key.Key_F10.value -> Tecla::F10,
+            Qt.Key.Key_F11.value -> Tecla::F11,
+            Qt.Key.Key_F12.value -> Tecla::F12,
+            Qt.Key.Key_A.value -> Tecla::a,
+            Qt.Key.Key_B.value -> Tecla::b,
+            Qt.Key.Key_C.value -> Tecla::c,
+            Qt.Key.Key_D.value -> Tecla::d,
+            Qt.Key.Key_E.value -> Tecla::e,
+            Qt.Key.Key_F.value -> Tecla::f,
+            Qt.Key.Key_G.value -> Tecla::g,
+            Qt.Key.Key_H.value -> Tecla::h,
+            Qt.Key.Key_I.value -> Tecla::i,
+            Qt.Key.Key_J.value -> Tecla::j,
+            Qt.Key.Key_K.value -> Tecla::k,
+            Qt.Key.Key_L.value -> Tecla::l,
+            Qt.Key.Key_M.value -> Tecla::m,
+            Qt.Key.Key_N.value -> Tecla::n,
+            Qt.Key.Key_O.value -> Tecla::o,
+            Qt.Key.Key_P.value -> Tecla::p,
+            Qt.Key.Key_Q.value -> Tecla::q,
+            Qt.Key.Key_R.value -> Tecla::r,
+            Qt.Key.Key_S.value -> Tecla::s,
+            Qt.Key.Key_T.value -> Tecla::t,
+            Qt.Key.Key_U.value -> Tecla::u,
+            Qt.Key.Key_V.value -> Tecla::v,
+            Qt.Key.Key_W.value -> Tecla::w,
+            Qt.Key.Key_X.value -> Tecla::x,
+            Qt.Key.Key_Y.value -> Tecla::y,
+            Qt.Key.Key_Z.value -> Tecla::z
         }
 
         if (teclas.containsKey(tecla_qt))
             return teclas.get(tecla_qt)
         else
-            return tecla_qt
+            throw new PilaxException("Tecla QT no soportada por PILAX! Codigo:" + tecla_qt)
     }
 
     def pantallaCompleta() {

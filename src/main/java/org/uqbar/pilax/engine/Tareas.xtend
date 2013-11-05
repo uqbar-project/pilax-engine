@@ -1,10 +1,10 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Functions.Function0
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 /**
  * 

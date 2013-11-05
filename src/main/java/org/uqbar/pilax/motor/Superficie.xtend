@@ -12,9 +12,8 @@ import java.awt.Color
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 
-import static org.uqbar.pilax.engine.PythonUtils.*
-
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Superficie extends ImagenMotor {
 	@Property QPainter canvas

@@ -4,10 +4,10 @@ import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Control
 import org.uqbar.pilax.engine.DataEventoTeclado
 import org.uqbar.pilax.engine.Habilidad
-
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 import org.uqbar.pilax.engine.DataEvento
+
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 /** Hace que un actor cambie de posición con pulsar el teclado.*/
 class MoverseConTeclado extends Habilidad {

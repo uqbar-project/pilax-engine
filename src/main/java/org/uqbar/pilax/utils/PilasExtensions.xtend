@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.utils
 
 import com.trolltech.qt.gui.QColor
 import java.awt.Color
@@ -6,13 +6,13 @@ import java.io.File
 import java.util.Collection
 import java.util.List
 import java.util.UUID
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import org.eclipse.xtext.xbase.lib.Functions.Function0
 import org.eclipse.xtext.xbase.lib.IntegerExtensions
 import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.ThreadPoolExecutor
-import java.util.concurrent.Executors
+import org.uqbar.pilax.engine.Pilas
 
 class PilasExtensions {
 	
@@ -121,10 +121,8 @@ class PilasExtensions {
 	def static dispatch minus(Double a, Number b) { a - b.doubleValue }
 	def static dispatch minus(Integer a, Number b) { a - b.intValue }
 
-	private static ExecutorService service = Executors.newFixedThreadPool(3)
-
 	def static void execAsync(Procedure0 proc) {
-		service.execute([| proc.apply ])
+		Pilas.instance.service.execute([| proc.apply ])
 //		new Thread().start 
 	}
 	

@@ -16,12 +16,12 @@ class DataEvento {
 }
 
 class DataEventoTeclado extends DataEvento {
-	@Property Object codigoDeTecla
+	@Property Tecla tecla
 	@Property boolean esRepeticion
 	@Property String texto
 	
-	new(Object codigoDeTecla, boolean autoRepeat, String texto) {
-		this.codigoDeTecla = codigoDeTecla
+	new(Tecla tecla, boolean autoRepeat, String texto) {
+		this.tecla = tecla
 		this.esRepeticion = autoRepeat
 		this.texto = texto
 	}

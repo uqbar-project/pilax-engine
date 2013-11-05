@@ -1,6 +1,8 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
+
 import com.trolltech.qt.gui.QPainter
 
 class Fondo extends Actor {
@@ -36,7 +38,7 @@ class FondoPlano extends Fondo {
         val ancho = area.key
         val alto = area.value
         
-        painter.drawTiledPixmap(0, 0, ancho, alto, this.imagen.imagen, x % 30, y % 30)
+        painter.drawTiledPixmap(0, 0, ancho, alto, this.imagen.imagen, x.intValue % 30, y.intValue % 30)
         painter.restore()
 	}
 

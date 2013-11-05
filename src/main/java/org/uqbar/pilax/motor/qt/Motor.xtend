@@ -1,17 +1,21 @@
-package org.uqbar.pilax.motor
+package org.uqbar.pilax.motor.qt
 
 import com.trolltech.qt.gui.QApplication
 import com.trolltech.qt.gui.QFont
 import com.trolltech.qt.gui.QFontMetrics
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.engine.CanvasNormalWidget
 import org.uqbar.pilax.engine.GestorEscenas
 import org.uqbar.pilax.engine.Mundo
 import org.uqbar.pilax.engine.Pilas
-import org.uqbar.pilax.engine.Ventana
+import org.uqbar.pilax.motor.ActorMotor
+import org.uqbar.pilax.motor.ImagenMotor
+import org.uqbar.pilax.motor.Superficie
+import org.uqbar.pilax.motor.TextoMotor
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
+//RENAME: deberia ser MotorQT implements Motor
 class Motor {
 	QApplication application
 	int anchoOriginal
@@ -41,7 +45,7 @@ class Motor {
 //		hello.show
 	}	
 	
-	def iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
+	def void iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
 		this.anchoOriginal = ancho
 		this.altoOriginal = alto
 		
@@ -50,7 +54,7 @@ class Motor {
 		self.ventana.resize(ancho, alto)
         self.ventana.setWindowTitle(self.titulo)
 		
-		self.canvas = new CanvasNormalWidget(self, Pilas.instance.todosActores, ancho, alto, gestor, self.permitirDepuracion, rendimiento)
+		self.canvas = new CanvasNormalWidget(this, Pilas.instance.todosActores, ancho, alto, gestor, self.permitirDepuracion, rendimiento)
         self.ventana.canvas = self.canvas
         self.canvas.setFocus
 

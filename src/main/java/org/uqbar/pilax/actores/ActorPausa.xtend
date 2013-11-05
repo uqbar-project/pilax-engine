@@ -1,4 +1,6 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.actores
+
+import org.uqbar.pilax.engine.Actor
 
 class ActorPausa extends Actor {
 	

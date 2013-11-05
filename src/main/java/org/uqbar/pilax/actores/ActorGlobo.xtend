@@ -4,8 +4,9 @@ import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.motor.Superficie
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
+import static extension org.uqbar.pilax.utils.Utils.*
 
 /**
  * 

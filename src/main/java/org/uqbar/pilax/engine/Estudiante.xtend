@@ -2,7 +2,8 @@ package org.uqbar.pilax.engine
 
 import java.util.List
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Estudiante {
 	@Property List<Habilidad> habilidades = newArrayList

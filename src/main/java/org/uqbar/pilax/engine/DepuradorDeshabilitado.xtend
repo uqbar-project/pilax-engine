@@ -1,7 +1,7 @@
 package org.uqbar.pilax.engine
 
 import com.trolltech.qt.gui.QPainter
-import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.motor.qt.Motor
 
 class DepuradorDeshabilitado {
 	

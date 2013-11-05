@@ -2,7 +2,8 @@ package org.uqbar.pilax.engine
 
 import org.eclipse.xtext.xbase.lib.Functions.Function0
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Tarea {
 	@Property Tareas planificador
