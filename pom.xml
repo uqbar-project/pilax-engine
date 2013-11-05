@@ -11,7 +11,13 @@
   </parent>
   
    <dependencies>
-   <!-- 
+   		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+   
+   		<!-- 
    		<dependency>
 			<groupId>org.jbox2d</groupId>
 			<artifactId>jbox2d</artifactId>

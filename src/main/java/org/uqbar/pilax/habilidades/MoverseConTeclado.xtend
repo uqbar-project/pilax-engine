@@ -115,8 +115,8 @@ class MoverseConTeclado extends Habilidad {
 
         if (self.velocidad > self.velocidad_maxima)
             self.velocidad = self.velocidad_maxima
-        else if (self.velocidad < - self.velocidad_maxima / 2)
-            self.velocidad = - self.velocidad_maxima / 2
+        else if (self.velocidad < -self.velocidad_maxima / 2)
+            self.velocidad = -self.velocidad_maxima / 2
     }
     
 }

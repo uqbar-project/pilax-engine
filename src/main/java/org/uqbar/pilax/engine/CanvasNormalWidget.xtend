@@ -1,5 +1,6 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.utils.XtendUtils.*
 import com.trolltech.qt.core.QTimerEvent
 import com.trolltech.qt.core.Qt
 import com.trolltech.qt.gui.QColor
@@ -115,12 +116,16 @@ class CanvasNormalWidget extends QWidget {
 	}
 	
 	override protected timerEvent(QTimerEvent event) {
-        try {
-            self.realizarActualizacionLogica
-	    }
-        catch(Exception e) {
-        	e.printStackTrace
-        }
+		synched[|
+		[|
+	        try {
+	            realizarActualizacionLogica
+		    }
+	        catch(Exception e) {
+	        	e.printStackTrace
+	        }
+        ].execAsync
+        ]
         self.update()
     }
 

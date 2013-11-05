@@ -1,5 +1,6 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import java.util.HashSet
 import java.util.Map
 
@@ -15,17 +16,19 @@ class Evento {
 	}
 
 	def emitir(DataEvento data) {
-		val a_eliminar = newArrayList
-        for (respuesta : new HashSet(respuestas.values)) {
-            try {
-				respuesta.manejar(data)
-            }
-            catch (Exception e) {
-            	e.printStackTrace
-                a_eliminar.add(respuesta)
-            }
-        }
-		a_eliminar.forEach[desconectar(it)]
+		[|
+			val a_eliminar = newArrayList
+	        for (respuesta : new HashSet(respuestas.values)) {
+	            try {
+					respuesta.manejar(data)
+	            }
+	            catch (Exception e) {
+	            	e.printStackTrace
+	                a_eliminar.add(respuesta)
+	            }
+	        }
+			a_eliminar.forEach[desconectar(it)]
+		].execAsync
 	}
 	
 	def desconectar(HandlerEvento respuesta) {

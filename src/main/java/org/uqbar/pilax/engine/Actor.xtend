@@ -133,15 +133,11 @@ class Actor extends Estudiante {
         		arriba < areaVisible.abajo
 	}
 	
-    def getEscala() {
-    	actorMotor.escala
-    }
-    
     def getRotacion() {
     	actorMotor.rotacion
     }
     
-    def void setRotacion(int rotacion) {
+    def void setRotacion(double rotacion) {
     	actorMotor.rotacion = rotacion
     }
     
@@ -150,7 +146,7 @@ class Actor extends Estudiante {
     }
 
     def setIzquierda(int x) {
-        this.x = x + (centro.x * escala)
+        this.x = (x + (centro.x * escala)).intValue
     }
     
     def getDerecha() {
@@ -174,7 +170,7 @@ class Actor extends Estudiante {
     }
     
     def setArriba(int y) {
-        this.y = y - (centro.y * escala)
+        this.y = (y - (centro.y * escala)).intValue
     }
     
     def setAbajo(int y) {
@@ -183,6 +179,26 @@ class Actor extends Estudiante {
     
     def getAbajo() {
         return arriba - alto * escala
+    }
+    
+    def getEscala() {
+    	actorMotor.escala
+    }
+    
+    def void setEscala(double esc) {
+    	var s = esc
+    	if (esc < 0.001)
+            s = 0.001
+
+        val ultima_escala = escala
+
+        // Se hace la siguiente regla de 3 simple:
+        //
+        //  ultima_escala          self.radio_de_colision
+        //  s                      ?
+
+        actorMotor.escala = s
+        radioDeColision = ((s * radioDeColision) / Math.max(ultima_escala, 0.0001)).intValue
     }
 	
 	/** 
@@ -230,10 +246,10 @@ class Actor extends Estudiante {
         :type autoeliminar: boolean
         */	
 	def decir(String mensaje, boolean autoeliminar) {
-        val Actor nuevo_actor = new ActorGlobo(mensaje, x, y, autoeliminar)
-        nuevo_actor.imitar(this)
-        nuevo_actor.z = z - 1
-        anexar(nuevo_actor)
+        val Actor globo = new ActorGlobo(mensaje, x, y, autoeliminar)
+        globo.imitar(this)
+        globo.z = z - 1
+        anexar(globo)
 //        pilas.atajos.leer(mensaje)
 	}
 

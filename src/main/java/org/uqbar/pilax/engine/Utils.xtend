@@ -3,6 +3,9 @@ package org.uqbar.pilax.engine
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
 
 import org.eclipse.xtext.xbase.lib.Pair
+import java.util.List
+import org.uqbar.pilax.interpolacion.InterpolacionAceleracionGradual
+import org.uqbar.pilax.interpolacion.InterpolacionLineal
 
 class Utils {
 	
@@ -52,6 +55,15 @@ class Utils {
     // En PILAS buscar en los directorios del sistema operativo. Acá usamos el classpath	
 	def static obtenerRutaAlRecurso(String pathRelativo) {
 		pathRelativo.resolveFullPathFromClassPath    	
+	}
+	
+	def static interpolar(Object obj, String property, List<? extends Number> values) {
+//		[| 
+			
+//			new InterpolacionAceleracionGradual(values, 1, 0).apply(obj, property)
+			new InterpolacionLineal(values, 1, 0).apply(obj, property)
+//		].execAsync
+
 	}
 	
 }

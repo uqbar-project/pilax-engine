@@ -1,22 +1,23 @@
 package org.uqbar.pilax.engine.motor
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QPixmap
+import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Pilas
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 class ActorBaseMotor {
 	@Property int x
 	@Property int y
 	
-	@Property int rotacion = 0
+	@Property double rotacion = 0  // double para interpolar
 	@Property int transparencia = 0
     @Property int centro_x = 0
     @Property int centro_y = 0
-	@Property int escala_x = 1
-    @Property int escala_y = 1
+	@Property double escala_x = 1
+    @Property double escala_y = 1
 	@Property boolean espejado = false
     @Property int fijo = 0
     
@@ -47,7 +48,7 @@ class ActorBaseMotor {
         self._escala_x
     }
 
-    def setEscala(int s) {
+    def setEscala(double s) {
         self._escala_x = s
         self._escala_y = s
     }
@@ -84,7 +85,7 @@ class ActorMotor extends ActorBaseMotor {
         val x = this.x - dx
         val y = this.y - dy
 
-        self.imagen.dibujar(painter, x, y, self.centro_x, self.centro_y, escala_x, escala_y, self.rotacion, self.transparencia)
+        imagen.dibujar(painter, x, y, this.centro_x, this.centro_y, escala_x, escala_y, this.rotacion.intValue, this.transparencia)
     }
     
     def void setImagen(ImagenMotor imagen) {
@@ -137,7 +138,7 @@ class ImagenMotor {
 	 *  rotacion: angulo de inclinacion en sentido de las agujas del reloj.
 	 *
 	 */    
-    def void dibujar(QPainter painter, int x, int y, int dx /*=0*/, int dy /*=0*/, int escala_x /*=1*/ , int escala_y /*=1*/, int rotacion /*=0*/, int transparencia /*=0*/) {
+    def void dibujar(QPainter painter, int x, int y, int dx /*=0*/, int dy /*=0*/, double escala_x /*=1*/ , double escala_y /*=1*/, int rotacion /*=0*/, int transparencia /*=0*/) {
         painter.save()
         val centro = Pilas.instance.mundo.motor.centroFisico
         

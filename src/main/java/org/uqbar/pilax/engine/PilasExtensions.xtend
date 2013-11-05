@@ -5,10 +5,11 @@ import java.awt.Color
 import java.io.File
 import java.util.Collection
 import java.util.List
-import org.eclipse.xtext.xbase.lib.Functions.Function0
-import org.eclipse.xtext.xbase.lib.Pair
 import java.util.UUID
-import com.trolltech.qt.core.Qt
+import org.eclipse.xtext.xbase.lib.Functions.Function0
+import org.eclipse.xtext.xbase.lib.IntegerExtensions
+import org.eclipse.xtext.xbase.lib.Pair
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 
 class PilasExtensions {
 	
@@ -112,6 +113,13 @@ class PilasExtensions {
 	
 	def static <E> List<E> subList(List<E> list, int from) {
 		list.subList(from, list.size)
+	}
+	
+	def static dispatch minus(Double a, Number b) { a - b.doubleValue }
+	def static dispatch minus(Integer a, Number b) { a - b.intValue }
+
+	def static void execAsync(Procedure0 proc) {
+		new Thread([| proc.apply ]).start 
 	}
 	
 }

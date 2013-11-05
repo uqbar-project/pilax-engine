@@ -1,6 +1,8 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 import java.util.List
+import org.uqbar.pilax.interpolacion.tweener.Tweener
 
 abstract class EscenaBase {
 	@Property boolean iniciada
@@ -20,7 +22,7 @@ abstract class EscenaBase {
 	@Property Control control
 	@Property Tareas tareas
 	Colisiones colisiones
-	Tweener tweener
+	@Property Tweener tweener
 	FisicaDeshabilitada fisica
 	
 	new() {
@@ -62,7 +64,7 @@ abstract class EscenaBase {
 	}
 	
 	def void actualizarEventos() {
-//		tweener.update(16)
+		tweener.update(16)
         tareas.actualizar(1 / 60.0f)
         colisiones.verificarColisiones()
 	}
@@ -79,8 +81,8 @@ abstract class EscenaBase {
 	def limpiar() {
 		actores.forEach[destruir]
         tareas.eliminarTodas()
+        tweener.eliminarTodas()
         //TODO PILAX
-//        tweener.eliminar_todas()
 //        if self.fisica:
 //            self.fisica.reiniciar()
 	}
