@@ -1,11 +1,11 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.engine.PilasExtensions.*
-
-import org.eclipse.xtext.xbase.lib.Pair
 import java.util.List
-import org.uqbar.pilax.interpolacion.InterpolacionAceleracionGradual
-import org.uqbar.pilax.interpolacion.InterpolacionLineal
+import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.interpolacion.Interpolacion
+import org.uqbar.pilax.interpolacion.tweener.easing.CubicEaseIn
+
+import static extension org.uqbar.pilax.engine.PilasExtensions.*
 
 class Utils {
 	
@@ -58,10 +58,8 @@ class Utils {
 	}
 	
 	def static interpolar(Object obj, String property, List<? extends Number> values) {
-//		[| 
-			new InterpolacionAceleracionGradual(values, 1, 0).apply(obj, property)
-//			new InterpolacionLineal(values, 1, 0).apply(obj, property)
-//		].execAsync
+		new Interpolacion(values, 1, 0, new CubicEaseIn).apply(obj, property)
+//		  new Interpolacion(values, 1, 0, new new LinearEasing).apply(obj, property)
 
 	}
 	

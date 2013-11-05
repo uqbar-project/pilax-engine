@@ -5,14 +5,14 @@ import org.apache.commons.beanutils.PropertyUtils
 import org.eclipse.xtext.xbase.lib.Functions.Function4
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 
-import static extension org.uqbar.pilax.engine.PythonUtils.*
 import static extension org.uqbar.pilax.engine.PilasExtensions.*
+import static extension org.uqbar.pilax.engine.PythonUtils.*
 
 class Tween {
 	@Property double duration
 	@Property double delay
 	@Property Object target
-	@Property Function4<Double,Double,Double,Double,Double> tween
+	@Property Easing tween
 	@Property boolean complete = false
 	@Property Map<String, Tweenable> tweenables
 	double delta
@@ -23,8 +23,8 @@ class Tween {
 	@Property boolean paused
 	double value
 	
-	new(Object obj, double duration, Function4<Double,Double,Double,Double,Double> tweenType, Procedure0 completeFunction, Procedure0 updateFunction, double delay, 
-		String propertyName, Number value, Number initialValue) {
+	new(Object obj, double duration, Easing tweenType, Procedure0 completeFunction, Procedure0 updateFunction, double delay, 
+		String propertyName, Number startValue, Number endValue) {
 		this.duration = duration
         this.delay = delay
         this.target = obj
@@ -36,11 +36,11 @@ class Tween {
         this.paused = this.delay > 0
         this.propertyName = propertyName
         
-        this.value = value.doubleValue
+        this.value = endValue.doubleValue
         
 //        val startVal = PropertyUtils.getProperty(this.target, propertyName) as Number
-		val startVal = initialValue
-        this.tweenable = new Tweenable(startVal, value.minus(startVal))
+		val startVal = startValue
+        this.tweenable = new Tweenable(startVal, endValue.minus(startVal))
 	}
 	
 	
@@ -64,24 +64,33 @@ class Tween {
             return;
         }
  
-        this.delta = Math.min(this.delta + ptime, this.duration)
+        updateDelta(ptime)
+       	setNextValue
+        checkCompleted
  
- 		
-       	val newValue = this.tween.apply(this.delta, tweenable.startValue.doubleValue, tweenable.change.doubleValue, duration)
-// 		val startVal = PropertyUtils.getProperty(this.target, propertyName) as Double
-//		val newValue = this.tween.apply(this.delta, startVal, value.minus(startVal), duration)
-       	println("->" + newValue)
-        PropertyUtils.setProperty(target, propertyName, newValue)
- 
-        if (this.delta == this.duration) {
+        if (this.updateFunction != null)
+            this.updateFunction.apply
+	}
+
+	def protected setNextValue() {
+        PropertyUtils.setProperty(target, propertyName, nextValue)
+	}
+
+	def protected nextValue() {
+		tween.nextValue(delta, tweenable.startValue.doubleValue, tweenable.change.doubleValue, duration)
+	}
+
+	def protected checkCompleted() {
+		if (this.delta == this.duration) {
             this.complete = true
             if (this.completeFunction != null) {
                 this.completeFunction.apply
             }
         }
- 
-        if (this.updateFunction != null)
-            this.updateFunction.apply
+	}
+
+	def updateDelta(double ptime) {
+		delta = Math.min(delta + ptime, this.duration)
 	}
     
     def pause() {
@@ -107,9 +116,8 @@ class Tween {
     def Remove() {
         complete = true
     }
-    
-    def getTweenable(String name) {
-        /** Return the tweenable values corresponding to the name of the original
+
+	/** Return the tweenable values corresponding to the name of the original
         tweening function or property. 
  
         Allows the parameters of tweens to be changed at runtime. The parameters
@@ -122,7 +130,8 @@ class Tween {
         tweenable = twn.getTweenable( "thrusterPower" )
         tweener.addTween( tweenable, change=1000.0, tweenTime=0.4, tweenType=tweener.IN_QUAD )
  
-        */
+     */    
+    def getTweenable(String name) {
         if (this.propertyName.equals(name))
         	tweenable
     }
