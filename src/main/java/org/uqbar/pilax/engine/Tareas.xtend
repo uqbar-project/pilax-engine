@@ -43,19 +43,19 @@ class Tareas {
         val tareasAEliminar = newArrayList
 
         for (tarea : tareas_planificadas){
-            if (contador_de_tiempo > tarea.time_out) {
+            if (contador_de_tiempo > tarea.timeOut) {
                 tarea.ejecutar
 
-                if (tarea.una_vez)
+                if (tarea.unaVez)
                     tareasAEliminar.add(tarea)
                 else {
-                    val w = contador_de_tiempo - tarea.time_out
+                    val w = contador_de_tiempo - tarea.timeOut
                     val parteEntera = ((w)/ tarea.dt.floatValue).intValue
                     val resto = w - (parteEntera * tarea.dt)
 					
 					[|tarea.ejecutar()].nTimes(parteEntera)
 					
-                    tarea.time_out = tarea.time_out + tarea.dt + (parteEntera * tarea.dt) - resto
+                    tarea.timeOut = tarea.timeOut + tarea.dt + (parteEntera * tarea.dt) - resto
                 }
             }
 		}

@@ -11,6 +11,7 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 import static extension org.uqbar.pilax.utils.Utils.*
 import org.uqbar.pilax.interpolacion.tweener.easing.LinearEasing
 import org.uqbar.pilax.interpolacion.tweener.easing.CircEaseOut
+import org.uqbar.pilax.comportamientos.ComportamientoGirar
 
 class EjemploMono {
 	
@@ -24,6 +25,7 @@ class EjemploMono {
 //		mono.decir("Hola mundo!") anda pero causa una exception. Creo que la habilidad no se muere y sigue
 		
 		new ActorTexto("Hola Mundo Mono", 100, 100)
+			.hacerLuego(new ComportamientoGirar(0, 1), true)
 		
 		Pilas.instance.escenaActual.pulsaTecla.conectar("monoTeclado") [d|
 			if (d.tecla == Tecla.r) interpolar(mono, "rotacion", #[0, 180, 360])

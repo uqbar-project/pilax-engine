@@ -1,6 +1,8 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.eventos.DataEventoMovimiento
+import org.uqbar.pilax.geom.Area
+
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Camara {
@@ -51,12 +53,12 @@ class Camara {
         	val areaMotor = Pilas.instance.mundo.motor.area
         	val ancho = areaMotor.key
         	val alto = areaMotor.value 
-        	return new Area(self.x - ancho/2, self.x + ancho/2, self.y + alto/2, self.y - alto/2)
+        	return new Area(x - ancho/2, x + ancho/2, y + alto/2, y - alto/2)
         }
         
         def setX(int x) {
-        	Pilas.instance.escenaActual.mueveCamara.emitir(new DataEventoMovimiento(x.floatValue, self.y.floatValue, (x - self.x).floatValue, 0f))
-        	Pilas.instance.mundo.motor.centroDeLaCamara = (x -> self.y)
+        	Pilas.instance.escenaActual.mueveCamara.emitir(new DataEventoMovimiento(x.floatValue, y.floatValue, (x - this.x).floatValue, 0f))
+        	Pilas.instance.mundo.motor.centroDeLaCamara = (x -> this.y)
         }
         
         def getX() {
@@ -69,7 +71,7 @@ class Camara {
         */
 	    def setY(int y) {
 	        Pilas.instance.escenaActual.mueveCamara.emitir(new DataEventoMovimiento(self.x.floatValue, y.floatValue, 0f, (y - self.y).floatValue))
-    	    Pilas.instance.mundo.motor.centroDeLaCamara = (self.x -> y)
+    	    Pilas.instance.mundo.motor.centroDeLaCamara = (this.x -> y)
     	}
 
 	    def getY() {

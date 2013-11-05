@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.motor.qt
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*

@@ -1,6 +1,8 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.eventos.DataEvento
+import org.uqbar.pilax.eventos.DataEventoTeclado
+
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Control {

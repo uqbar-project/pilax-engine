@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.geom
 
 class Area {
 	@Property int izquierda

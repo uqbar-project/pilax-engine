@@ -1,6 +1,8 @@
 package org.uqbar.pilax.engine
 
 import java.util.List
+import org.uqbar.pilax.eventos.DataEventoTeclado
+import org.uqbar.pilax.eventos.Evento
 import org.uqbar.pilax.fisica.FisicaDeshabilitada
 import org.uqbar.pilax.interpolacion.tweener.Tweener
 

@@ -1,6 +1,7 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.eventos
 
 import com.trolltech.qt.core.Qt.MouseButton
+import org.uqbar.pilax.engine.Tecla
 
 /**
  * En pilas esto es simplemente un mapa.

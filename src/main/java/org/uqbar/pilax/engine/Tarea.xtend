@@ -1,23 +1,18 @@
 package org.uqbar.pilax.engine
 
-import org.eclipse.xtext.xbase.lib.Functions.Function0
-
-import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-
 class Tarea {
 	@Property Tareas planificador
-    @Property float time_out
+    @Property float timeOut
     @Property float dt
-    @Property Function0<Boolean> funcion
-    @Property boolean una_vez
+    @Property () => Boolean funcion
+    @Property boolean unaVez
 
-	new(Tareas planificador, float time_out, float dt, Function0<Boolean> funcion, boolean una_vez) {
-		self.planificador = planificador
-        self.time_out = time_out
-        self.dt = dt
-        self.funcion = funcion
-        self.una_vez = una_vez
+	new(Tareas planificador, float timeOut, float dt, () => Boolean funcion, boolean unaVez) {
+		this.planificador = planificador
+        this.timeOut = timeOut
+        this.dt = dt
+        this.funcion = funcion
+        this.unaVez = unaVez
 	}
 	
 	def ejecutar() {
@@ -30,7 +25,7 @@ class Tarea {
 
 	/**"Termina la tarea (alias de eliminar)." */
     def terminar() {
-        self.eliminar()
+        eliminar
 	}
 		
 }
@@ -38,8 +33,8 @@ class Tarea {
 
 class TareaCondicional extends Tarea {
 
-	new(Tareas planificador, float time_out, float dt, Function0<Boolean> funcion, boolean una_vez) {
-		super(planificador, time_out, dt, funcion, una_vez)
+	new(Tareas planificador, float timeOut, float dt, () => Boolean funcion, boolean unaVez) {
+		super(planificador, timeOut, dt, funcion, unaVez)
 	}
 	
 	/** """Ejecuta la tarea, y se detiene si no revuelve True.""" */	
@@ -47,7 +42,7 @@ class TareaCondicional extends Tarea {
         val retorno = super.ejecutar()
 
         if (!retorno)
-            self.una_vez = true
+            unaVez = true
         retorno
 	}
 	

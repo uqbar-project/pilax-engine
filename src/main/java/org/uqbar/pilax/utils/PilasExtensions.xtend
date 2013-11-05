@@ -114,6 +114,10 @@ class PilasExtensions {
 		IntegerExtensions.bitwiseOr(a, b)
 	}
 	
+	def static Pair<Integer,Integer> operator_divide(Pair<Integer,Integer> pair, Integer divisor) {
+		pair.x / divisor -> pair.y / divisor
+	}
+	
 	def static <E> List<E> subList(List<E> list, int from) {
 		list.subList(from, list.size)
 	}

@@ -1,10 +1,9 @@
-package org.uqbar.pilax.engine
-
-import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
+package org.uqbar.pilax.eventos
 
 import java.util.HashSet
 import java.util.Map
+
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 // Esto sería más acertado llamarlo TipoEvento o luego tener InstanciaEvento como 
 // una en particular con sus datos.

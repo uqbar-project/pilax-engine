@@ -49,22 +49,22 @@ class Motor {
 		this.anchoOriginal = ancho
 		this.altoOriginal = alto
 		
-		self.titulo = titulo
-		self.ventana = new Ventana(null)
-		self.ventana.resize(ancho, alto)
-        self.ventana.setWindowTitle(self.titulo)
+		this.titulo = titulo
+		ventana = new Ventana(null)
+		ventana.resize(ancho, alto)
+        ventana.setWindowTitle(titulo)
 		
-		self.canvas = new CanvasNormalWidget(this, Pilas.instance.todosActores, ancho, alto, gestor, self.permitirDepuracion, rendimiento)
-        self.ventana.canvas = self.canvas
-        self.canvas.setFocus
+		canvas = new CanvasNormalWidget(this, Pilas.instance.todosActores, ancho, alto, gestor, permitirDepuracion, rendimiento)
+        ventana.canvas = canvas
+        canvas.setFocus
 
 		if (true) {
-            self.ventana.show
-            self.ventana.raise
+           	ventana.show
+            ventana.raise
         }
 
         if (pantalla_completa) {
-            self.canvas.pantallaCompleta
+            canvas.pantallaCompleta
         }		
 	}
 	
@@ -73,12 +73,12 @@ class Motor {
 	}
 	
 	/** Centro de la ventana para situar el punto (0, 0)*/
-	def centroFisico() {
-        self.anchoOriginal / 2 -> self.altoOriginal / 2
+	def getCentroFisico() {
+        area / 2
 	}
 	
 	def getArea() {
-		(self.anchoOriginal -> self.altoOriginal)
+		(anchoOriginal -> altoOriginal)
 	}
 	
 	def ejecutarBuclePrincipal(Mundo mundo) {
@@ -86,12 +86,12 @@ class Motor {
 	}
 	
 	def getCentroDeLaCamara() {
-		(self.camaraX -> self.camaraY)
+		(camaraX -> camaraY)
 	}
 	
 	def setCentroDeLaCamara(Pair<Integer, Integer> centro) {
-		self.camaraX = centro.key
-        self.camaraY = centro.value
+		camaraX = centro.x
+        camaraY = centro.y
 	}
 	
 	def cargarImagen(String path) {
@@ -112,26 +112,31 @@ class Motor {
 	
 	//TODO: cambio en pilas 0.82!
 	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, String fuente) {
-		var ancho = 0
-        var alto = 0
-
 		val nombre_de_fuente = if (fuente != null)
             						TextoMotor.cargar_fuente_desde_cache(fuente)
         						else
             						""
+        val metrica = fontMetric(nombre_de_fuente, magnitud)
 
-        val lafuente = new QFont(nombre_de_fuente, magnitud)
-        val metrica = new QFontMetrics(lafuente)
-
-		val lineas = //if (vertical) texto.asStringArray else //[t for t in texto]  PILAX  NO SE COMO HACER ESTO !
-        			 texto.split('\n')
-
-        for (linea : lineas) {
+		var ancho = 0
+        var alto = 0
+        for (linea : lineas(texto, vertical)) {
             ancho = Math.max(ancho, metrica.width(linea))
-            alto = alto + metrica.height()
+            alto = alto + metrica.height
         }
 
         return ancho -> alto
+	}
+	
+	def lineas(String texto, boolean vertical) {
+//		if (vertical) 
+//			texto.asStringArray //[t for t in texto]  PILAX  NO SE COMO HACER ESTO !
+//		else
+        	texto.split('\n')
+	}
+	
+	def fontMetric(String fontName, int size) {
+        new QFontMetrics(new QFont(fontName, size))
 	}
 
 }

@@ -2,9 +2,8 @@ package org.uqbar.pilax.habilidades
 
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Control
-import org.uqbar.pilax.engine.DataEventoTeclado
 import org.uqbar.pilax.engine.Habilidad
-import org.uqbar.pilax.engine.DataEvento
+import org.uqbar.pilax.eventos.DataEvento
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*

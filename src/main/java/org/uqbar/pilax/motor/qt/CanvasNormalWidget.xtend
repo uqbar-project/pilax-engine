@@ -11,18 +11,17 @@ import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
 import java.util.List
 import org.uqbar.pilax.actores.ActorPausa
+import org.uqbar.pilax.depurador.DepuradorDeshabilitado
 import org.uqbar.pilax.engine.Actor
-import org.uqbar.pilax.engine.DataEvento
-import org.uqbar.pilax.engine.DataEventoMouse
-import org.uqbar.pilax.engine.DataEventoRuedaMouse
-import org.uqbar.pilax.engine.DataEventoTeclado
-import org.uqbar.pilax.engine.DepuradorDeshabilitado
-import org.uqbar.pilax.engine.Evento
-import org.uqbar.pilax.engine.FPS
 import org.uqbar.pilax.engine.GestorEscenas
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.PilaxException
 import org.uqbar.pilax.engine.Tecla
+import org.uqbar.pilax.eventos.DataEvento
+import org.uqbar.pilax.eventos.DataEventoMouse
+import org.uqbar.pilax.eventos.DataEventoRuedaMouse
+import org.uqbar.pilax.eventos.DataEventoTeclado
+import org.uqbar.pilax.eventos.Evento
 import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*

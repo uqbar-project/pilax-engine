@@ -1,4 +1,4 @@
-package org.uqbar.pilax.engine
+package org.uqbar.pilax.eventos
 
 interface HandlerEvento<D extends DataEvento> {
 	

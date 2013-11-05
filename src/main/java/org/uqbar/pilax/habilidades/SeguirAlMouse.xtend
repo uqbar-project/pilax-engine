@@ -1,9 +1,9 @@
 package org.uqbar.pilax.habilidades
 
 import org.uqbar.pilax.engine.Actor
-import org.uqbar.pilax.engine.DataEventoMovimiento
 import org.uqbar.pilax.engine.Habilidad
 import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.eventos.DataEventoMovimiento
 
 class SeguirAlMouse extends Habilidad {
 	

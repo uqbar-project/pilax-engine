@@ -3,8 +3,8 @@ package org.uqbar.pilax.utils
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Actor
-import org.uqbar.pilax.engine.Area
 import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.geom.Area
 import org.uqbar.pilax.interpolacion.Interpolacion
 import org.uqbar.pilax.interpolacion.tweener.Easing
 import org.uqbar.pilax.interpolacion.tweener.easing.CubicEaseIn
