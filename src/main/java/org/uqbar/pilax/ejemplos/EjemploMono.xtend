@@ -22,8 +22,8 @@ class EjemploMono {
 		]
 		
 		Pilas.instance.escenaActual.clickDeMouse.conectar("escalar", [d| 
-//			interpolar(mono, "escala", #[1, 3, 1])
-			interpolar(mono, "rotacion", #[0, 360])
+			interpolar(mono, "escala", #[3, 1, 0, 1])
+//			interpolar(mono, "rotacion", #[0, 180, 360])
 		])
 		
 		Pilas.instance.ejecutar

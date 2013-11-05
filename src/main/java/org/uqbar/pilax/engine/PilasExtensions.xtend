@@ -10,6 +10,9 @@ import org.eclipse.xtext.xbase.lib.Functions.Function0
 import org.eclipse.xtext.xbase.lib.IntegerExtensions
 import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.Executors
 
 class PilasExtensions {
 	
@@ -118,8 +121,11 @@ class PilasExtensions {
 	def static dispatch minus(Double a, Number b) { a - b.doubleValue }
 	def static dispatch minus(Integer a, Number b) { a - b.intValue }
 
+	private static ExecutorService service = Executors.newFixedThreadPool(3)
+
 	def static void execAsync(Procedure0 proc) {
-		new Thread([| proc.apply ]).start 
+		service.execute([| proc.apply ])
+//		new Thread().start 
 	}
 	
 }

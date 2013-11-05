@@ -21,10 +21,11 @@ class Tween {
 	@Property String propertyName
 	Tweenable tweenable
 	@Property boolean paused
+	double value
 	
-	new(Object obj, Double tduration, Function4<Double,Double,Double,Double,Double> tweenType, Procedure0 completeFunction, Procedure0 updateFunction, double delay, 
+	new(Object obj, double duration, Function4<Double,Double,Double,Double,Double> tweenType, Procedure0 completeFunction, Procedure0 updateFunction, double delay, 
 		String propertyName, Number value, Number initialValue) {
-		this.duration = tduration
+		this.duration = duration
         this.delay = delay
         this.target = obj
         this.tween = tweenType
@@ -34,6 +35,8 @@ class Tween {
         this.complete = False
         this.paused = this.delay > 0
         this.propertyName = propertyName
+        
+        this.value = value.doubleValue
         
 //        val startVal = PropertyUtils.getProperty(this.target, propertyName) as Number
 		val startVal = initialValue
@@ -63,7 +66,10 @@ class Tween {
  
         this.delta = Math.min(this.delta + ptime, this.duration)
  
+ 		
        	val newValue = this.tween.apply(this.delta, tweenable.startValue.doubleValue, tweenable.change.doubleValue, duration)
+// 		val startVal = PropertyUtils.getProperty(this.target, propertyName) as Double
+//		val newValue = this.tween.apply(this.delta, startVal, value.minus(startVal), duration)
        	println("->" + newValue)
         PropertyUtils.setProperty(target, propertyName, newValue)
  

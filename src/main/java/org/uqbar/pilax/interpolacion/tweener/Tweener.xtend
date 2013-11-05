@@ -35,12 +35,12 @@ class Tweener {
         !currentTweens.empty
     }
     
-    def addTweenNoArgs(Object obj, String propertyName, Number initial_value, Number value, double t_delay, double t_time, Function4<Double,Double,Double,Double,Double> t_type) {
+    def addTweenNoArgs(Object obj, String propertyName, Number previousGivenValuevalue, Number value, double t_delay, double t_time, Function4<Double,Double,Double,Double,Double> t_type) {
         /** Similar a addTween, solo que se especifica la funcion y el valor de forma explicita. */
 // 		val t_completeFunc = kwargs.pop("onCompleteFunction") as Procedure0
 // 		val t_updateFunc = kwargs.pop("onUpdateFunction") as Procedure0
 
-        val tw =  new Tween(obj, t_time, t_type, [|], [|], t_delay, propertyName, value, initial_value)
+        val tw =  new Tween(obj, t_time, t_type, [|], [|], t_delay, propertyName, value, previousGivenValuevalue)
         currentTweens.add(tw)
         tw
     }

@@ -116,7 +116,7 @@ class CanvasNormalWidget extends QWidget {
 	}
 	
 	override protected timerEvent(QTimerEvent event) {
-		synched[|
+//		synched[|
 		[|
 	        try {
 	            realizarActualizacionLogica
@@ -125,7 +125,7 @@ class CanvasNormalWidget extends QWidget {
 	        	e.printStackTrace
 	        }
         ].execAsync
-        ]
+//        ]
         self.update()
     }
 

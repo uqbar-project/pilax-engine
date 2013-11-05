@@ -59,9 +59,8 @@ class Utils {
 	
 	def static interpolar(Object obj, String property, List<? extends Number> values) {
 //		[| 
-			
-//			new InterpolacionAceleracionGradual(values, 1, 0).apply(obj, property)
-			new InterpolacionLineal(values, 1, 0).apply(obj, property)
+			new InterpolacionAceleracionGradual(values, 1, 0).apply(obj, property)
+//			new InterpolacionLineal(values, 1, 0).apply(obj, property)
 //		].execAsync
 
 	}

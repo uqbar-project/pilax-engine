@@ -30,23 +30,25 @@ abstract class Interpolacion {
 
     de esta forma los dos objetos están y seguirán estando
     desacoplados.*/	
-	def apply(Object target, String propertyName, Function4<Double,Double,Double,Double,Double> type) {
+	def void apply(Object target, String propertyName, Function4<Double,Double,Double,Double,Double> type) {
         // Tiempo que se debe invertir para hacer cada interpolacion individual.
         val step = duration / values.size * 1000.0
 
-        var currentValue = PropertyUtils.getProperty(target, propertyName) as Number
+        var previousValue = PropertyUtils.getProperty(target, propertyName) as Number
 
         var index = 0
         for (value : values) {
+        	val delayForStep = delay * 1000.0 + (index * step)
             Pilas.instance.escenaActual.tweener.addTweenNoArgs(target, propertyName, 
-                    currentValue,
+                    previousValue,
                    	value,
-                   	delay * 1000.0 + (index * step),
+                   	delayForStep,
                    	step,
                    	type
             )
             // El siguiente valor inicial sera el que ha alcanzado.
-            currentValue = value
+            previousValue = value
+            index = index + 1
         }
     }
     
