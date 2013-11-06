@@ -4,16 +4,18 @@ import com.trolltech.qt.gui.QPainter
 import java.awt.Color
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.depurador.modos.ModoArea
+import org.uqbar.pilax.depurador.modos.ModoPosicion
 import org.uqbar.pilax.engine.Actor
+import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.motor.Lienzo
 import org.uqbar.pilax.motor.qt.FPS
 import org.uqbar.pilax.motor.qt.Motor
 import org.uqbar.pilax.utils.Utils
 
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import org.uqbar.pilax.engine.Pilas
+import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -38,15 +40,15 @@ class DepuradorImpl implements Depurador {
 	}
 	
 	override termina_dibujado(Motor motor, QPainter painter) {
-		if (!self.modos.nullOrEmpty) {
-            self._mostrar_cantidad_de_cuerpos(painter)
-            self._mostrar_cantidad_de_actores(painter)
-            self._mostrar_cuadros_por_segundo(painter)
-            self._mostrar_posicion_del_mouse(painter)
-            self._mostrar_nombres_de_modos(painter)
-            self._mostrar_cantidad_de_imagenes_cacheadas(painter)
+		if (!modos.nullOrEmpty) {
+            _mostrar_cantidad_de_cuerpos(painter)
+            _mostrar_cantidad_de_actores(painter)
+            _mostrar_cuadros_por_segundo(painter)
+            _mostrar_posicion_del_mouse(painter)
+            _mostrar_nombres_de_modos(painter)
+            _mostrar_cantidad_de_imagenes_cacheadas(painter)
 
-			self.modos.forEach[ terminaDibujado(motor, painter, lienzo)]
+			modos.forEach[ terminaDibujado(motor, painter, lienzo)]
 		}
 	}
 	
@@ -112,12 +114,12 @@ class DepuradorImpl implements Depurador {
 	        	this._alternar_modo(ModoArea)
 //	       	case Tecla.F11:
 //            	self._alternar_modo(ModoFisica)
-//			case Tecla.F12:            	
-//	            self._alternar_modo(ModoPosicion)
+			case Tecla.F12:            	
+	            _alternar_modo(ModoPosicion)
 	        case Tecla.PLUS:
-            	self._cambiar_grosor_de_bordes(1)
+            	_cambiar_grosor_de_bordes(1)
             case Tecla.MINUS:
-            	self._cambiar_grosor_de_bordes(-1)
+            	_cambiar_grosor_de_bordes(-1)
 		}
 	}
 	
@@ -158,8 +160,9 @@ abstract class ModoDepurador {
 	@Property DepuradorImpl depurador
 	@Property Tecla tecla
 	
-	new(DepuradorImpl depurador) {
-		this.depurador = depurador		
+	new(DepuradorImpl impl, Tecla tecla) {
+		this.depurador = impl
+		this.tecla = tecla
 	}
 	
 	def void comienzaDibujado(Motor motor, QPainter painter, Object object) {}

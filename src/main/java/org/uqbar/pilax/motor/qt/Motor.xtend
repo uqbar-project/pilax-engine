@@ -27,7 +27,7 @@ class Motor {
 	@Property int camaraY = 0
 	boolean mostrarVentana
 	CanvasNormalWidget canvas
-	boolean permitirDepuracion = false
+	boolean permitirDepuracion = true
 	
 	new(/* faltan parametros */) {
 		// iniciar audio
@@ -37,13 +37,6 @@ class Motor {
 	def iniciarAplicacion() {
 		QApplication.initialize(newArrayOfSize(0))
 		application = QApplication.instance()
-		
-		// HARDCODEO PARA PROBAR!
-//		val hello = new QPushButton("Hello World!")
-//		hello.resize(120, 40)
-//		hello.clicked.connect(QApplication.instance(), "quit()");
-//		hello.setWindowTitle("Hello World")
-//		hello.show
 	}	
 	
 	def void iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {

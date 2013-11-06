@@ -27,6 +27,7 @@ import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.depurador.DepuradorDeshabilitado
 
 class CanvasNormalWidget extends QWidget {
 	QPainter painter
@@ -55,12 +56,10 @@ class CanvasNormalWidget extends QWidget {
         listaActores = lista_actores
         fps = new FPS(rendimiento, true)
 
-//        if (permitir_depuracion) {
-            depurador = new DepuradorImpl(motor.crearLienzo, self.fps)
-//        }
-//        else {
-//            depurador = new DepuradorDeshabilitado
-//        }
+		depurador = if (permitir_depuracion)
+            			new DepuradorImpl(motor.crearLienzo, self.fps)
+			        else
+            			new DepuradorDeshabilitado
 
         self.original_width = ancho
         self.original_height = alto

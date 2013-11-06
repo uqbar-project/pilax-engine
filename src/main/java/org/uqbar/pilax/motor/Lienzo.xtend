@@ -2,20 +2,21 @@ package org.uqbar.pilax.motor
 
 import com.trolltech.qt.gui.QFont
 import com.trolltech.qt.gui.QPainter
+import com.trolltech.qt.gui.QPen
 import java.awt.Color
-import javax.swing.Painter
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-import static extension org.uqbar.pilax.utils.Utils.*
-import com.trolltech.qt.gui.QPen
 
 class Lienzo extends ImagenMotor {
     
     def texto(QPainter painter, String cadena) {
     	texto(painter, cadena, 0, 0, 10, null, Color.BLACK)
+    }
+    
+    def texto(QPainter painter, String cadena, int x, int y, Color color) {
+    	texto(painter, cadena, x, y, 10, null, color)
     }
     
     /** Imprime un texto respespetando el desplazamiento de la camara. */
