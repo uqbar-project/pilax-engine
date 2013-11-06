@@ -45,5 +45,7 @@ public enum Tecla {
 	w,
 	x,
 	y,
-	z
+	z,
+	PLUS,
+	MINUS
 }

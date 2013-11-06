@@ -6,7 +6,7 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 import com.trolltech.qt.core.QTime
 
 class FPS {
-	String cuadros_por_segundo = "??"
+	@Property String cuadros_por_segundo = "??"
    	double frecuencia
     double siguiente
     QTime timer

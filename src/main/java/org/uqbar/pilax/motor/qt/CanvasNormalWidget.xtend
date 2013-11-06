@@ -11,7 +11,8 @@ import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
 import java.util.List
 import org.uqbar.pilax.actores.ActorPausa
-import org.uqbar.pilax.depurador.DepuradorDeshabilitado
+import org.uqbar.pilax.depurador.Depurador
+import org.uqbar.pilax.depurador.DepuradorImpl
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.GestorEscenas
 import org.uqbar.pilax.engine.Pilas
@@ -39,7 +40,7 @@ class CanvasNormalWidget extends QWidget {
 	//capaz es de QWidget
 	int original_width
 	int original_height
-	DepuradorDeshabilitado depurador
+	Depurador depurador
 	GestorEscenas gestorEscenas
 	ActorPausa actorPausa
 	
@@ -55,10 +56,10 @@ class CanvasNormalWidget extends QWidget {
         fps = new FPS(rendimiento, true)
 
 //        if (permitir_depuracion) {
-//            depurador = new Depurador(motor.obtenerLienzo(), self.fps)
+            depurador = new DepuradorImpl(motor.crearLienzo, self.fps)
 //        }
 //        else {
-            depurador = new DepuradorDeshabilitado
+//            depurador = new DepuradorDeshabilitado
 //        }
 
         self.original_width = ancho
@@ -279,7 +280,9 @@ class CanvasNormalWidget extends QWidget {
             Qt.Key.Key_W.value -> Tecla::w,
             Qt.Key.Key_X.value -> Tecla::x,
             Qt.Key.Key_Y.value -> Tecla::y,
-            Qt.Key.Key_Z.value -> Tecla::z
+            Qt.Key.Key_Z.value -> Tecla::z,
+            Qt.Key.Key_Plus.value -> Tecla::PLUS,
+            Qt.Key.Key_Minus.value -> Tecla::MINUS
         }
 
         if (teclas.containsKey(tecla_qt))

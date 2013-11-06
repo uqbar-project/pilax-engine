@@ -69,4 +69,9 @@ class Utils {
 		new Interpolacion(values, 1, 0, easing).apply(obj, property)
 	}
 	
+	def static hacer_coordenada_pantalla_absoluta(int x, int y) {
+		val centro = Pilas.instance.mundo.motor.centroFisico
+    	return (x + centro.x -> centro.y - y)
+	}
+	
 }

@@ -14,6 +14,7 @@ import org.uqbar.pilax.motor.TextoMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.motor.Lienzo
 
 //RENAME: deberia ser MotorQT implements Motor
 class Motor {
@@ -137,6 +138,10 @@ class Motor {
 	
 	def fontMetric(String fontName, int size) {
         new QFontMetrics(new QFont(fontName, size))
+	}
+	
+	def crearLienzo() {
+		new Lienzo
 	}
 
 }

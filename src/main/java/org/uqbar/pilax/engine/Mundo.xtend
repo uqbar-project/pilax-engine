@@ -25,6 +25,10 @@ class Mundo {
 		return Fisica.crearMotorFisica(motor.area, gravedad)
 	}
 	
+	def getArea() {
+		motor.area
+	}
+	
 	// *********************************
 	// ** TAREAS
 	// *********************************
