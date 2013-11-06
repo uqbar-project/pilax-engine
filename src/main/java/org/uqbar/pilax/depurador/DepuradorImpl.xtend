@@ -6,6 +6,8 @@ import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.depurador.modos.ModoArea
 import org.uqbar.pilax.depurador.modos.ModoPosicion
+import org.uqbar.pilax.depurador.modos.ModoPuntosDeControl
+import org.uqbar.pilax.depurador.modos.ModoRadiosDeColision
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.Tecla
@@ -16,7 +18,6 @@ import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.depurador.modos.ModoPuntosDeControl
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -109,8 +110,8 @@ class DepuradorImpl implements Depurador {
 //            	self._alternar_modo(ModoInformacionDeSistema)
             case Tecla.F8:
 	            self._alternar_modo(ModoPuntosDeControl)
-//	        case Tecla.F9:
-//	            self._alternar_modo(ModoRadiosDeColision)
+	        case Tecla.F9:
+	            self._alternar_modo(ModoRadiosDeColision)
 	        case Tecla.F10:
 	        	this._alternar_modo(ModoArea)
 //	       	case Tecla.F11:

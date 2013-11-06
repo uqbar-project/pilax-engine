@@ -69,16 +69,13 @@ class Lienzo extends ImagenMotor {
         linea(painter, x - t, y - t, x + t, y + t, color, grosor)
         linea(painter, x + t, y - t, x - t, y + t, color, grosor)
     }
-//
-//    def circulo(self, painter, x, y, radio, color=colores.negro, grosor=1):
-//        x, y = utils.hacer_coordenada_pantalla_absoluta(x, y)
-//
-//        r, g, b, a = color.obtener_componentes()
-//        color = QtGui.QColor(r, g, b)
-//        pen = QtGui.QPen(color, grosor)
-//        painter.setPen(pen)
-//        painter.drawEllipse(x-radio, y-radio, radio*2, radio*2)
-//
+
+    def circulo(QPainter painter, int x, int y, int radio, Color color /* =colores.negro*/, int grosor) {
+        val pos = Utils.hacer_coordenada_pantalla_absoluta(x, y)
+        painter.pen = new QPen(color.asQColor, grosor)
+        painter.drawEllipse(pos.x-radio, pos.y-radio, radio*2, radio*2)
+    }
+
 	def rectangulo(QPainter painter, int x, int y, int ancho, int alto) {
 		rectangulo(painter, x, y, ancho, alto, Color.black, 1)
 	}
