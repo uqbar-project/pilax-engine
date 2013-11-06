@@ -16,6 +16,7 @@ import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.depurador.modos.ModoPuntosDeControl
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -106,8 +107,8 @@ class DepuradorImpl implements Depurador {
 //            	pilas.utils.imprimir_todos_los_eventos()
 //			case Tecla.F7:
 //            	self._alternar_modo(ModoInformacionDeSistema)
-//            case Tecla.F8:
-//	            self._alternar_modo(ModoPuntosDeControl)
+            case Tecla.F8:
+	            self._alternar_modo(ModoPuntosDeControl)
 //	        case Tecla.F9:
 //	            self._alternar_modo(ModoRadiosDeColision)
 	        case Tecla.F10:
@@ -160,6 +161,8 @@ abstract class ModoDepurador {
 	@Property DepuradorImpl depurador
 	@Property Tecla tecla
 	
+	//PILAX REFACTOR: evitar la duplicidad de la tecla, que el depurador ya le pase la tecla
+	// asociada!
 	new(DepuradorImpl impl, Tecla tecla) {
 		this.depurador = impl
 		this.tecla = tecla

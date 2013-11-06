@@ -46,15 +46,13 @@ class Lienzo extends ImagenMotor {
         painter.fillRect(0, 0, area.ancho, area.alto, color.asQColor)
     }
 
-//    def linea(self, Painter, x0, y0, x1, y1, Color=colores.negro, grosor=1):
-//        x0, y0 = utils.hacer_coordenada_pantalla_absoluta(x0, y0)
-//        x1, y1 = utils.hacer_coordenada_pantalla_absoluta(x1, y1)
-//
-//        r, g, b, a = color.obtener_componentes()
-//        color = QtGui.QColor(r, g, b)
-//        pen = QtGui.QPen(color, grosor)
-//        painter.setPen(pen)
-//        painter.drawLine(x0, y0, x1, y1)
+    def linea(QPainter painter, int x0, int y0, int x1, int y1, Color color /*colores.negro*/, int grosor /*=1 */) {
+        val c0 = Utils.hacer_coordenada_pantalla_absoluta(x0, y0)
+        val c1 = Utils.hacer_coordenada_pantalla_absoluta(x1, y1)
+
+        painter.pen = new QPen(color.asQColor, grosor)
+        painter.drawLine(c0.x, c0.y, c1.x, c1.y)
+    }
 //
 //    def poligono(self, motor, puntos, color=colores.negro, grosor=1, cerrado=False):
 //        x, y = puntos[0]
@@ -66,10 +64,11 @@ class Lienzo extends ImagenMotor {
 //            self.linea(motor, x, y, nuevo_x, nuevo_y, color, grosor)
 //            x, y = nuevo_x, nuevo_y
 //
-//    def cruz(self, painter, x, y, color=colores.negro, grosor=1):
-//        t = 3
-//        self.linea(painter, x - t, y - t, x + t, y + t, color, grosor)
-//        self.linea(painter, x + t, y - t, x - t, y + t, color, grosor)
+    def cruz(QPainter painter, int x, int y, Color color, int grosor) {
+        val t = 3
+        linea(painter, x - t, y - t, x + t, y + t, color, grosor)
+        linea(painter, x + t, y - t, x - t, y + t, color, grosor)
+    }
 //
 //    def circulo(self, painter, x, y, radio, color=colores.negro, grosor=1):
 //        x, y = utils.hacer_coordenada_pantalla_absoluta(x, y)
