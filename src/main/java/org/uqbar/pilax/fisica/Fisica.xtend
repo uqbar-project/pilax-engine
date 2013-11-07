@@ -238,5 +238,9 @@ class Fisica implements MotorFisica {
             }
         }
 	}
+	
+	def cantidad_de_cuerpos() {
+        mundo.bodyCount
+    }
     
 }

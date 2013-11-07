@@ -19,6 +19,7 @@ import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.fisica.Fisica
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -57,8 +58,8 @@ class DepuradorImpl implements Depurador {
 	
 	def _mostrar_cantidad_de_cuerpos(QPainter painter) {
         val bordes = Utils.obtenerBordes
-//        PILAX: fisica
-        val total_de_cuerpos = 0 // Pilas.instance.escenaActual.fisica.cantidad_de_cuerpos()
+        //HACK casteo a fisica jbox
+        val total_de_cuerpos = (pilas.escenaActual.fisica as Fisica).cantidad_de_cuerpos()
         val texto = "Cantidad de cuerpos fisicos: " + total_de_cuerpos
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 50, Color.white)
     }
