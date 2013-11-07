@@ -76,7 +76,7 @@ class PilasExtensions {
 	}
 	
 	def static void nTimes(Function0 procedure, int times) {
-		for (n : 0..times) {
+		for (n : 1..times) {
 			procedure.apply
 		}
 	}
