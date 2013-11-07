@@ -2,6 +2,9 @@ package org.uqbar.pilax.engine
 
 import java.util.List
 
+import static extension org.uqbar.pilax.utils.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+
 class GestorEscenas {
 	List<EscenaBase> escenas = newArrayList
 
@@ -30,5 +33,39 @@ class GestorEscenas {
 			escenas.forEach[actualizarFisica]
         }
 	}
+
+    /** Pausa la escena actualmente activa e inicializa la escena que
+       le pasamos como parametro.
+
+        :param escena: Escena que deseamos que sea la activa.
+     */	
+	def almacenar_escena(EscenaBase escena) {
+        if (escenaActual != null) {
+            escenaActual.pausar_fisica()
+            escenaActual.guardar_posicion_camara()
+            escenaActual.pausar()
+        }
+
+        escenas.add(escena)
+        escena.iniciar
+        escena.camara.reiniciar
+        escena.iniciada = true
+    }
 	
+	def recuperar_escena() {
+        /** Recupera la escena que fue Pausada mediante **almacenar_escena**.
+        */
+        if (!escenas.nullOrEmpty){
+            escenas.last.limpiar()
+            escenas.pop
+            escenas.last => [
+	            reanudar_fisica
+    	        recuperar_posicion_camara
+        	    control.limpiar
+            	reanudar
+            ]
+        }
+        else
+            throw new PilaxException("Debe haber al menos una escena en la pila para restaurar.")
+	}
 }

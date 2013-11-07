@@ -6,6 +6,7 @@ import java.util.UUID
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.actores.ActorGlobo
 import org.uqbar.pilax.actores.PosicionCentro
+import org.uqbar.pilax.comunes.ObjetoGrafico
 import org.uqbar.pilax.habilidades.Imitar
 import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
@@ -16,7 +17,7 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 /**
  * 
  */
-class Actor extends Estudiante {
+class Actor extends Estudiante implements ObjetoGrafico {
 	@Property UUID id
 	boolean vivo = true
 	List<Actor> anexados = newArrayList
@@ -66,7 +67,7 @@ class Actor extends Estudiante {
 		(ancho / 2 -> alto / 2)
 	}
 	
-	def getX() {
+	override getX() {
 		// REVIEW: double para interpolar
 		actorMotor.x.doubleValue
 	}
@@ -76,7 +77,7 @@ class Actor extends Estudiante {
 		actorMotor.x = x.intValue
 	}
 	
-	def getY() {
+	override getY() {
 		actorMotor.y.doubleValue
 	}
 	
@@ -137,7 +138,7 @@ class Actor extends Estudiante {
         		arriba < areaVisible.abajo
 	}
 	
-    def getRotacion() {
+    override getRotacion() {
     	actorMotor.rotacion
     }
     

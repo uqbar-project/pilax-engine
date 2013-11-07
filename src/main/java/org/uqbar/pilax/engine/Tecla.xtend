@@ -47,5 +47,7 @@ public enum Tecla {
 	y,
 	z,
 	PLUS,
-	MINUS
+	MINUS, 
+	CTRL,
+	ALT
 }

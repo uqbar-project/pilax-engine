@@ -1,5 +1,6 @@
 package org.uqbar.pilax.utils
 
+import org.uqbar.pilax.engine.PilaxException
 import java.util.Arrays
 import java.util.Collection
 import java.util.List
@@ -31,7 +32,11 @@ class PythonUtils {
 		null
 	}
 	
-	def static <E> E pop(List<E> list, int index) {
+	def static <E> E pop(List<E> list) {
+		list.remove(list.size - 1)
+	}
+	
+	def static <E> E popAt(List<E> list, int index) {
 		list.remove(index)
 	}
 	
@@ -104,7 +109,10 @@ class PythonUtils {
 	}
 
 	def static getter(Object target, String attributeName) {
-		target.class.methods.findFirst[m| m.name.equals("get" + attributeName.toFirstUpper)]
+		val getter = target.class.methods.findFirst[m| m.name.equals("get" + attributeName.toFirstUpper)]
+		if (getter == null)
+			throw new PilaxException("No getter for attribute '" +  attributeName + "' in  object '" + target + "'")
+		getter
 	}
 	
 	def static getattr(Object target, String attributeName) {
@@ -117,5 +125,9 @@ class PythonUtils {
 	
 	def static __dict__(Object target, String key) {
 		target.__dict__.get(key)
+	}
+	
+	def static int randint(int Min, int Max) {
+		Min + (Math.random() * ((Max - Min) + 1)).intValue
 	}
 }

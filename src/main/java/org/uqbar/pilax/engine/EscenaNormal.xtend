@@ -3,8 +3,11 @@ package org.uqbar.pilax.engine
 import java.util.List
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
-import org.uqbar.pilax.fisica.FisicaDeshabilitada
+import org.uqbar.pilax.fisica.MotorFisica
 import org.uqbar.pilax.interpolacion.tweener.Tweener
+
+import static extension org.uqbar.pilax.utils.PythonUtils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 abstract class EscenaBase {
 	@Property boolean iniciada
@@ -23,9 +26,9 @@ abstract class EscenaBase {
 	@Property Evento log
 	@Property Control control
 	@Property Tareas tareas
-	Colisiones colisiones
+	@Property Colisiones colisiones
 	@Property Tweener tweener
-	FisicaDeshabilitada fisica
+	@Property MotorFisica fisica
 	
 	new() {
         // Camara de la escena.
@@ -72,22 +75,37 @@ abstract class EscenaBase {
 	}
 	
 	def actualizarFisica() {
-		//TODO PILAX BOX2D
-//        if (fisica)
-//            // Solo actualizamos la fisica si existen más de 4 bodies.
-//            // Ya que las paredes ya vienen definidas al crear la fisica.
-//            if (self.fisica.mundo.bodies.size > 4)
-//                self.fisica.actualizar()
+		fisica.actualizar()
 	}
 	
 	def limpiar() {
 		actores.forEach[destruir]
         tareas.eliminarTodas()
         tweener.eliminarTodas()
-        //TODO PILAX
-//        if self.fisica:
-//            self.fisica.reiniciar()
+		fisica.reiniciar
 	}
+	
+	Pair<Integer,Integer> posicionAnteriorCamara
+	
+	/** Este método se llama cuando se cambia de escena y así poder
+        recuperar la ubicación de la cámara en la escena actual
+     */
+	def guardar_posicion_camara() {
+		posicionAnteriorCamara = camara.x -> camara.y 
+    }
+
+    def recuperar_posicion_camara() {
+        camara.x = posicionAnteriorCamara.x
+        camara.y = posicionAnteriorCamara.y
+    }
+    
+    def pausar_fisica() {
+        fisica.pausarMundo
+    }
+    
+    def reanudar_fisica() {
+        fisica.reanudarMundo
+    }
 	
 }
 

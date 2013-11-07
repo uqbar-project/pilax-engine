@@ -5,6 +5,7 @@ import java.awt.Color
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.depurador.modos.ModoArea
+import org.uqbar.pilax.depurador.modos.ModoFisica
 import org.uqbar.pilax.depurador.modos.ModoPosicion
 import org.uqbar.pilax.depurador.modos.ModoPuntosDeControl
 import org.uqbar.pilax.depurador.modos.ModoRadiosDeColision
@@ -114,8 +115,8 @@ class DepuradorImpl implements Depurador {
 	            self._alternar_modo(ModoRadiosDeColision)
 	        case Tecla.F10:
 	        	this._alternar_modo(ModoArea)
-//	       	case Tecla.F11:
-//            	self._alternar_modo(ModoFisica)
+	       	case Tecla.F11:
+            	self._alternar_modo(ModoFisica)
 			case Tecla.F12:            	
 	            _alternar_modo(ModoPosicion)
 	        case Tecla.PLUS:
@@ -169,11 +170,11 @@ abstract class ModoDepurador {
 		this.tecla = tecla
 	}
 	
-	def void comienzaDibujado(Motor motor, QPainter painter, Object object) {}
+	def void comienzaDibujado(Motor motor, QPainter painter, Lienzo lienzo) {}
 	
 	def void dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {}
 	
-	def void terminaDibujado(Motor motor, QPainter painter, Object object) {}
+	def void terminaDibujado(Motor motor, QPainter painter, Lienzo lienzo) {}
 	
 	def void sale_del_modo() {}
 	

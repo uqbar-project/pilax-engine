@@ -281,7 +281,9 @@ class CanvasNormalWidget extends QWidget {
             Qt.Key.Key_Y.value -> Tecla::y,
             Qt.Key.Key_Z.value -> Tecla::z,
             Qt.Key.Key_Plus.value -> Tecla::PLUS,
-            Qt.Key.Key_Minus.value -> Tecla::MINUS
+            Qt.Key.Key_Minus.value -> Tecla::MINUS,
+            Qt.Key.Key_Control.value -> Tecla::CTRL,
+            Qt.Key.Key_Alt.value -> Tecla::ALT
         }
 
         if (teclas.containsKey(tecla_qt))

@@ -10,7 +10,11 @@ class ActorMono extends Actor {
 	ImagenMotor image_shout
 	
 	new() {
-		super('monkey_normal.png', 0, 0)
+		this(0, 0)
+	}
+	
+	new(int x, int y) {
+		super('monkey_normal.png', x, y)
 		image_normal = Pilas.instance.mundo.motor.cargarImagen('monkey_normal.png')
         image_smile = Pilas.instance.mundo.motor.cargarImagen('monkey_smile.png')
         image_shout = Pilas.instance.mundo.motor.cargarImagen('monkey_shout.png')

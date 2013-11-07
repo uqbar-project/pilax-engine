@@ -4,15 +4,17 @@ import org.uqbar.pilax.eventos.DataEventoMovimiento
 import org.uqbar.pilax.geom.Area
 
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import static extension org.uqbar.pilax.utils.Utils.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class Camara {
 	EscenaBase escena
-	
+
 	new(EscenaBase escena) {
 		this.escena = escena
 	}
-	
-        /** Retorna el area del escenario que está visible por la cámara.
+
+	/** Retorna el area del escenario que está visible por la cámara.
 
         Por ejemplo, si la cámara está en posición inicial, esta
         función podría retornar:
@@ -49,33 +51,46 @@ class Camara {
             >>> mi_actor.esta_fuera_de_la_pantalla()
             True
         */
-	    def getAreaVisible() {
-        	val areaMotor = Pilas.instance.mundo.motor.area
-        	val ancho = areaMotor.key
-        	val alto = areaMotor.value 
-        	return new Area(x - ancho/2, x + ancho/2, y + alto/2, y - alto/2)
-        }
-        
-        def setX(int x) {
-        	Pilas.instance.escenaActual.mueveCamara.emitir(new DataEventoMovimiento(x.floatValue, y.floatValue, (x - this.x).floatValue, 0f))
-        	Pilas.instance.mundo.motor.centroDeLaCamara = (x -> this.y)
-        }
-        
-        def getX() {
-        	Pilas.instance.mundo.motor.centroDeLaCamara.key
-		}
-		
-		/**Define la posición vertical de la cámara.
+	def getAreaVisible() {
+		val areaMotor = Pilas.instance.mundo.motor.area
+		val ancho = areaMotor.key
+		val alto = areaMotor.value
+		return new Area(x - ancho / 2, x + ancho / 2, y + alto / 2, y - alto / 2)
+	}
 
+	def setX(int x) {
+		Pilas.instance.escenaActual.mueveCamara.emitir(
+			new DataEventoMovimiento(x.floatValue, y.floatValue, (x - this.x).floatValue, 0f))
+		Pilas.instance.mundo.motor.centroDeLaCamara = (x -> this.y)
+	}
+
+	def getX() {
+		Pilas.instance.mundo.motor.centroDeLaCamara.key
+	}
+
+	/**Define la posición vertical de la cámara.
         :param y: Posición vertical.
         */
-	    def setY(int y) {
-	        Pilas.instance.escenaActual.mueveCamara.emitir(new DataEventoMovimiento(self.x.floatValue, y.floatValue, 0f, (y - self.y).floatValue))
-    	    Pilas.instance.mundo.motor.centroDeLaCamara = (this.x -> y)
-    	}
+	def setY(int y) {
+		Pilas.instance.escenaActual.mueveCamara.emitir(
+			new DataEventoMovimiento(self.x.floatValue, y.floatValue, 0f, (y - self.y).floatValue))
+		Pilas.instance.mundo.motor.centroDeLaCamara = (this.x -> y)
+	}
 
-	    def getY() {
-        	Pilas.instance.mundo.motor.centroDeLaCamara.value
-     	}
+	def getY() {
+		Pilas.instance.mundo.motor.centroDeLaCamara.value
+	}
+
+	/** Mueve la cámara hacia una posición en particular.
+        :param posicion: La posición destino, a donde enfocar.
+     */	
+	def desplazar(Pair<Integer, Integer> posicion) {
+        (posicion.x - x -> posicion.y - y)
+	}
+	
+    /** Mueve la cámara a la posicion inicial (0,0). */
+	def reiniciar() {
+        Pilas.instance.mundo.motor.centroDeLaCamara = 0 -> 0
+	}
 	
 }

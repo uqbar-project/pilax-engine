@@ -8,6 +8,8 @@ import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.motor.qt.Motor
+import java.util.List
 
 class Lienzo extends ImagenMotor {
     
@@ -53,17 +55,24 @@ class Lienzo extends ImagenMotor {
         painter.pen = new QPen(color.asQColor, grosor)
         painter.drawLine(c0.x, c0.y, c1.x, c1.y)
     }
-//
-//    def poligono(self, motor, puntos, color=colores.negro, grosor=1, cerrado=False):
-//        x, y = puntos[0]
-//        if cerrado:
-//            puntos.append((x, y))
-//
-//        for p in puntos[1:]:
-//            nuevo_x, nuevo_y = p
-//            self.linea(motor, x, y, nuevo_x, nuevo_y, color, grosor)
-//            x, y = nuevo_x, nuevo_y
-//
+
+	def poligono(QPainter painter, List<Pair<Integer,Integer>> puntos) {
+		poligono(painter, puntos, Color.black, 1, false)
+	}
+
+    def poligono(QPainter painter, List<Pair<Integer,Integer>> puntos, Color color, int grosor, boolean cerrado) {
+        var first = puntos.get(0)
+        if (cerrado)
+            puntos.add(first)
+
+        for (p : puntos.subList(1)) {
+            val nuevo_x = p.x
+            val nuevo_y = p.y
+            linea(painter, first.x, first.y, nuevo_x, nuevo_y, color, grosor)
+            first = p
+        }
+    }
+
     def cruz(QPainter painter, int x, int y, Color color, int grosor) {
         val t = 3
         linea(painter, x - t, y - t, x + t, y + t, color, grosor)
