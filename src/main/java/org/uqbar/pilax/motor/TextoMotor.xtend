@@ -88,11 +88,11 @@ class TextoMotor extends ImagenMotor {
         return QFontDatabase.applicationFontFamilies(idFuente).first
     }
 
-    override ancho() {
+    override getAncho() {
         areaTexto.key
     }
 
-    override alto() {
+    override getAlto() {
         areaTexto.value
     }
 }

@@ -157,17 +157,17 @@ class ImagenMotor {
         painter.drawPixmap(x, y, self.imagen)
     }
     
-    def ancho() {
+    def getAncho() {
         self.imagen.size.width
     }
 
-    def alto() {
+    def getAlto() {
         self.imagen.size.height
     }
 
    	/* Retorna una tupla con la coordenada del punto medio del la imagen. */
-    def centro() {
-        self.ancho / 2 -> self.alto / 2
+    def getCentro() {
+        ancho / 2 -> alto / 2
     }
 
     def avanzar() {

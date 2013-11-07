@@ -40,7 +40,7 @@ class Superficie extends ImagenMotor {
 	}
 
     def pintar_imagen(ImagenMotor imagen, int x, int y) {
-        pintar_parte_de_imagen(imagen, 0, 0, imagen.ancho(), imagen.alto(), x, y)
+        pintar_parte_de_imagen(imagen, 0, 0, imagen.ancho, imagen.alto, x, y)
 	}
 	
 	def texto(String cadena) {
