@@ -170,7 +170,8 @@ class ImagenMotor {
         ancho / 2 -> alto / 2
     }
 
-    def avanzar() {
+    def boolean avanzar() {
+    	false 
     }
 	
 }

@@ -41,6 +41,10 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		this(Pilas.instance.mundo.motor.cargarImagen(imagen), x, y)
 	}
 	
+	new(ImagenMotor imagen) {
+		this(imagen, 0, 0)
+	}
+	
 	new(ImagenMotor imagen, int x, int y) {
 		id = uuid()
 		actorMotor = crearActorMotor(imagen, x, y)

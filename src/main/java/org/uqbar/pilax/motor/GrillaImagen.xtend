@@ -48,7 +48,7 @@ class GrillaImagen extends ImagenMotor {
 		painter.drawPixmap(x, y, imagen, dx, dy, cuadro_ancho, cuadro_alto)
 	}
 	
-	override avanzar() {
+	override boolean avanzar() {
         var ha_avanzado = true
         var cuadro_actual = cuadro + 1
 

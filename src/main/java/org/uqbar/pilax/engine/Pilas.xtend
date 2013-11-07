@@ -4,6 +4,7 @@ import java.util.List
 import org.uqbar.pilax.motor.qt.Motor
 import java.util.concurrent.Executors
 import java.util.concurrent.ExecutorService
+import org.uqbar.pilax.actores.ActorTextoInferior
 
 class Pilas {
 	private static Pilas INSTANCE 
@@ -40,6 +41,14 @@ class Pilas {
 	def static void main(String[] args) {
 		Pilas.iniciar
 		Pilas.instance.ejecutar
+	}
+	
+	def avisar(String mensaje) {
+		avisar(mensaje, 5)
+	}
+	
+	def avisar(String mensaje, int retraso) {
+		new ActorTextoInferior(mensaje, 0, 0, true, retraso)
 	}
 	
 }
