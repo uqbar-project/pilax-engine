@@ -13,6 +13,7 @@ import org.eclipse.xtext.xbase.lib.IntegerExtensions
 import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.engine.PilaxException
 
 class PilasExtensions {
 	
@@ -47,6 +48,7 @@ class PilasExtensions {
 	
 	def static resolveFullPathFromClassPath(String fileName) {
 		val url = typeof(PilasExtensions).classLoader.getResource(fileName)
+		if (url == null) throw new PilaxException("No se encontro el archivo para la imagen '" + fileName + "' en el classpath!")
 		new File(url.toURI).absolutePath
 	}
 	

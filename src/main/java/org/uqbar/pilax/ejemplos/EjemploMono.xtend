@@ -41,5 +41,5 @@ class EjemploMono {
 		
 		Pilas.instance.ejecutar
 	}
-	
+
 }

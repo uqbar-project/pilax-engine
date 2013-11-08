@@ -24,7 +24,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	@Property int z = 0
 	private ActorMotor actorMotor
 	@Property EscenaBase escena
-	int transparencia = 0
+	@Property int transparencia = 0
 	boolean espejado = false
 	@Property int radioDeColision = 10
 	@Property int vx = 0
@@ -79,6 +79,17 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	def void setX(double x) {
 		// REVIEW: double para interpolar
 		actorMotor.x = x.intValue
+	}
+	
+	def void setPosicion(int x, int y) {
+        /** Define la posición del Actor en el mundo.
+
+        :param x: Posición horizontal del Actor en el mundo.
+        :type x: int
+        :param y: Posición vertical del Actor en el mundo.
+        :type y: int
+        */
+        actorMotor.setPosicion = x -> y
 	}
 	
 	override getY() {
@@ -285,5 +296,19 @@ class Actor extends Estudiante implements ObjetoGrafico {
      */	
 	def imitar(Actor otro) {
         aprender(Imitar) => [ objetoAImitar = otro ]
+	}
+	
+	/** Determina si un punto colisiona con el area del actor.
+
+       Todos los actores tienen un area rectangular, pulsa la
+       tecla **F10** para ver el area de colision.
+
+       :param x: Posición horizontal del punto.
+       :type x: int
+       :param y: Posición vertical del punto.
+       :type y: int
+     */	
+	def colisiona_con_un_punto(int x, int y) {
+        return izquierda <= x  && x <= derecha && abajo <= y && abajo <= arriba
 	}
 }

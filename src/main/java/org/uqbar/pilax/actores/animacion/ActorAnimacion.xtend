@@ -6,7 +6,7 @@ import org.uqbar.pilax.motor.GrillaImagen
 class ActorAnimacion extends ActorAnimado {
 	int tick
 	boolean ciclica
-	double velocidad_de_animacion
+	@Property double velocidad_de_animacion
 	
 	new(GrillaImagen imagen, int x, int y) {
 		this(imagen, x, y, false, 10)
@@ -17,10 +17,10 @@ class ActorAnimacion extends ActorAnimado {
 		
 		tick = 0
         this.ciclica = ciclica
-        definir_velocidad_de_animacion(velocidad)
+        velocidad_de_animacion = velocidad
 	}
 	
-	def definir_velocidad_de_animacion(int i) {
+	def void setVelocidad_de_animacion(int i) {
 		velocidad_de_animacion = (1000.0 / 60) * i
 	}
 	

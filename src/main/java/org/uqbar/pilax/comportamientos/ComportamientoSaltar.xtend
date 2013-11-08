@@ -13,10 +13,11 @@ class ComportamientoSaltar extends Comportamiento<Actor> {
 		super.iniciar(receptor)
         suelo = receptor.y
         velocidad = velocidad_inicial
+        //PILAX: sonido
 //        sonido_saltar.reproducir()
 	}
 	
-	override actualizar() {
+	override boolean actualizar() {
 		receptor.y = receptor.y + velocidad
         velocidad = velocidad - 0.3
 
@@ -31,6 +32,7 @@ class ComportamientoSaltar extends Comportamiento<Actor> {
                 return true
             }
 		}
+		return false
 	}
 	
 }

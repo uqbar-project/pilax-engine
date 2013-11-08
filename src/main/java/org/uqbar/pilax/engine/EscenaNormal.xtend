@@ -1,12 +1,13 @@
 package org.uqbar.pilax.engine
 
 import java.util.List
+import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.eventos.DataEventoMouse
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
 import org.uqbar.pilax.fisica.MotorFisica
 import org.uqbar.pilax.interpolacion.tweener.Tweener
 
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 abstract class EscenaBase {
@@ -15,8 +16,8 @@ abstract class EscenaBase {
 	@Property Fondo fondo
 	@Property Camara camara
 	@Property Evento mueveCamara
-	@Property Evento mueveMouse
-	@Property Evento clickDeMouse
+	@Property Evento<DataEventoMouse> mueveMouse
+	@Property Evento<DataEventoMouse> clickDeMouse
 	@Property Evento terminaClick
 	@Property Evento mueveRueda
 	@Property Evento<DataEventoTeclado> pulsaTecla
