@@ -13,18 +13,26 @@ import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class Utils {
 	
-	def static Pair<Float,Float> convertirDePosicionFisicaRelativa(float x, float y) {
-		val centroFisico = Pilas.instance.mundo.motor.centroFisico
-		val dx = centroFisico.key
-		val dy = centroFisico.value 
-    	x - dx -> dy - y
+	def static Pair<Float,Float> aRelativa(Pair<Float, Float> p) {
+		aRelativa(p.x, p.y)
 	}
 	
-	def static Area obtenerBordes() {
-		val area = Pilas.instance.mundo.motor.area
-		val ancho = area.key
-		val alto = area.value
-    	return new Area(-ancho/2, ancho/2, alto/2, -alto/2)
+	def static Pair<Float,Float> aRelativa(float x, float y) {
+		val centroFisico = motor.centroFisico
+    	x - centroFisico.x -> centroFisico.y - y
+	}
+	
+	def static aAbsoluta(int x, int y) {
+		val centro = motor.centroFisico
+    	return (x + centro.x -> centro.y - y)
+	}
+
+	def static getMotor() {
+		Pilas.instance.mundo.motor
+	}
+	
+	def static Area getBordes() {
+		motor.bordes
 	}
 	
 	def static colisionan(Actor a, Actor b) {
@@ -36,10 +44,10 @@ class Utils {
 	}
 	
 	def static distanciaEntreDosPuntos(Pair<Integer,Integer> pair, Pair<Integer,Integer> pair2) {
-		val x1 = pair.key
-		val y1 = pair.value
-		val x2 = pair2.key
-		val y2 = pair2.value
+		val x1 = pair.x
+		val y1 = pair.y
+		val x2 = pair2.x
+		val y2 = pair2.y
 		Math.sqrt(distancia(x1, x2) ** 2 + distancia(y1, y2) ** 2)
 	}
 	
@@ -67,11 +75,6 @@ class Utils {
 
 	def static interpolar(Object obj, String property, List<? extends Number> values, Easing easing) {
 		new Interpolacion(values, 1, 0, easing).apply(obj, property)
-	}
-	
-	def static hacer_coordenada_pantalla_absoluta(int x, int y) {
-		val centro = Pilas.instance.mundo.motor.centroFisico
-    	return (x + centro.x -> centro.y - y)
 	}
 	
 }

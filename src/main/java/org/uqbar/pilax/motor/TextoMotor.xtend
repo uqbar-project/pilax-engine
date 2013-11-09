@@ -7,11 +7,11 @@ import com.trolltech.qt.gui.QPainter
 import java.awt.Color
 import java.util.Map
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.utils.Utils
 import org.uqbar.pilax.motor.qt.Motor
+import org.uqbar.pilax.utils.Utils
 
+import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 /**
  * 
@@ -45,8 +45,8 @@ class TextoMotor extends ImagenMotor {
         val laFuente = new QFont(nombre_de_fuente, this.magnitud)
         val metrica = new QFontMetrics(laFuente)
 
-       	painter.setPen(color.asQColor)
-        painter.setFont(laFuente)
+       	painter.pen = color.asQColor
+        painter.font = laFuente
 
 		val lines =
 //        if (this.vertical)
@@ -57,7 +57,7 @@ class TextoMotor extends ImagenMotor {
 		var auxdy = dy
         for (line : lines) {
             painter.drawText(dx, auxdy + this.alto, line)
-            auxdy = auxdy + metrica.height()
+            auxdy = auxdy + metrica.height
         }
 	}
 	
@@ -78,8 +78,7 @@ class TextoMotor extends ImagenMotor {
     def static String cargar_fuente_desde_cache(String fuenteComoRuta) {
         var int idFuente
         if (!CACHE_FUENTES.containsKey(fuenteComoRuta)) {
-            val ruta_a_la_fuente = Utils.obtenerRutaAlRecurso(fuenteComoRuta)
-            idFuente = QFontDatabase.addApplicationFont(ruta_a_la_fuente)
+            idFuente = QFontDatabase.addApplicationFont(Utils.obtenerRutaAlRecurso(fuenteComoRuta))
             CACHE_FUENTES.put(fuenteComoRuta, idFuente)
         }
         else

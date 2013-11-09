@@ -9,6 +9,8 @@ import org.uqbar.pilax.eventos.DataEventoMouse
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 import org.uqbar.pilax.eventos.DataEvento
 
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+
 class Deslizador extends ActorBaseInterfaz {
 	Actor deslizador
 	boolean click
@@ -58,7 +60,7 @@ class Deslizador extends ActorBaseInterfaz {
 	
 	def click_del_mouse(DataEventoMouse d) {
         if (activo)
-            if (deslizador.colisiona_con_un_punto(d.x.intValue, d.y.intValue))
+            if (deslizador.colisionaConPunto(d.posicion))
                 click = true
 	}
 	
@@ -72,7 +74,7 @@ class Deslizador extends ActorBaseInterfaz {
 
                 ejecutar_funciones(factor)
 
-                deslizador.x = movimiento.x
+                deslizador.x = movimiento.posicion.x.doubleValue
 
                 if (deslizador.x <= limite_izq)
                     deslizador.x = limite_izq

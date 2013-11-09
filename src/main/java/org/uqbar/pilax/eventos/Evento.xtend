@@ -8,8 +8,8 @@ import static extension org.uqbar.pilax.utils.PilasExtensions.*
 // Esto sería más acertado llamarlo TipoEvento o luego tener InstanciaEvento como 
 // una en particular con sus datos.
 class Evento<D extends DataEvento> {
-	@Property Map<String, HandlerEvento<D>> respuestas
     @Property String nombre
+	@Property Map<String, HandlerEvento<D>> respuestas
     
 	new(String nombre) {
         this.nombre = nombre
@@ -49,17 +49,11 @@ class Evento<D extends DataEvento> {
         }
 
         for (x : a_eliminar)
-            this.desconectar(x)
+            desconectar(x)
 	}
 	
 	def conectar(String id, HandlerEvento<D> respuesta) {
-		this.respuestas.put(id, respuesta)
-//        if inspect.isfunction(respuesta):
-//            self.respuestas.add(ProxyFuncion(respuesta, id))
-//        elif inspect.ismethod(respuesta):
-//            self.respuestas.add(ProxyMetodo(respuesta, id))
-//        else:
-//            raise ValueError("Solo se permite conectar nombres de funciones o metodos.")
+		respuestas.put(id, respuesta)
     }
 	
 }

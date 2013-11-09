@@ -6,14 +6,15 @@ import com.trolltech.qt.gui.QColor
 import com.trolltech.qt.gui.QFont
 import com.trolltech.qt.gui.QFontMetrics
 import com.trolltech.qt.gui.QPainter
-import com.trolltech.qt.gui.QPen
 import com.trolltech.qt.gui.QPixmap
 import java.awt.Color
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 
+import static org.uqbar.pilax.utils.PythonUtils.*
+
+import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Superficie extends ImagenMotor {
 	@Property QPainter canvas
@@ -55,20 +56,19 @@ class Superficie extends ImagenMotor {
     	//TODO: esto parece duplicado de Texto o algo asi
         canvas.begin(this.imagen)
         canvas.pen = color.asQColor
-        val dx = x
         var dy = y
 	
         val nombre_de_fuente = if (fuente != null)
             						TextoMotor.cargar_fuente_desde_cache(fuente)
         						else
-            						canvas.font().family()
+            						canvas.font.family
 
         val font = new QFont(nombre_de_fuente, magnitud)
         canvas.font = font
         val metrica = new QFontMetrics(font)
 
         for (line : cadena.split('\n')) {
-        	val rect = new QRect(dx, dy, imagen.width(), imagen.height())
+        	val rect = new QRect(x, dy, imagen.width, imagen.height)
         	var flags = Qt.AlignmentFlag.AlignLeft.value || Qt.AlignmentFlag.AlignTop.value
             canvas.drawText(rect, flags, line)
             dy = dy + metrica.height
@@ -83,10 +83,10 @@ class Superficie extends ImagenMotor {
 	
     def circulo(int x, int y, int radio, Color color, boolean relleno, int grosor) {
         canvas.begin(imagen)
-        canvas.pen = new QPen(color.asQColor, grosor)
+        canvas.pen = color.createPen(grosor)
         if (relleno)
             canvas.brush = color.asQColor
-        canvas.drawEllipse(x-radio, y-radio, radio*2, radio*2)
+        canvas.drawEllipse(x - radio, y - radio, radio * 2, radio * 2)
         canvas.end
 	}
 	
@@ -96,7 +96,7 @@ class Superficie extends ImagenMotor {
 	
     def rectangulo(int x, int y, int ancho, int alto, Color color, boolean relleno, int grosor) {
         canvas.begin(imagen)
-        canvas.pen = new QPen(color.asQColor, grosor)
+        canvas.pen = color.createPen(grosor)
         if (relleno)
             canvas.brush = color.asQColor
         canvas.drawRect(x, y, ancho, alto)
@@ -109,7 +109,7 @@ class Superficie extends ImagenMotor {
 	
     def linea(int x, int y, int x2, int y2, Color color, int grosor) {
         canvas.begin(imagen)
-        canvas.pen = new QPen(color.asQColor, grosor)
+        canvas.pen = color.createPen(grosor)
         canvas.drawLine(x, y, x2, y2)
         canvas.end
 	}

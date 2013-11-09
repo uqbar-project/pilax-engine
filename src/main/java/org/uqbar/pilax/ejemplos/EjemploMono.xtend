@@ -23,7 +23,7 @@ class EjemploMono {
 //		mono.aprender(SeguirAlMouse)
 //		mono.aprender(MoverseConTeclado) 
 		
-//		mono.decir("Hola mundo!") anda pero causa una exception. Creo que la habilidad no se muere y sigue
+		mono.decir("Hola mundo!")
 		
 		new ActorTexto("Hola Mundo Mono", 100, 100)
 			.hacerLuego(new ComportamientoGirar(0, 1), true)
@@ -37,7 +37,7 @@ class EjemploMono {
 			if (d.tecla == Tecla.ABAJO) interpolar(mono, "y", #[-150], new LinearEasing)
 		]
 		
-		[| new ActorPelota(randint(0, 320), randint(0, 240)) ].nTimes(20)
+//		[| new ActorPelota(randint(0, 320), randint(0, 240)) ].nTimes(20)
 		
 		Pilas.instance.ejecutar
 	}

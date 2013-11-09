@@ -29,12 +29,31 @@ class Mundo {
 		motor.area
 	}
 	
+	def getControl() {
+        return escenaActual.control
+	}
+	
 	// *********************************
 	// ** TAREAS
 	// *********************************
 	
-	def agregarTareaUnaVez(int time_out, Function0<Boolean> function) { // tenia params
-        return gestorEscenas.escenaActual.tareas.unaVez(time_out, function)
+	def agregarTareaUnaVez(float time_out, Function0<Boolean> function) { // tenia params
+        return tareas.unaVez(time_out, function)
     }
+    
+    def agregarTarea(float time_out, Function0<Boolean> function) {
+        return tareas.condicional(time_out, function)
+	}
+
+	def protected getTareas() {
+		escenaActual.tareas
+	}
 	
+	def getColisiones() {
+        return escenaActual.colisiones
+    }
+
+	def escenaActual() {
+		gestorEscenas.escenaActual
+	}
 }

@@ -9,12 +9,13 @@ import org.uqbar.pilax.engine.Mundo
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
+import org.uqbar.pilax.motor.Lienzo
 import org.uqbar.pilax.motor.Superficie
 import org.uqbar.pilax.motor.TextoMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.motor.Lienzo
+import org.uqbar.pilax.geom.Area
 
 //RENAME: deberia ser MotorQT implements Motor
 class Motor {
@@ -23,15 +24,13 @@ class Motor {
 	int altoOriginal
 	String titulo
 	@Property Ventana ventana
-	@Property int camaraX = 0
-	@Property int camaraY = 0
-	boolean mostrarVentana
+	@Property Pair<Integer, Integer> centroDeLaCamara = origen
 	CanvasNormalWidget canvas
 	boolean permitirDepuracion = true
 	
-	new(/* faltan parametros */) {
+	new() {
 		// iniciar audio
-		self.iniciarAplicacion()
+		iniciarAplicacion
 	}
 	
 	def iniciarAplicacion() {
@@ -40,8 +39,8 @@ class Motor {
 	}	
 	
 	def void iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
-		this.anchoOriginal = ancho
-		this.altoOriginal = alto
+		anchoOriginal = ancho
+		altoOriginal = alto
 		
 		this.titulo = titulo
 		ventana = new Ventana(null)
@@ -52,17 +51,15 @@ class Motor {
         ventana.canvas = canvas
         canvas.setFocus
 
-		if (true) {
-           	ventana.show
-            ventana.raise
-        }
+      	ventana.show
+        ventana.raise
 
         if (pantalla_completa) {
             canvas.pantallaCompleta
         }		
 	}
 	
-	def obtenerActor(ImagenMotor imagen, int x, int y) {
+	def crearActor(ImagenMotor imagen, int x, int y) {
 		new ActorMotor(imagen, x, y)
 	}
 	
@@ -79,21 +76,12 @@ class Motor {
 		QApplication.exec
 	}
 	
-	def getCentroDeLaCamara() {
-		(camaraX -> camaraY)
-	}
-	
-	def setCentroDeLaCamara(Pair<Integer, Integer> centro) {
-		camaraX = centro.x
-        camaraY = centro.y
-	}
-	
 	def cargarImagen(String path) {
 		new ImagenMotor(path)
 	}
 	
-	def obtenerTexto(String texto, int magnitud, String fuente) {
-       new TextoMotor(texto, magnitud, self, false, fuente)
+	def crearTexto(String texto, int magnitud, String fuente) {
+       new TextoMotor(texto, magnitud, this, false, fuente)
     }
     
     def crearSuperficie(int ancho, int alto) {
@@ -135,6 +123,12 @@ class Motor {
 	
 	def crearLienzo() {
 		new Lienzo
+	}
+	
+	def getBordes() {
+		val anchoBorde = area.ancho / 2
+		val altoBorde = area.alto / 2
+    	return new Area(-anchoBorde, anchoBorde, altoBorde, -altoBorde)
 	}
 	
 }

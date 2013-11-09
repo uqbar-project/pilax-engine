@@ -57,28 +57,34 @@ class Camara {
 		val alto = areaMotor.value
 		return new Area(x - ancho / 2, x + ancho / 2, y + alto / 2, y - alto / 2)
 	}
+	
+	def getPosicion() {
+		(x -> y)
+	}
 
 	def setX(int x) {
-		Pilas.instance.escenaActual.mueveCamara.emitir(
-			new DataEventoMovimiento(x.floatValue, y.floatValue, (x - this.x).floatValue, 0f))
-		Pilas.instance.mundo.motor.centroDeLaCamara = (x -> this.y)
+		eventos.mueveCamara.emitir(new DataEventoMovimiento((x.floatValue -> y.floatValue), ((x - this.x).floatValue -> 0f)))
+		motor.centroDeLaCamara = (x -> this.y)
 	}
 
 	def getX() {
-		Pilas.instance.mundo.motor.centroDeLaCamara.key
+		motor.centroDeLaCamara.key
+	}
+
+	def getMotor() {
+		Pilas.instance.mundo.motor
 	}
 
 	/**Define la posición vertical de la cámara.
         :param y: Posición vertical.
         */
 	def setY(int y) {
-		Pilas.instance.escenaActual.mueveCamara.emitir(
-			new DataEventoMovimiento(self.x.floatValue, y.floatValue, 0f, (y - self.y).floatValue))
-		Pilas.instance.mundo.motor.centroDeLaCamara = (this.x -> y)
+		eventos.mueveCamara.emitir(new DataEventoMovimiento((this.x.floatValue -> y.floatValue), (0f -> (y - this.y).floatValue)))
+		motor.centroDeLaCamara = (this.x -> y)
 	}
 
 	def getY() {
-		Pilas.instance.mundo.motor.centroDeLaCamara.value
+		motor.centroDeLaCamara.value
 	}
 
 	/** Mueve la cámara hacia una posición en particular.
@@ -90,7 +96,7 @@ class Camara {
 	
     /** Mueve la cámara a la posicion inicial (0,0). */
 	def reiniciar() {
-        Pilas.instance.mundo.motor.centroDeLaCamara = 0 -> 0
+        motor.centroDeLaCamara = origen
 	}
 	
 }

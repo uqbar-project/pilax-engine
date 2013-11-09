@@ -14,7 +14,11 @@ class GrillaImagen extends ImagenMotor {
 	int cuadro
 	
 	new(String ruta) {
-		this(ruta, 1, 1)
+		this(ruta, 1)
+	}
+	
+	new(String ruta, int columnas) {
+		this(ruta, columnas, 1)
 	}
 	
 	new(String ruta, int columnas, int filas) {

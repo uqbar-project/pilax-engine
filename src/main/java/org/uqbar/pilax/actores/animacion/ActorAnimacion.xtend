@@ -9,7 +9,11 @@ class ActorAnimacion extends ActorAnimado {
 	@Property double velocidad_de_animacion
 	
 	new(GrillaImagen imagen, int x, int y) {
-		this(imagen, x, y, false, 10)
+		this(imagen, x, y, false)
+	}
+	
+	new(GrillaImagen imagen, int x, int y, boolean ciclica) {
+		this(imagen, x, y, ciclica, 10)
 	}
 	
 	new(GrillaImagen imagen, int x, int y, boolean ciclica, int velocidad) {

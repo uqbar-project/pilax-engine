@@ -23,15 +23,37 @@ class Colisiones {
         colisiones.forEach[ verificarColisionesFisicasEnTupla(idActorA, idActorB)]
 	}
 	
+	def <A extends Actor, B extends Actor> void agregar(A a, List<B> grupo_b, Procedure2<A,B> funcion_a_llamar) {
+		agregar(a.asList, grupo_b, funcion_a_llamar)
+	}
+	
+	def <A extends Actor, B extends Actor> void agregar(A a, B b, Procedure2<A,B> funcion_a_llamar) {
+		agregar(a.asList, b.asList, funcion_a_llamar)
+	}
+	
+	def <A extends Actor, B extends Actor> void agregar(List<A> grupo_a, B b, Procedure2<A,B> funcion_a_llamar) {
+		agregar(grupo_a, b.asList, funcion_a_llamar)
+	}
+	
+	/** Agrega dos listas de actores para analizar colisiones.*/
+	def <A extends Actor, B extends Actor> agregar(List<A> grupo_a, List<B> grupo_b, Procedure2<A,B> funcion_a_llamar) {
+        colisiones.add(new Colision(grupo_a, grupo_b, funcion_a_llamar))
+	}
 }
 
 /**
  * 
  */
-class Colision {
-	@Property List<Actor> grupo_a
-	@Property List<Actor> grupo_b
-	@Property Procedure2<Actor,Actor> funcion_a_llamar
+class Colision<A extends Actor, B extends Actor> {
+	@Property List<A> grupo_a
+	@Property List<B> grupo_b
+	@Property Procedure2<A,B> funcion_a_llamar
+	
+	new(List<A> grupo_a, List<B> grupo_b, Procedure2<A,B> funcion_a_llamar) {
+		this.grupo_a = grupo_a.copy
+		this.grupo_b = grupo_b.copy
+		this.funcion_a_llamar = funcion_a_llamar
+	} 
 	
 	def verificar() {
 		for (a : grupo_a) {

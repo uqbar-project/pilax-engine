@@ -32,7 +32,7 @@ class DepuradorImpl implements Depurador {
         this.modos = newArrayList
         this.lienzo = lienzo
         this.fps = fps
-        this.posicion_del_mouse = (0 -> 0)
+        this.posicion_del_mouse = origen
     }
 	
 	override comienza_dibujado(Motor motor, QPainter painter) {
@@ -57,7 +57,7 @@ class DepuradorImpl implements Depurador {
 	}
 	
 	def _mostrar_cantidad_de_cuerpos(QPainter painter) {
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
         //HACK casteo a fisica jbox
         val total_de_cuerpos = (pilas.escenaActual.fisica as Fisica).cantidad_de_cuerpos()
         val texto = "Cantidad de cuerpos fisicos: " + total_de_cuerpos
@@ -65,38 +65,38 @@ class DepuradorImpl implements Depurador {
     }
     
     def _mostrar_cantidad_de_actores(QPainter painter) {
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
         val total_de_actores = Pilas.instance.escenaActual.actores.size
         val texto = "Cantidad de actores: " + total_de_actores
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 30, Color.white)
 	}
 	
 	def _mostrar_cuadros_por_segundo(QPainter painter) {
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
         val rendimiento = fps.cuadros_por_segundo
         val texto = "Cuadros por segundo: " + rendimiento
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 10, Color.white)
     }
     
     def _mostrar_posicion_del_mouse(QPainter painter) {
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
         val texto = "Posición del mouse: x=" + posicion_del_mouse.x + " y=" + posicion_del_mouse.y
         lienzo.texto_absoluto(painter, texto, bordes.derecha - 230, bordes.abajo + 10, Color.white)
     }
     
     def _mostrar_nombres_de_modos(QPainter painter) {
         var dy = 0
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
 
         for (modo : modos) {
             val texto = modo.tecla + " " + modo.class.simpleName + " habilitado."
-            self.lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.arriba -20 +dy, Color.white)
+            lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.arriba -20 +dy, Color.white)
             dy = dy - 20
         }
 	}
 	
 	def _mostrar_cantidad_de_imagenes_cacheadas(QPainter painter) {
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
         val total_de_imagenes_cacheadas = 0 // PILAX pilas.mundo.motor.libreria_imagenes.obtener_cantidad()
         val texto = "Cantidad de imagenes cacheadas: " + total_de_imagenes_cacheadas
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 70, Color.white)
@@ -111,13 +111,13 @@ class DepuradorImpl implements Depurador {
 //			case Tecla.F7:
 //            	self._alternar_modo(ModoInformacionDeSistema)
             case Tecla.F8:
-	            self._alternar_modo(ModoPuntosDeControl)
+	            _alternar_modo(ModoPuntosDeControl)
 	        case Tecla.F9:
-	            self._alternar_modo(ModoRadiosDeColision)
+	            _alternar_modo(ModoRadiosDeColision)
 	        case Tecla.F10:
-	        	this._alternar_modo(ModoArea)
+	        	_alternar_modo(ModoArea)
 	       	case Tecla.F11:
-            	self._alternar_modo(ModoFisica)
+            	_alternar_modo(ModoFisica)
 			case Tecla.F12:            	
 	            _alternar_modo(ModoPosicion)
 	        case Tecla.PLUS:
@@ -145,7 +145,7 @@ class DepuradorImpl implements Depurador {
 
     def _desactivar_modo(Class<? extends ModoDepurador> clase_del_modo) {
         val instancia_a_eliminar = modos.findFirst[it.class == clase_del_modo]
-        self.modos.remove(instancia_a_eliminar)
+        modos.remove(instancia_a_eliminar)
         instancia_a_eliminar.sale_del_modo
 	}
 	
@@ -180,10 +180,8 @@ abstract class ModoDepurador {
 	def void sale_del_modo() {}
 	
 	def _obtener_posicion_relativa_a_camara(Actor actor) {
-        if (actor.fijo)
-            return (actor.x -> actor.y)
-        else
-            return (actor.x - Pilas.instance.escenaActual.camara.x -> actor.y - Pilas.instance.escenaActual.camara.y)
+		actor.posicionRelativaACamara
+        
 	}
 	
 }

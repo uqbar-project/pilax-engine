@@ -10,12 +10,13 @@ import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
 import java.util.List
+import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.actores.ActorPausa
 import org.uqbar.pilax.depurador.Depurador
+import org.uqbar.pilax.depurador.DepuradorDeshabilitado
 import org.uqbar.pilax.depurador.DepuradorImpl
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.GestorEscenas
-import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.PilaxException
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.eventos.DataEvento
@@ -23,17 +24,15 @@ import org.uqbar.pilax.eventos.DataEventoMouse
 import org.uqbar.pilax.eventos.DataEventoRuedaMouse
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
-import org.uqbar.pilax.utils.Utils
 
+import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.depurador.DepuradorDeshabilitado
 
 class CanvasNormalWidget extends QWidget {
 	QPainter painter
 	boolean pausaHabilitada
-	int mouseX
-	int mouseY
+	Pair<Integer,Integer> mouse
 	Motor motor
 	List<Actor> listaActores
 	FPS fps
@@ -49,9 +48,8 @@ class CanvasNormalWidget extends QWidget {
 		super(null as QWidget)
 //        this.painter = new QPainter()
         setMouseTracking = true
-        this.pausaHabilitada = false
-        mouseX = 0
-        mouseY = 0
+        pausaHabilitada = false
+        mouse = (0 -> 0)
         this.motor = motor
         listaActores = lista_actores
         fps = new FPS(rendimiento, true)
@@ -61,34 +59,30 @@ class CanvasNormalWidget extends QWidget {
 			        else
             			new DepuradorDeshabilitado
 
-        self.original_width = ancho
-        self.original_height = alto
-        self.escala = 1
-        self.startTimer(1000/100)
-
+        original_width = ancho
+        original_height = alto
+        escala = 1
+        startTimer(1000/100)
         gestorEscenas = gestor_escenas
     }
 
-    def resize_to(int w, int h) {
-        val escala_x = w / Float.valueOf(self.original_width)
-        val escala_y = h / Float.valueOf(self.original_height)
-        val escala = Math.min(escala_x, escala_y)
+    def resize_to(int new_width, int new_height) {
+    	val relacion = new_width / original_width -> new_height / original_height 
+        this.escala = relacion.min
 
-        val final_w = (self.original_width * escala).intValue
-        val final_h = (self.original_height * escala).intValue
-        self.escala = escala
+        val final_w = original_width * escala
+        val final_h = original_height * escala
+        
+        val x = new_width - final_w
+        val y = new_height - final_h
 
-        val x = w - final_w
-        val y = h - final_h
-
-        self.setGeometry(x / 2, y / 2, final_w, final_h)
+        setGeometry(x.intValue / 2, y.intValue / 2, final_w.intValue, final_h.intValue)
 	}
 	
 	override protected paintEvent(QPaintEvent event) {
 		//PILAX ( tuve que mover esto para que genere un nuevo painter cada
 		// vez, sino me fallaba. En pilas no es así! :(
-//		if (this.painter == null)
-			this.painter = new QPainter()
+		painter = new QPainter()
 		painter.begin(this)
 
         painter.scale(escala, escala)
@@ -100,65 +94,53 @@ class CanvasNormalWidget extends QWidget {
         painter.fillRect(0, 0, original_width, original_height, new QColor(128, 128, 128))
         depurador.comienza_dibujado(motor, painter)
 
-//        val actores_a_eliminar = newArrayList
-
         if (gestorEscenas.escenaActual != null) {
-            val actores_de_la_escena = self.gestorEscenas.escenaActual.actores
-            for (actor : actores_de_la_escena) {
-//             if actor._vivo:
+            for (actor : gestorEscenas.escenaActual.actores) {
                 try {
-                    if (!actor.estaFueraDeLaPantalla())
-                        actor.dibujar(self.painter)
+                    if (!actor.estaFueraDeLaPantalla)
+                        actor.dibujar(painter)
                 }
                 catch (Exception e) {
                     e.printStackTrace
-                    actor.eliminar()
+                    actor.eliminar
                 }
 
-                self.depurador.dibuja_al_actor(self.motor, self.painter, actor)
-//              else:
-//                  actores_a_eliminar.append(actor)
-//
-//              for x in actores_a_eliminar:
-//                  actores_de_la_escena.remove(x)
+                depurador.dibuja_al_actor(motor, painter, actor)
 			}
 		}
-        self.depurador.termina_dibujado(self.motor, self.painter)
-        self.painter.end()
+        depurador.termina_dibujado(motor, painter)
+        painter.end
 	}
 	
 	override protected timerEvent(QTimerEvent event) {
-//		synched[|
-		[|
+//		[|
 	        try {
 	            realizarActualizacionLogica
 		    }
 	        catch(Exception e) {
 	        	e.printStackTrace
 	        }
-        ].execAsync
-//        ]
-        self.update()
+//        ].execAsync
+        update
     }
 
     def realizarActualizacionLogica() {
-        for (x : range(self.fps.actualizar())){
-            if (!self.pausaHabilitada) {
-                self.actualizarEventosYActores
-                self.actualizarEscena
+        for (x : range(fps.actualizar)){
+            if (!pausaHabilitada) {
+                actualizarEventosYActores
+                actualizarEscena
             }
         }
     }
 
     def protected actualizarEscena() {
-        self.gestorEscenas.actualizar
+        gestorEscenas.actualizar
 	}
 
     def actualizarEventosYActores() {
-        Pilas.instance.escenaActual.actualizar.emitir(new DataEvento)
-
+        eventos.actualizar.emitir(new DataEvento)
         try {
-        	gestorEscenas.escenaActual.actores.forEach[preActualizar; actualizar]
+        	gestorEscenas.escenaActual.actores.copy.forEach[preActualizar; actualizar]
         }
         catch (Exception e) {
             e.printStackTrace
@@ -166,55 +148,31 @@ class CanvasNormalWidget extends QWidget {
 	}
 	
 	override protected mouseMoveEvent(QMouseEvent e) {
-        val escala = self.escala
-        val posRelativa = Utils.convertirDePosicionFisicaRelativa(e.pos().x() / escala, e.pos().y() / escala)
-        var x = posRelativa.key
-        var y = posRelativa.value
-
-//		val bordes = Utils.obtenerBordes()
-//		val izquierda = bordes.izquierda
-//		val derecha = bordes.derecha
-//		val arriba = bordes.arriba
-//		val abajo = bordes.abajo
-//      x = max(min(derecha, x), izquierda)
-//      y = max(min(arriba, y), abajo)
-
-        x = x + Pilas.instance.mundo.motor.camaraX
-        y = y + Pilas.instance.mundo.motor.camaraY
-
-        val dx = x - self.mouseX
-        val dy = y - self.mouseY
-
-        self.gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(x, y, dx, dy, null))
-
-        self.mouseX = x.intValue
-        self.mouseY = y.intValue
-        self.depurador.cuando_mueve_el_mouse(x.intValue, y.intValue)
+        var posRelativa = (e.pos / escala).aRelativa + motor.centroDeLaCamara
+        gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(posRelativa, posRelativa - mouse, null))
+		mouse = posRelativa.toInt
+        depurador.cuando_mueve_el_mouse(x.intValue, y.intValue)
 	}
 	
 	override protected keyPressEvent(QKeyEvent event) {
-        val codigo_de_tecla = self._obtener_codigo_de_tecla_normalizado(event.key())
-
         // Se mantiene este lanzador de eventos por la clase Control
-        if (event.key() == Qt.Key.Key_Escape)
-            eventos.pulsaTeclaEscape.emitir(new DataEvento)
-        if (event.key() == Qt.Key.Key_P && event.modifiers() == Qt.KeyboardModifier.AltModifier)
-            self.alternar_pausa()
-        if (event.key() == Qt.Key.Key_F && event.modifiers() == Qt.KeyboardModifier.AltModifier)
-            self.alternar_pantalla_completa()
+        if (event.escape) eventos.pulsaTeclaEscape.emitir(new DataEvento)
+        if (event.pausa) alternar_pausa
+        if (event.fullScreen) alternar_pantalla_completa
 
-        eventos.pulsaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat(), event.text()))
-        self.depurador.cuando_pulsa_tecla(codigo_de_tecla, event.text())
+        val codigo_de_tecla = _obtener_codigo_de_tecla_normalizado(event.key())
+        eventos.pulsaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat, event.text))
+        depurador.cuando_pulsa_tecla(codigo_de_tecla, event.text())
     }
     
 	override protected keyReleaseEvent(QKeyEvent event) {
-        val codigo_de_tecla = self._obtener_codigo_de_tecla_normalizado(event.key())
+        val codigo_de_tecla = _obtener_codigo_de_tecla_normalizado(event.key())
         // Se mantiene este lanzador de eventos por la clase Control
-        eventos.sueltaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat(), event.text()))
+        eventos.sueltaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat, event.text))
     }
     
 	override protected wheelEvent(QWheelEvent e) {
-        self.gestorEscenas.escenaActual.mueveRueda.emitir(new DataEventoRuedaMouse(e.delta() / 120))
+        gestorEscenas.escenaActual.mueveRueda.emitir(new DataEventoRuedaMouse(e.delta / 120))
 	}
 	
 	override protected mousePressEvent(QMouseEvent e) {
@@ -225,13 +183,9 @@ class CanvasNormalWidget extends QWidget {
 		triggerearEventoDeMouseClick(e, gestorEscenas.escenaActual.terminaClick)        
     }
     
-    def protected triggerearEventoDeMouseClick(QMouseEvent e, Evento evento) {
-		val escala = self.escala
-        val posRelativa = Utils.convertirDePosicionFisicaRelativa(e.pos.x / escala, e.pos.y / escala).relativaALaCamara
-        var x = posRelativa.x 
-        var y = posRelativa.y
-
-        evento.emitir(new DataEventoMouse(x, y, 0f, 0f, e.button()))
+    def protected triggerearEventoDeMouseClick(QMouseEvent e, Evento<DataEventoMouse> evento) {
+		val posRelativa = (e.pos / escala).aRelativa
+        evento.emitir(new DataEventoMouse(posRelativa, (0f -> 0f), e.button))
 	}
 
     def _obtener_codigo_de_tecla_normalizado(int tecla_qt) {
@@ -293,44 +247,40 @@ class CanvasNormalWidget extends QWidget {
     }
 
     def pantallaCompleta() {
-        self.motor.ventana.showFullScreen
+        motor.ventana.showFullScreen
     }
 
-    def pantalla_modo_ventana() {
-        self.motor.ventana.showNormal
+    def pantallaModoVentana() {
+        motor.ventana.showNormal
     }
 
     def esta_en_pantalla_completa() {
-        return self.motor.ventana.isFullScreen
+        return motor.ventana.isFullScreen
     }
 
     def alternar_pausa() {
-        if (self.pausaHabilitada) {
-            self.pausaHabilitada = false
-            self.actorPausa.eliminar
+        if (pausaHabilitada) {
+            pausaHabilitada = false
+            actorPausa.eliminar
             eventos.pulsaTecla.desconectarPorId('tecla_en_pausa')
         }
         else {
-            self.pausaHabilitada = true
-            self.actorPausa = new ActorPausa()
-            self.actorPausa.fijo = true
-            //No parece usarse el id en pilas
-            /*self.idEvento = */eventos.pulsaTecla.conectar('tecla_en_pausa', [DataEventoTeclado data | avanzar_un_solo_cuadro_de_animacion(data)])
+            pausaHabilitada = true
+            actorPausa = new ActorPausa()
+            actorPausa.fijo = true
+            eventos.pulsaTecla.conectar('tecla_en_pausa', [d| actualizarEventosYActores])
         }
 	}
 	
-    def avanzar_un_solo_cuadro_de_animacion(DataEventoTeclado data) {
-        self.actualizarEventosYActores
-    }
-
-    /**Permite cambiar el modo de video.
-        Si está en modo ventana, pasa a pantalla completa y viceversa.
-        */
+    /**
+     * Permite cambiar el modo de video.
+     * Si está en modo ventana, pasa a pantalla completa y viceversa.
+     */
     def alternar_pantalla_completa() {
-        if (self.esta_en_pantalla_completa())
-            self.pantalla_modo_ventana()
+        if (esta_en_pantalla_completa)
+            pantallaModoVentana
         else
-            self.pantallaCompleta
+            pantallaCompleta
 	}
 	
 }

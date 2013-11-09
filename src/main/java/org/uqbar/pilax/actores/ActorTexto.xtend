@@ -46,17 +46,17 @@ class ActorTexto extends Actor {
         :param fuente: Nombre de la fuente a utilizar.
         :param fijo: Determina si el texto se queda fijo aunque se mueva la camara. Por defecto está fijo.
         */
-        super(Pilas.instance.mundo.motor.obtenerTexto(texto, 20, fuente), x, y)
+        super(Pilas.instance.mundo.motor.crearTexto(texto, 20, fuente), x, y)
         _definir_area_de_texto(texto, magnitud)
-        self.magnitud = magnitud
-        self.texto = texto
-        self.color = Color.WHITE
-        self.centro = centroDeImagen
-        self.fijo = fijo
+        this.magnitud = magnitud
+        this.texto = texto
+        this.color = Color.WHITE
+        this.centro = centroDeImagen
+        this.fijo = fijo
     }
 
     def getTexto() {
-        self.imagen.texto
+        imagen.texto
     }
 
     def void setTexto(String texto) {
@@ -69,7 +69,7 @@ class ActorTexto extends Actor {
     }
 
     def getMagnitud() {
-        self.imagen.magnitud
+        imagen.magnitud
     }
 
     def void setMagnitud(int magnitud) {
@@ -86,9 +86,9 @@ class ActorTexto extends Actor {
     }
 
     def _definir_area_de_texto(String texto, int magnitud) {
-    	val area = pilas.mundo.motor.obtenerAreaDeTexto(texto, magnitud, false, null)
-        self._ancho = area.key
-        self._alto = area.value
+    	val area = motor.obtenerAreaDeTexto(texto, magnitud, false, null)
+       	_ancho = area.key
+        _alto = area.value
     }
 	
 }

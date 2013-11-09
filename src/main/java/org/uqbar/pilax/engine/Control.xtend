@@ -1,9 +1,6 @@
 package org.uqbar.pilax.engine
 
-import org.uqbar.pilax.eventos.DataEvento
 import org.uqbar.pilax.eventos.DataEventoTeclado
-
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class Control {
 	@Property boolean izquierda
@@ -17,12 +14,12 @@ class Control {
         escena.sueltaTecla.conectar("control", [data| cuando_suelta_una_tecla(data) ])
     }
 
-    def cuando_pulsa_una_tecla(DataEvento evento) {
-        self.procesar_cambio_de_estado_en_la_tecla((evento as DataEventoTeclado).tecla, true)
+    def cuando_pulsa_una_tecla(DataEventoTeclado evento) {
+        procesar_cambio_de_estado_en_la_tecla(evento.tecla, true)
 	}
 	
-    def cuando_suelta_una_tecla(DataEvento evento) {
-        self.procesar_cambio_de_estado_en_la_tecla((evento as DataEventoTeclado).tecla, false)
+    def cuando_suelta_una_tecla(DataEventoTeclado evento) {
+        procesar_cambio_de_estado_en_la_tecla(evento.tecla, false)
     }
 
     def procesar_cambio_de_estado_en_la_tecla(Tecla codigo, boolean estado) {

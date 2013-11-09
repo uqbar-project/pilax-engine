@@ -31,15 +31,11 @@ class PilasExtensions {
 	}
 	
 	def static relativaALaCamara(Pair<Float, Float> coordenada) {
-		coordenada.key + camaraX -> coordenada.value + Pilas.instance.mundo.motor.camaraY
+		coordenada + motor.centroDeLaCamara
 	}
 	
-	def static camaraX() {
-		Pilas.instance.mundo.motor.camaraX 
-	}
-	
-	def static camaraY() {
-		Pilas.instance.mundo.motor.camaraY
+	def static getMotor() {
+		Pilas.instance.mundo.motor
 	}
 	
 	// *********************************
@@ -50,6 +46,10 @@ class PilasExtensions {
 		val url = typeof(PilasExtensions).classLoader.getResource(fileName)
 		if (url == null) throw new PilaxException("No se encontro el archivo para la imagen '" + fileName + "' en el classpath!")
 		new File(url.toURI).absolutePath
+	}
+	
+	def static <E> List<E> copy(List<E> aList) {
+		copy(aList as Iterable) as List
 	}
 	
 	def static <E> Iterable<E> copy(Iterable<E> aList) {
@@ -69,9 +69,6 @@ class PilasExtensions {
 		array.toArray(t)
 	}
 	
-	def static QColor asQColor(Color color) {
-		new QColor(color.red, color.green, color.blue, color.alpha)	
-	}
 	
 	def static <E> E first(List<E> aList) {
 		aList.get(0)
@@ -108,16 +105,43 @@ class PilasExtensions {
 		pair.value
 	}
 	
+	def static <E extends Comparable> E min(Pair<E, E> p) {
+		if (p.key <= p.value ) 
+			p.key
+		else
+			p.value
+	}
+	
+	def static <N extends Number> Pair<Float,Float> asFloat(Pair<N,N> p) {
+		p.key.floatValue -> p.value.floatValue
+	}
+	
+	def static Pair<Float,Float> operator_minus(Pair<Float,Float> p1, Pair<Integer,Integer> p2) {
+		(p1.key - p2.key -> p1.value - p2.value)
+	}
+	
+	def static Pair<Float,Float> operator_plus(Pair<Float,Float> p1, Pair<Integer,Integer> p2) {
+		(p1.key + p2.key -> p1.value + p2.value)
+	}
+	
+	def static Pair<Integer,Integer> operator_divide(Pair<Integer,Integer> pair, Integer divisor) {
+		pair.x / divisor -> pair.y / divisor
+	}
+	
+	def static Pair<Integer,Integer> origen() {
+		(0 -> 0)
+	}
+	
+	def static Pair<Integer,Integer> toInt(Pair<Float,Float> p) {
+		p.key.intValue -> p.value.intValue
+	}
+	
 	def static UUID uuid() {
 		UUID.randomUUID
 	}
 	
 	def static int operator_or(int a, int b) {
 		IntegerExtensions.bitwiseOr(a, b)
-	}
-	
-	def static Pair<Integer,Integer> operator_divide(Pair<Integer,Integer> pair, Integer divisor) {
-		pair.x / divisor -> pair.y / divisor
 	}
 	
 	def static <E> List<E> subList(List<E> list, int from) {
@@ -129,7 +153,10 @@ class PilasExtensions {
 
 	def static void execAsync(Procedure0 proc) {
 		Pilas.instance.service.execute([| proc.apply ])
-//		new Thread().start 
+	}
+	
+	def static <E> asList(E e) {
+		newArrayList(e)
 	}
 	
 }

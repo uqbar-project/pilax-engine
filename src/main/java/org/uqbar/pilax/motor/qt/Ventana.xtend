@@ -13,13 +13,13 @@ class Ventana extends QMainWindow {
 		super(padre)
 	}
 	
-	def setCanvas(CanvasNormalWidget canvas) {
+	def void setCanvas(CanvasNormalWidget canvas) {
         this.canvas = canvas
-        this.canvas.setParent(this)
+        this.canvas.parent = this
     }
     
 	override protected resizeEvent(QResizeEvent event) {
-        this.canvas.resize_to(this.width(), this.height())
+        canvas.resize_to(width, height)
     }
 	
 }

@@ -13,7 +13,7 @@ class ActorTextoInferior extends ActorTexto {
 	
 	new(String texto, int x, int y, boolean auto_eliminar, int retraso) {
 		super(texto, x, y)
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
 
         // Se asegura de que solo exista un texto inferior
         if (anterior_texto != null)
@@ -23,7 +23,7 @@ class ActorTextoInferior extends ActorTexto {
         anterior_texto = this
         _crear_sombra()
 
-        centroRelativo = PosicionCentro.CENTRO -> PosicionCentro.CENTRO
+        centroRelativo = PosicionCentro.centrada
         izquierda = bordes.izquierda + 10
         color = Color.white
         abajo = bordes.abajo + 10
@@ -36,7 +36,7 @@ class ActorTextoInferior extends ActorTexto {
 	
 	def _crear_sombra() {
         /** Genera una sombra para el texto.*/
-        val bordes = Utils.obtenerBordes
+        val bordes = Utils.bordes
         val imagen = new Superficie(bordes.derecha - bordes.izquierda, 40)
         imagen.pintar(Colores.negroTransparente)
 

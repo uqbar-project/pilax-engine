@@ -31,10 +31,7 @@ class ActorBaseInterfaz extends Actor {
 	
 	def cuando_hace_click(DataEventoMouse d) {
 		if (visible)
-            if (colisiona_con_un_punto(d.x.intValue, d.y.intValue))
-                tiene_el_foco = true
-            else
-                tiene_el_foco = false
+            tiene_el_foco = colisionaConPunto(d.posicion)
 	}
 	
     /** Oculta el elemento de la interfaz.*/

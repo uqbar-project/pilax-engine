@@ -1,6 +1,7 @@
 package org.uqbar.pilax.eventos
 
 import com.trolltech.qt.core.Qt.MouseButton
+import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Tecla
 
 /**
@@ -41,23 +42,24 @@ class DataEventoRuedaMouse extends DataEvento {
 class DataEventoMouse extends DataEventoMovimiento {
 	@Property MouseButton boton
 	
-	new(Float x, Float y, Float dx, Float dy, MouseButton boton) {
-		super(x, y, dx, dy)
+	new(Pair<Float, Float> pos, Pair<Float,Float> delta, MouseButton boton) {
+		super(pos, delta)
 		this.boton = boton
 	}
 	
 }
 
 class DataEventoMovimiento extends DataEvento {
-	@Property float x
-	@Property float y
-	@Property float dx
-	@Property float dy
+	@Property Pair<Float,Float> posicion
+	@Property Pair<Float,Float> delta
 	
-	new(Float x, Float y, Float dx, Float dy) {
-		this.x = x
-		this.y = y
-		this.dx = dx
-		this.dy = dy
+	new(Pair<Float,Float> posicion, Pair<Float,Float> delta) {
+		this.posicion = posicion
+		this.delta = delta
 	}
+	
+//	new(Float x, Float y, Float dx, Float dy) {
+//		posicion = x -> y
+//		delta = dx -> dy
+//	}
 }

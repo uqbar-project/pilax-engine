@@ -31,15 +31,11 @@ class FondoPlano extends Fondo {
 	
 	override dibujar(QPainter painter) {
         painter.save()
-        x = Pilas.instance.mundo.motor.camaraX
-        y = -Pilas.instance.mundo.motor.camaraY
+        x = motor.centroDeLaCamara.x.doubleValue
+        y = - motor.centroDeLaCamara.y
 
-		val area = Pilas.instance.mundo.motor.area
-        val ancho = area.key
-        val alto = area.value
-        
-        painter.drawTiledPixmap(0, 0, ancho, alto, this.imagen.imagen, x.intValue % 30, y.intValue % 30)
-        painter.restore()
+        painter.drawTiledPixmap(0, 0, motor.area.ancho, motor.area.alto, this.imagen.imagen, x.intValue % 30, y.intValue % 30)
+        painter.restore
 	}
 
 }

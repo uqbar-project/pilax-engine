@@ -130,4 +130,10 @@ class PythonUtils {
 	def static int randint(int Min, int Max) {
 		Min + (Math.random() * ((Max - Min) + 1)).intValue
 	}
+	
+	def static <E> E choice(List<E> list) {
+		val index = randint(0, list.size - 1)
+		list.get(index)
+	}
+	
 }

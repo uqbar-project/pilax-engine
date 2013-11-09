@@ -69,11 +69,11 @@ class Tareas {
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
     */	
-    def unaVez(int time_out, Function0<Boolean> function) { // tenia params
+    def unaVez(float time_out, Function0<Boolean> function) { // tenia params
         agregarTarea(time_out, function, true)
     }
     
-    def protected agregarTarea(int timeOut, Function0<Boolean> function, boolean unaVez) {
+    def protected agregarTarea(float timeOut, Function0<Boolean> function, boolean unaVez) {
         agregar(new Tarea(this, contador_de_tiempo + timeOut, timeOut, function, unaVez))
     }
 
@@ -82,7 +82,7 @@ class Tareas {
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
     */
-    def siempre(int time_out, Function0<Boolean> function) { // tenia params
+    def siempre(float time_out, Function0<Boolean> function) { // tenia params
         agregarTarea(time_out, function, false)
 	}
 
@@ -94,7 +94,7 @@ class Tareas {
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
     */
-    def condicional(int time_out, Function0<Boolean> function) { // tenia params
+    def condicional(float time_out, Function0<Boolean> function) { // tenia params
         agregar(new TareaCondicional(this, contador_de_tiempo + time_out, time_out, function, false))
     }
 

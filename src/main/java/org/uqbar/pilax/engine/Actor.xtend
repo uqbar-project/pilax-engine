@@ -13,6 +13,11 @@ import org.uqbar.pilax.motor.ImagenMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure1
+import java.awt.event.ActionListener
+import org.uqbar.pilax.xtend.annotation.Hookable
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 
 /**
  * 
@@ -24,7 +29,6 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	@Property int z = 0
 	private ActorMotor actorMotor
 	@Property EscenaBase escena
-	@Property int transparencia = 0
 	boolean espejado = false
 	@Property int radioDeColision = 10
 	@Property int vx = 0
@@ -60,7 +64,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	
 	/** Sobrescribir para crear otro actor de motor */
 	def protected crearActorMotor(ImagenMotor imagen, int x, int y) {
-		Pilas.instance.mundo.motor.obtenerActor(imagen, x, y)
+		Pilas.instance.mundo.motor.crearActor(imagen, x, y)
 	}
 	
 	def void setCentroRelativo(Pair<PosicionCentro, PosicionCentro> posicionCentro) {
@@ -69,6 +73,19 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	
 	def centroDeImagen() {
 		(ancho / 2 -> alto / 2)
+	}
+	
+	def getPosicion() {
+		(x -> y)
+	}
+	
+	def getPosicionCamara() {
+		escena.camara.posicion
+	}
+	
+	def getPosicionRelativaACamara() {
+		val centroReferencia = if (fijo) origen else posicionCamara 
+        return posicion.asFloat - centroReferencia 
 	}
 	
 	override getX() {
@@ -119,8 +136,21 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	def void eliminar() {
-		eliminarAnexados
-        destruir
+		// provisional hasta hacer una active annotation !
+		notify([l,c| l.eliminar(this, c)],[| 
+			this.eliminarAnexados() 
+			this.destruir()
+		])
+	}
+	
+	List<ActorListener> listeners = newArrayList
+	
+	def addListener(ActorListener l) {
+		listeners.add(l)
+	}
+	
+	def notify(Procedure2<ActorListener, EventChain> notification, Procedure0 realTask) {
+		new EventChainImpl(listeners.iterator, notification, realTask).proceed(this)
 	}
 	
 	/** Elimina a un actor pero de manera inmediata.*/
@@ -146,7 +176,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
         if (fijo) {
             return false
         }
-        val areaVisible = self.escena.camara.areaVisible
+        val areaVisible = escena.camara.areaVisible
         return derecha < areaVisible.izquierda ||
         		izquierda > areaVisible.derecha ||
         		abajo > areaVisible.arriba || 
@@ -159,6 +189,14 @@ class Actor extends Estudiante implements ObjetoGrafico {
     
     def void setRotacion(double rotacion) {
     	actorMotor.rotacion = rotacion
+    }
+    
+    def void setTransparencia(double transparencia) {
+    	actorMotor.transparencia = transparencia.intValue
+    }
+    
+    def getTransparencia() {
+    	actorMotor.transparencia
     }
     
     def getIzquierda() {
@@ -174,7 +212,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
 	
 	def setDerecha(int x) {
-        setIzquierda(x - ancho)
+        izquierda = x - ancho
     }
     
     def getAncho() {
@@ -186,15 +224,15 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
     
     def getArriba() {
-    	return y + (centro.y * escala)
+    	y + centro.y * escala
     }
     
     def setArriba(int y) {
-        this.y = (y - (centro.y * escala)).intValue
+        this.y = (y - centro.y * escala).intValue
     }
     
     def setAbajo(int y) {
-        setArriba(y + alto)
+        arriba = y + alto
     }
     
     def getAbajo() {
@@ -206,17 +244,12 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
     
     def void setEscala(double esc) {
-    	var s = esc
-    	if (esc < 0.001)
-            s = 0.001
-
-        val ultima_escala = escala
-
         // Se hace la siguiente regla de 3 simple:
         //
         //  ultima_escala          self.radio_de_colision
         //  s                      ?
-
+		var s = Math.max(esc, 0.001)
+        val ultima_escala = escala
         actorMotor.escala = s
         radioDeColision = ((s * radioDeColision) / Math.max(ultima_escala, 0.0001)).intValue
     }
@@ -225,14 +258,13 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	 * Actualiza comportamiento y habilidades antes de la actualización.
      * También actualiza la velocidad horizontal y vertical que lleva el actor.
      */
-	def preActualizar() {
+	def void preActualizar() {
         actualizarComportamientos
         actualizarHabilidades
         actualizarVelocidad
 	}
 	
-	def actualizar() {
-		pass
+	def void actualizar() {
 	}
 
 	/** 
@@ -298,6 +330,10 @@ class Actor extends Estudiante implements ObjetoGrafico {
         aprender(Imitar) => [ objetoAImitar = otro ]
 	}
 	
+	def colisionaConPunto(Pair<Float,Float> punto) {
+		colisionaConPunto(punto.x.intValue, punto.y.intValue)
+	}
+	
 	/** Determina si un punto colisiona con el area del actor.
 
        Todos los actores tienen un area rectangular, pulsa la
@@ -308,7 +344,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
        :param y: Posición vertical del punto.
        :type y: int
      */	
-	def colisiona_con_un_punto(int x, int y) {
+	def colisionaConPunto(int x, int y) {
         return izquierda <= x  && x <= derecha && abajo <= y && abajo <= arriba
 	}
 }

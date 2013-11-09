@@ -67,23 +67,16 @@ class ActorMotor extends ActorBaseMotor {
         var escala_x = self.escala_x
         var escala_y = self.escala_y
 
-        if (self.espejado) 
+        if (espejado) 
             escala_x = escala_x * -1
 
-		var int dx
-		var int dy
+		var Pair<Integer,Integer> delta = if (this.fijo == 0)
+        										motor.centroDeLaCamara
+											else
+        										origen
 		
-        if (this.fijo == 0) {
-            dx = Pilas.instance.mundo.motor.camaraX
-            dy = Pilas.instance.mundo.motor.camaraY
-        }
-        else {
-            dx = 0
-            dy = 0
-		}
-		
-        val x = this.x - dx
-        val y = this.y - dy
+        val x = this.x - delta.x
+        val y = this.y - delta.y
 
         imagen.dibujar(painter, x, y, this.centro_x, this.centro_y, escala_x, escala_y, this.rotacion.intValue, this.transparencia)
     }
@@ -110,10 +103,10 @@ class ImagenMotor {
 	new(String path) {
 		ruta = path.resolveFullPathFromClassPath
 		if (ruta.toLowerCase.endsWith("jpeg") || ruta.toLowerCase.endsWith("jpg")) {
-           self.imagen = self.cargarJpeg(ruta)
+           imagen = cargarJpeg(ruta)
         }
         else {
-            self.imagen = new QPixmap(ruta)
+            imagen = new QPixmap(ruta)
         }
 	}
 	
@@ -139,30 +132,33 @@ class ImagenMotor {
 	 *
 	 */    
     def void dibujar(QPainter painter, int x, int y, int dx /*=0*/, int dy /*=0*/, double escala_x /*=1*/ , double escala_y /*=1*/, int rotacion /*=0*/, int transparencia /*=0*/) {
-        painter.save()
-        val centro = Pilas.instance.mundo.motor.centroFisico
-        
-        painter.translate(x + centro.key, centro.value - y)
-        painter.rotate(rotacion)
-        painter.scale(escala_x, escala_y)
-
-        if (transparencia != 0) 
-            painter.setOpacity(1 - transparencia/100.0)
-
-        self.dibujarPixmap(painter, -dx, -dy)
+        painter => [
+        	save
+        	val centro = motor.centroFisico
+	        translate(x + centro.key, centro.value - y)
+	        rotate(rotacion)
+	        scale(escala_x, escala_y)
+	        if (transparencia != 0) 
+	            setOpacity(1 - transparencia / 100.0)
+	    ]
+        dibujarPixmap(painter, -dx, -dy)
         painter.restore
+	}
+
+	def getMotor() {
+		Pilas.instance.mundo.motor
 	}
 	
 	def protected dibujarPixmap(QPainter painter, int x, int y) {
-        painter.drawPixmap(x, y, self.imagen)
+        painter.drawPixmap(x, y, imagen)
     }
     
     def getAncho() {
-        self.imagen.size.width
+        imagen.size.width
     }
 
     def getAlto() {
-        self.imagen.size.height
+        imagen.size.height
     }
 
    	/* Retorna una tupla con la coordenada del punto medio del la imagen. */
