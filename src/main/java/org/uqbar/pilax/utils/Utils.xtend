@@ -44,12 +44,8 @@ class Utils {
 		distanciaEntreDosPuntos((a.x.intValue -> a.y.intValue), (b.x.intValue -> b.y.intValue))
 	}
 	
-	def static distanciaEntreDosPuntos(Pair<Integer,Integer> pair, Pair<Integer,Integer> pair2) {
-		val x1 = pair.x
-		val y1 = pair.y
-		val x2 = pair2.x
-		val y2 = pair2.y
-		Math.sqrt(distancia(x1, x2) ** 2 + distancia(y1, y2) ** 2)
+	def static distanciaEntreDosPuntos(Pair<Integer,Integer> p1, Pair<Integer,Integer> p2) {
+		Math.sqrt(distancia(p1.x, p2.x) ** 2 + distancia(p1.y, p2.y) ** 2)
 	}
 	
 	def static distancia(Integer a, Integer b) {

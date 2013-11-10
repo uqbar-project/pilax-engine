@@ -5,16 +5,19 @@ import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.motor.qt.Motor
 
+/**
+ * Strategy utilizado para poder habilitar y deshabilitar el depurador.
+ */
 interface Depurador {
 	
-	def void comienza_dibujado(Motor motor, QPainter painter)
+	def void comienzaDibujado(Motor motor, QPainter painter)
 
-    def void dibuja_al_actor(Motor motor, QPainter painter, Actor actor)
+    def void dibujaAlActor(Motor motor, QPainter painter, Actor actor)
 
-    def void termina_dibujado(Motor motor, QPainter painter)
+    def void terminaDibujado(Motor motor, QPainter painter)
 
-    def void cuando_pulsa_tecla(Tecla codigo_tecla, Object texto_tecla)
+    def void cuandoPulsaTecla(Tecla codigo_tecla, Object texto_tecla)
 
-    def boolean cuando_mueve_el_mouse(int x, int y)
+    def boolean cuandoMueveElMouse(int x, int y)
 	
 }

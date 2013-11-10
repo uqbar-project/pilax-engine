@@ -18,7 +18,7 @@ class ModoPuntosDeControl extends ModoDepurador {
 	}
 	
 	override dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {
-		val posicion = _obtener_posicion_relativa_a_camara(actor)
+		val posicion = actor.posicionRelativaACamara
         lienzo.cruz(painter, posicion.x.intValue, posicion.y.intValue, Color.white, depurador.grosor_de_lineas.intValue)
 	}
 	

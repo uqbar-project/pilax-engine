@@ -25,12 +25,9 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	@Property int z = 0
 	protected ActorMotor actorMotor
 	@Property EscenaBase escena
-	boolean espejado = false
 	@Property int radioDeColision = 10
-	@Property int vx = 0
-	@Property int vy = 0
-	@Property int dx
-	@Property int dy
+	@Property Pair<Integer,Integer> velocidad = origen
+	@Property Pair<Integer,Integer> delta = origen
 	// velocidad
 	@Property boolean fijo
 	@Property Pair<Integer, Integer> centro
@@ -49,8 +46,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		id = uuid()
 		actorMotor = crearActorMotor(imagen, x, y)
 		Pilas.instance.escenaActual.agregarActor(this)
-        dx = x
-        dy = y
+		delta = x -> y
         centro = centroDeImagen
 	}
 	
@@ -271,11 +267,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	 * Calcula la velocidad horizontal y vertical del actor.
 	 */	
 	def protected actualizarVelocidad() {
-		_vx = Math.abs(_dx - x).intValue
-		_dx = x.intValue
-		
-		_vy = Math.abs(_dy - y).intValue
-		_dy = y.intValue
+		velocidad = Math.abs(delta.x - x).intValue  -> Math.abs(delta.y - y).intValue
+		delta = x.intValue -> y.intValue 
 	}
 	
 	def decir(String mensaje) {

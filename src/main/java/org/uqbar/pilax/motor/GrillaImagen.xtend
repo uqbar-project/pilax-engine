@@ -4,9 +4,9 @@ import org.uqbar.pilax.motor.ImagenMotor
 import com.trolltech.qt.gui.QPainter
 
 class GrillaImagen extends ImagenMotor {
-	int cantidad_de_cuadros
-	int cuadro_ancho
-	int cuadro_alto
+	int cantidadDeCuadros
+	int cuadroAncho
+	int cuadroAlto
 	int columnas
 	int filas
 	int dx
@@ -23,44 +23,44 @@ class GrillaImagen extends ImagenMotor {
 	
 	new(String ruta, int columnas, int filas) {
         super(ruta)
-        cantidad_de_cuadros = columnas * filas
+        cantidadDeCuadros = columnas * filas
         this.columnas = columnas
         this.filas = filas
-        cuadro_ancho = super.ancho / columnas
-        cuadro_alto = super.alto / filas
-        definir_cuadro(0)
+        cuadroAncho = super.ancho / columnas
+        cuadroAlto = super.alto / filas
+        setCuadro(0)
 	}
 	
 	override getAncho() {
-        return cuadro_ancho
+        return cuadroAncho
     }
 
     override getAlto() {
-        cuadro_alto
+        cuadroAlto
     }
 	
-	def definir_cuadro(int cuadro) {
+	def void setCuadro(int cuadro) {
 		this.cuadro = cuadro
-        val frame_col = cuadro % columnas
-        val frame_row = cuadro / columnas
+        val frameCol = cuadro % columnas
+        val frameRow = cuadro / columnas
 
-        dx = frame_col * cuadro_ancho
-        dy = frame_row * cuadro_alto
+        dx = frameCol * cuadroAncho
+        dy = frameRow * cuadroAlto
 	}
 	
 	override protected dibujarPixmap(QPainter painter, int x, int y) {
-		painter.drawPixmap(x, y, imagen, dx, dy, cuadro_ancho, cuadro_alto)
+		painter.drawPixmap(x, y, imagen, dx, dy, cuadroAncho, cuadroAlto)
 	}
 	
 	override boolean avanzar() {
-        var ha_avanzado = true
-        var cuadro_actual = cuadro + 1
+        var haAvanzado = true
+        var cuadroActual = cuadro + 1
 
-        if (cuadro_actual >= cantidad_de_cuadros) {
-            cuadro_actual = 0
-            ha_avanzado = false
+        if (cuadroActual >= cantidadDeCuadros) {
+            cuadroActual = 0
+            haAvanzado = false
         }
-        definir_cuadro(cuadro_actual)
-        return ha_avanzado
+        setCuadro(cuadroActual)
+        return haAvanzado
 	}
 }

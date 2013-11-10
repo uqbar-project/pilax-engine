@@ -17,7 +17,7 @@ class Mundo {
         gravedad = (0 -> -10)
 	}
 	
-	def ejecutarBuclePrincipal() {
+	def void ejecutarBuclePrincipal() {
 		motor.ejecutarBuclePrincipal(this)
 	}
 	

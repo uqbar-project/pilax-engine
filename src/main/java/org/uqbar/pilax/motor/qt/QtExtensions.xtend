@@ -12,12 +12,32 @@ import com.trolltech.qt.gui.QPainter
 
 class QtExtensions {
 	
+	def static void scale(QPainter painter, double scale) {
+		painter.scale(scale, scale)
+	} 
+	
+	def static void fillRect(QPainter painter, Pair<Integer,Integer> point, Pair<Integer,Integer> size, Color color) {
+		painter.fillRect(point.key, point.value, size.key, size.value, color.asQColor)
+	}
+	
+	def static void drawRect(QPainter painter, Pair<Integer,Integer> point, int width, int height) {
+		painter.drawRect(point.key, point.value, width, height)
+	}
+	
+	def static void drawLine(QPainter painter, Pair<Integer,Integer> p1, Pair<Integer,Integer> p2) {
+		painter.drawLine(p1.key, p1.value, p2.key, p2.value)
+	}
+	
+	def static void drawText(QPainter painter, Pair<Integer,Integer> point, String text) {
+		painter.drawText(point.key, point.value, text)
+	} 
+	
 	def static QPainter createQPainter() {
-		val painter = new QPainter => [
+		val painter = new QPainter /*  => [
 			setRenderHint(QPainter.RenderHint.HighQualityAntialiasing, true)
         	setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, true)
         	setRenderHint(QPainter.RenderHint.Antialiasing, true)
-        ]
+        ]*/
         painter
 	}
 	

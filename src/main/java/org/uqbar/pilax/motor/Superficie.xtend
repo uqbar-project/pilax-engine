@@ -53,7 +53,6 @@ class Superficie extends ImagenMotor {
 	}
 	
     def texto(String cadena, int x, int y, int magnitud, String fuente, Color color) {
-    	//TODO: esto parece duplicado de Texto o algo asi
         canvas.begin(this.imagen)
         canvas.pen = color.asQColor
         var dy = y

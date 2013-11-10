@@ -137,7 +137,11 @@ class ImagenMotor {
 	}
 
 	def getMotor() {
-		Pilas.instance.mundo.motor
+		mundo.motor
+	}
+	
+	def getMundo() {
+		Pilas.instance.mundo
 	}
 	
 	def protected dibujarPixmap(QPainter painter, int x, int y) {

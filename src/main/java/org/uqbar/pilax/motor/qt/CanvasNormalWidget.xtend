@@ -29,7 +29,7 @@ import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 
-class CanvasNormalWidget extends QWidget {
+class CanvasNormalWidget extends /*QGLWidget*/ QWidget {
 	QPainter painter
 	boolean pausaHabilitada
 	Pair<Integer,Integer> mouse
@@ -47,15 +47,15 @@ class CanvasNormalWidget extends QWidget {
 	new(Motor motor, List<Actor> lista_actores, int ancho, int alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
 		super(null as QWidget)
 //        this.painter = new QPainter()
-        setMouseTracking = true
+        mouseTracking = true
         pausaHabilitada = false
-        mouse = (0 -> 0)
+        mouse = origen
         this.motor = motor
         listaActores = lista_actores
         fps = new FPS(rendimiento, true)
 
 		depurador = if (permitir_depuracion)
-            			new DepuradorImpl(motor.crearLienzo, self.fps)
+            			new DepuradorImpl(motor.crearLienzo, fps)
 			        else
             			new DepuradorDeshabilitado
 
@@ -85,14 +85,14 @@ class CanvasNormalWidget extends QWidget {
 		painter = new QPainter
 		painter.begin(this)
 
-        painter.scale(escala, escala)
+        painter.scale(escala)
 
-        painter.setRenderHint(QPainter.RenderHint.HighQualityAntialiasing, true)
-        painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, true)
-        painter.setRenderHint(QPainter.RenderHint.Antialiasing, true)
+		painter.setRenderHints(new QPainter.RenderHints(QPainter.RenderHint.Antialiasing,
+        			QPainter.RenderHint.HighQualityAntialiasing,
+        			QPainter.RenderHint.SmoothPixmapTransform));
 
         painter.fillRect(0, 0, original_width, original_height, new QColor(128, 128, 128))
-        depurador.comienza_dibujado(motor, painter)
+        depurador.comienzaDibujado(motor, painter)
 
         if (gestorEscenas.escenaActual != null) {
             for (actor : gestorEscenas.escenaActual.actores) {
@@ -100,15 +100,15 @@ class CanvasNormalWidget extends QWidget {
                     if (!actor.estaFueraDeLaPantalla)
                         actor.dibujar(painter)
                 }
-                catch (Exception e) {
+                catch (RuntimeException e) {
                     e.printStackTrace
                     actor.eliminar
                 }
 
-                depurador.dibuja_al_actor(motor, painter, actor)
+                depurador.dibujaAlActor(motor, painter, actor)
 			}
 		}
-        depurador.termina_dibujado(motor, painter)
+        depurador.terminaDibujado(motor, painter)
         painter.end
 	}
 	
@@ -117,7 +117,7 @@ class CanvasNormalWidget extends QWidget {
 	        try {
 	            realizarActualizacionLogica
 		    }
-	        catch(Exception e) {
+	        catch(RuntimeException e) {
 	        	e.printStackTrace
 	        }
 //        ].execAsync
@@ -151,18 +151,18 @@ class CanvasNormalWidget extends QWidget {
         var posRelativa = (e.pos / escala).aRelativa + motor.centroDeLaCamara
         gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(posRelativa, posRelativa - mouse, null))
 		mouse = posRelativa.toInt
-        depurador.cuando_mueve_el_mouse(x.intValue, y.intValue)
+        depurador.cuandoMueveElMouse(x.intValue, y.intValue)
 	}
 	
 	override protected keyPressEvent(QKeyEvent event) {
         // Se mantiene este lanzador de eventos por la clase Control
         if (event.escape) eventos.pulsaTeclaEscape.emitir(new DataEvento)
-        if (event.pausa) alternar_pausa
+        if (event.pausa) alternarPausa
         if (event.fullScreen) alternar_pantalla_completa
 
         val codigo_de_tecla = _obtener_codigo_de_tecla_normalizado(event.key())
         eventos.pulsaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat, event.text))
-        depurador.cuando_pulsa_tecla(codigo_de_tecla, event.text())
+        depurador.cuandoPulsaTecla(codigo_de_tecla, event.text())
     }
     
 	override protected keyReleaseEvent(QKeyEvent event) {
@@ -254,11 +254,11 @@ class CanvasNormalWidget extends QWidget {
         motor.ventana.showNormal
     }
 
-    def esta_en_pantalla_completa() {
+    def estaEnPantallaCompleta() {
         return motor.ventana.isFullScreen
     }
 
-    def alternar_pausa() {
+    def alternarPausa() {
         if (pausaHabilitada) {
             pausaHabilitada = false
             actorPausa.eliminar
@@ -277,7 +277,7 @@ class CanvasNormalWidget extends QWidget {
      * Si está en modo ventana, pasa a pantalla completa y viceversa.
      */
     def alternar_pantalla_completa() {
-        if (esta_en_pantalla_completa)
+        if (estaEnPantallaCompleta)
             pantallaModoVentana
         else
             pantallaCompleta

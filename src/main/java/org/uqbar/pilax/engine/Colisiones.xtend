@@ -47,20 +47,20 @@ class Colisiones {
 class Colision<A extends Actor, B extends Actor> {
 	@Property List<A> grupo_a
 	@Property List<B> grupo_b
-	@Property Procedure2<A,B> funcion_a_llamar
+	@Property Procedure2<A,B> funcion
 	
-	new(List<A> grupo_a, List<B> grupo_b, Procedure2<A,B> funcion_a_llamar) {
-		this.grupo_a = grupo_a.copy
-		this.grupo_b = grupo_b.copy
-		this.funcion_a_llamar = funcion_a_llamar
+	new(List<A> grupo_a, List<B> grupo_b, Procedure2<A,B> funcion) {
+		this.grupo_a = grupo_a
+		this.grupo_b = grupo_b
+		this.funcion = funcion
 	} 
 	
 	def verificar() {
-		for (a : grupo_a) {
-            for (b : grupo_b) {
+		for (a : grupo_a.copy) {
+            for (b : grupo_b.copy) {
                 try {
                     if (id(a) != id(b) && Utils.colisionan(a, b)) {
-                        funcion_a_llamar.apply(a, b)
+                        funcion.apply(a, b)
                     }
 
                     // verifica si alguno de los dos objetos muere en la colision.
@@ -97,7 +97,7 @@ class Colision<A extends Actor, B extends Actor> {
                         			b.id
 
                     if (a_id == id_actor_a && b_id == id_actor_b) {
-                        this.funcion_a_llamar.apply(a, b)
+                        this.funcion.apply(a, b)
 
                         // verifica si alguno de los dos objetos muere en la colision.
                         if (_es_objeto_fisico_con_actor_asociado(a))

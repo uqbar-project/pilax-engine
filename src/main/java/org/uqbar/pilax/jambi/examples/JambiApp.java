@@ -1,7 +1,7 @@
 package org.uqbar.pilax.jambi.examples;
 
-import com.trolltech.qt.core.Qt;
 import com.trolltech.qt.gui.QApplication;
+import com.trolltech.qt.gui.QColor;
 import com.trolltech.qt.gui.QPaintEvent;
 import com.trolltech.qt.gui.QPainter;
 import com.trolltech.qt.gui.QPen;
@@ -10,10 +10,10 @@ import com.trolltech.qt.gui.QWidget;
 /**
  * ZetCode QtJambi tutorial
  *
- * This program draws nine rectangles.
- * The interiors are filled with
- * different built-in patterns.
- *
+ * This program draws ten
+ * rectangles with different
+ * levels of transparency
+ * 
  * @author jan bodnar
  * website zetcode.com
  * last modified March 2009
@@ -23,9 +23,9 @@ public class JambiApp extends QWidget {
     
     public JambiApp() {
         
-        setWindowTitle("Patterns");
+        setWindowTitle("Transparent rectangles");
 
-        resize(350, 280);
+        resize(590, 90);
         move(400, 300);
         show();
     }
@@ -34,41 +34,18 @@ public class JambiApp extends QWidget {
     protected void paintEvent(QPaintEvent event) {
 
         QPainter painter = new QPainter(this);
-        drawPatterns(painter);
+        drawRectangles(painter);
+
     }
 
-    private void drawPatterns(QPainter painter) {
+    private void drawRectangles(QPainter painter) {
 
-          painter.setPen(QPen.NoPen);
+        painter.setPen(QPen.NoPen);
 
-          painter.setBrush(Qt.BrushStyle.HorPattern);
-          painter.drawRect(10, 15, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.VerPattern);
-          painter.drawRect(130, 15, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.CrossPattern);
-          painter.drawRect(250, 15, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.Dense7Pattern);
-          painter.drawRect(10, 105, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.Dense6Pattern);
-          painter.drawRect(130, 105, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.Dense5Pattern);
-          painter.drawRect(250, 105, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.BDiagPattern);
-          painter.drawRect(10, 195, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.FDiagPattern);
-          painter.drawRect(130, 195, 90, 60);
-
-          painter.setBrush(Qt.BrushStyle.DiagCrossPattern);
-          painter.drawRect(250, 195, 90, 60);
-
-          painter.end();
+        for (int i=1; i<11; i++) {
+            painter.setBrush(new QColor(0, 0, 255, i*25));
+            painter.drawRect(50*i, 20, 40, 40);
+        }
     }
     
     

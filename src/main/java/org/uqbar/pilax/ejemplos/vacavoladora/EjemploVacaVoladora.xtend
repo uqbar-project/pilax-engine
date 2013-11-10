@@ -28,17 +28,17 @@ class EjemploVacaVoladora {
 		puntos = new ActorPuntaje(-290, 210)
 		val vaca = new Vaca
 		
-		Pilas.instance.mundo.agregarTarea(2f, [| crear_item]);
-		Pilas.instance.mundo.colisiones.agregar(vaca, items, [v,i| cuanto_toca_item(v, i)]);
-		Pilas.instance.mundo.agregarTarea(3.3f, [| crear_enemigo ]);
-		Pilas.instance.mundo.colisiones.agregar(vaca, enemigos, [v,e| cuanto_toca_enemigo(v, e)]);
+		Pilas.instance.mundo.agregarTarea(2f, [| crearItem]);
+		Pilas.instance.mundo.colisiones.agregar(vaca, items, [v,i| cuantoTocaItem(v, i)]);
+		Pilas.instance.mundo.agregarTarea(3.3f, [| crearEnemigo ]);
+		Pilas.instance.mundo.colisiones.agregar(vaca, enemigos, [v,e| cuantoTocaEnemigo(v, e)]);
 
 		[|new Nube].nTimes(8)
 		Pilas.instance.ejecutar
 	}
 
-	def static cuanto_toca_item(Vaca vaca, Item i) {
-    	i.eliminar()
+	def static cuantoTocaItem(Vaca vaca, Item i) {
+    	i.eliminar
     	puntos.aumentar(10)
     	puntos.escala = 2.0
     	interpolar(puntos, "escala", #[1], 0.2)
@@ -46,17 +46,17 @@ class EjemploVacaVoladora {
     	interpolar(puntos, "rotacion", #[0], 0.2)
 	}
 
-	def static crear_item() {
-	    items.add(new Item)
-	    return true
-	}
-	
-	def static cuanto_toca_enemigo(Vaca vaca, Actor enemigo) {
+	def static cuantoTocaEnemigo(Vaca vaca, Actor enemigo) {
 	    vaca.perder
 	    enemigo.eliminar
 	}
+	
+	def static crearItem() {
+		items.add(new Item)
+	    return true
+	}
     
-	def static crear_enemigo() {
+	def static crearEnemigo() {
 	    enemigos.add(new Enemigo)
 	    return true
 	}
@@ -185,7 +185,7 @@ class Vaca extends Actor {
                 paso = 0
 		}
 		
-        imagen.definir_cuadro(cuadros.get(paso))
+        imagen.setCuadro(cuadros.get(paso))
     }
 
     def perder() {

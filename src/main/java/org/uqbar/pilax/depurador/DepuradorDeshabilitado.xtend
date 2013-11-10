@@ -7,13 +7,13 @@ import org.uqbar.pilax.motor.qt.Motor
 
 class DepuradorDeshabilitado implements Depurador {
 	
-    override comienza_dibujado(Motor motor, QPainter painter) {}
+    override comienzaDibujado(Motor motor, QPainter painter) {}
 
-    override dibuja_al_actor(Motor motor, QPainter painter, Actor actor) {}
+    override dibujaAlActor(Motor motor, QPainter painter, Actor actor) {}
 
-    override termina_dibujado(Motor motor, QPainter painter) {}
+    override terminaDibujado(Motor motor, QPainter painter) {}
 
-    override cuando_pulsa_tecla(Tecla codigo_tecla, Object texto_tecla) {}
+    override cuandoPulsaTecla(Tecla codigo_tecla, Object texto_tecla) {}
 
-    override boolean cuando_mueve_el_mouse(int x, int y) { true }
+    override boolean cuandoMueveElMouse(int x, int y) { true }
 }

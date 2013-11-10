@@ -25,13 +25,13 @@ class ModoPosicion extends ModoDepurador {
             val texto = '''(«actor.x»,«actor.y»)'''
             val dx = actor.x - actor.derecha
            	val dy = actor.y - actor.abajo + 10
-            val posicion = _obtener_posicion_relativa_a_camara(actor)
+            val posicion = actor.posicionRelativaACamara
             lienzo.texto(painter, texto, (posicion.x - dx).intValue, (posicion.y - dy).intValue, Color.white)
         }
     }
 
-	override sale_del_modo() {
-		eje.eliminar()
+	override saleDelModo() {
+		eje.eliminar
 	}
 
 }

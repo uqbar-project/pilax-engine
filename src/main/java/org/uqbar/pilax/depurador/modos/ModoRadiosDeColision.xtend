@@ -18,7 +18,7 @@ class ModoRadiosDeColision extends ModoDepurador {
 	}
 	
 	override dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {
-		val posicion = _obtener_posicion_relativa_a_camara(actor)
+		val posicion = actor.posicionRelativaACamara
         lienzo.circulo(painter, posicion.x.intValue, posicion.y.intValue, actor.radioDeColision, Color.white, depurador.grosor_de_lineas.intValue)
 	}
 	

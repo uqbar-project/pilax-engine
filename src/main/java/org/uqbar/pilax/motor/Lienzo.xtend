@@ -12,6 +12,8 @@ import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import org.uqbar.pilax.motor.qt.Motor
 import java.util.List
 
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+
 class Lienzo extends ImagenMotor {
     
     def texto(QPainter painter, String cadena) {
@@ -33,27 +35,20 @@ class Lienzo extends ImagenMotor {
 
     /** Imprime un texto sin respetar al camara.*/
     def texto_absoluto(QPainter painter, String cadena, int x, int y, int magnitud, String fuente, Color color) {
-        val coordenada = Utils.aAbsoluta(x, y)
-
         painter.pen = color.asQColor
-
 		val nombre_de_fuente = if (fuente != null) TextoMotor.cargar_fuente_desde_cache(fuente) else painter.font.family
-
         painter.font = new QFont(nombre_de_fuente, magnitud)
-        painter.drawText(coordenada.x, coordenada.y, cadena)
+        
+        painter.drawText(Utils.aAbsoluta(x, y), cadena)
 	}
 	
     def pintar(QPainter painter, Color color) {
-        val area = Pilas.instance.mundo.area
-        painter.fillRect(0, 0, area.ancho, area.alto, color.asQColor)
+        painter.fillRect(origen, mundo.area, color)
     }
 
-    def linea(QPainter painter, int x0, int y0, int x1, int y1, Color color /*colores.negro*/, int grosor /*=1 */) {
-        val c0 = Utils.aAbsoluta(x0, y0)
-        val c1 = Utils.aAbsoluta(x1, y1)
-
+    def linea(QPainter painter, int x0, int y0, int x1, int y1, Color color, int grosor) {
         painter.pen = color.createPen(grosor)
-        painter.drawLine(c0.x, c0.y, c1.x, c1.y)
+        painter.drawLine(Utils.aAbsoluta(x0, y0), Utils.aAbsoluta(x1, y1))
     }
 
 	def poligono(QPainter painter, List<Pair<Integer,Integer>> puntos) {
@@ -90,9 +85,8 @@ class Lienzo extends ImagenMotor {
 	}
 
     def rectangulo(QPainter painter, int x, int y, int ancho, int alto, Color color, int grosor) {
-        val coordenada = Utils.aAbsoluta(x, y)
         painter.pen = color.createPen(grosor)
-        painter.drawRect(coordenada.x, coordenada.y, ancho, alto)
+        painter.drawRect(Utils.aAbsoluta(x, y), ancho, alto)
     }
 	
 }
