@@ -22,7 +22,7 @@ class Superficie extends ImagenMotor {
 	new(int ancho, int alto) {
 		imagen = new QPixmap(ancho, alto)
         imagen.fill(new QColor(255, 255, 255, 0))
-        canvas = new QPainter
+        canvas = createQPainter
         ruta = urandom(25)
     }
 

@@ -6,14 +6,14 @@ import org.uqbar.pilax.motor.Superficie
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.utils.Utils
 
 /**
  * 
  */
 class ActorGlobo extends Actor {
 	@Property Dialogo dialogo
-	@Property int ancho_globo
-	@Property int alto_globo
+	@Property Pair<Integer,Integer> dimension
 	
 	new(String texto, int x, int y, boolean autoEliminar) {
 		this(texto, x, y, true, autoEliminar, 0, 0)
@@ -25,21 +25,20 @@ class ActorGlobo extends Actor {
         
         self.centroRelativo = (PosicionCentro.DERECHA -> PosicionCentro.ABAJO)
         //TODO: pilax
-//        self.escala = 0.1
-//        self.escala = [1], 0.2
-//
-        self.ancho_globo = ancho
-        self.alto_globo = alto
+        this.escala = 0.1
+        Utils.interpolar(this, "escala", #[1d], 1)
+        
+        dimension = ancho_globo -> alto_globo 
 		
         if (avance_con_clicks)
-            self.escena.clickDeMouse.conectar("", [d|cuando_quieren_avanzar])
+            escena.clickDeMouse.conectar("", [d|cuando_quieren_avanzar])
 
         if (autoEliminar)
-            pilas.escenaActual.tareas.unaVez(3, [|eliminar; false])
+            escena.tareas.unaVez(3, [|eliminar; false])
 	}
 	
 	def static crearSuperficie(String texto, int x, int y, int ancho_globo, int alto_globo) {
-		val areaTexto = Pilas.instance.mundo.motor.obtenerAreaDeTexto(texto)
+		val areaTexto = motor.obtenerAreaDeTexto(texto)
 		var ancho = areaTexto.ancho
         var alto = areaTexto.alto
 
@@ -59,7 +58,7 @@ class ActorGlobo extends Actor {
         else
             alto = alto + alto_globo
 
-        val imagen = Pilas.instance.mundo.motor.crearSuperficie(ancho + 36, alto + 24 + 35)
+        val imagen = motor.crearSuperficie(ancho + 36, alto + 24 + 35)
         
         _pintar_globo(imagen, ancho, alto)
         imagen.texto(texto, 17, 20)
@@ -71,7 +70,7 @@ class ActorGlobo extends Actor {
 	}
 	
 	def static _pintar_globo(Superficie imagen, int ancho, int alto) {
-        val imagenGlobo = Pilas.instance.mundo.motor.cargarImagen("globo.png")
+        val imagenGlobo = motor.cargarImagen("globo.png")
 
         // esquina sup-izq
         imagen.pintar_parte_de_imagen(imagenGlobo, 0, 0, 12, 12, 0, 0)
@@ -110,9 +109,9 @@ class ActorGlobo extends Actor {
 	/** "Función que se ejecuta al hacer click para avanzar o eliminar el globo." */
 	def cuando_quieren_avanzar() {
         if (dialogo != null)
-            dialogo.avanzarAlSiguienteDialogo()
+            dialogo.avanzarAlSiguienteDialogo
         else
-            eliminar()
+            eliminar
     }
 	
 }

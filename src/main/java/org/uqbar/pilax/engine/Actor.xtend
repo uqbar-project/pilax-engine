@@ -4,6 +4,8 @@ import com.trolltech.qt.gui.QPainter
 import java.util.List
 import java.util.UUID
 import org.eclipse.xtext.xbase.lib.Pair
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
 import org.uqbar.pilax.actores.ActorGlobo
 import org.uqbar.pilax.actores.PosicionCentro
 import org.uqbar.pilax.comunes.ObjetoGrafico
@@ -12,12 +14,6 @@ import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure1
-import java.awt.event.ActionListener
-import org.uqbar.pilax.xtend.annotation.Hookable
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 
 /**
  * 
@@ -27,7 +23,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	boolean vivo = true
 	List<Actor> anexados = newArrayList
 	@Property int z = 0
-	private ActorMotor actorMotor
+	protected ActorMotor actorMotor
 	@Property EscenaBase escena
 	boolean espejado = false
 	@Property int radioDeColision = 10
@@ -58,13 +54,13 @@ class Actor extends Estudiante implements ObjetoGrafico {
         centro = centroDeImagen
 	}
 	
-	def getMotor() {
+	def static getMotor() {
 		Pilas.instance.mundo.motor
 	}
 	
 	/** Sobrescribir para crear otro actor de motor */
 	def protected crearActorMotor(ImagenMotor imagen, int x, int y) {
-		Pilas.instance.mundo.motor.crearActor(imagen, x, y)
+		motor.crearActor(imagen, x, y)
 	}
 	
 	def void setCentroRelativo(Pair<PosicionCentro, PosicionCentro> posicionCentro) {
@@ -138,8 +134,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	def void eliminar() {
 		// provisional hasta hacer una active annotation !
 		notify([l,c| l.eliminar(this, c)],[| 
-			this.eliminarAnexados() 
-			this.destruir()
+			eliminarAnexados 
+			destruir
 		])
 	}
 	
@@ -159,9 +155,13 @@ class Actor extends Estudiante implements ObjetoGrafico {
         eliminarHabilidades
         eliminarComportamientos
         // Solo permite eliminar el actor si está en su escena.
-        if (Pilas.instance.escenaActual.actores.contains(this)) {
-            Pilas.instance.escenaActual.actores.remove(this)
+        if (actoresDeEscena.contains(this)) {
+            actoresDeEscena.remove(this)
         }
+	}
+
+	def getActoresDeEscena() {
+		Pilas.instance.escenaActual.actores
 	}
 	
 	def protected eliminarAnexados() {
@@ -192,7 +192,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
     
     def void setTransparencia(double transparencia) {
-    	actorMotor.transparencia = transparencia.intValue
+    	actorMotor.transparencia = transparencia
     }
     
     def getTransparencia() {
@@ -204,7 +204,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
 
     def setIzquierda(int x) {
-        this.x = (x + (centro.x * escala)).intValue
+        this.x = (x + centro.x * escala).intValue
     }
     
     def getDerecha() {
@@ -243,14 +243,14 @@ class Actor extends Estudiante implements ObjetoGrafico {
     	actorMotor.escala
     }
     
-    def void setEscala(double esc) {
+    def void setEscala(Double esc) {
         // Se hace la siguiente regla de 3 simple:
         //
         //  ultima_escala          self.radio_de_colision
         //  s                      ?
 		var s = Math.max(esc, 0.001)
         val ultima_escala = escala
-        actorMotor.escala = s
+        actorMotor.escala  = s
         radioDeColision = ((s * radioDeColision) / Math.max(ultima_escala, 0.0001)).intValue
     }
 	
@@ -271,19 +271,11 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	 * Calcula la velocidad horizontal y vertical del actor.
 	 */	
 	def protected actualizarVelocidad() {
-        if (dx != x) {
-            _vx = Math.abs(_dx - x).intValue  // intValue por tener forzado a double para interpolaciones
-            _dx = x.intValue
-        }
-        else
-            _vx = 0
-
-        if (_dy != y) {
-            _vy = Math.abs(_dy - y).intValue
-            _dy = y.intValue
-        }
-        else
-            _vy = 0
+		_vx = Math.abs(_dx - x).intValue
+		_dx = x.intValue
+		
+		_vy = Math.abs(_dy - y).intValue
+		_dy = y.intValue
 	}
 	
 	def decir(String mensaje) {

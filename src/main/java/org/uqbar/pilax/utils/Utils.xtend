@@ -10,6 +10,7 @@ import org.uqbar.pilax.interpolacion.tweener.Easing
 import org.uqbar.pilax.interpolacion.tweener.easing.CubicEaseIn
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.interpolacion.tweener.easing.LinearEasing
 
 class Utils {
 	
@@ -74,7 +75,15 @@ class Utils {
 	}
 
 	def static interpolar(Object obj, String property, List<? extends Number> values, Easing easing) {
-		new Interpolacion(values, 1, 0, easing).apply(obj, property)
+		interpolar(obj, property, values, 1, easing)
+	}
+	
+	def static interpolar(Object obj, String property, List<? extends Number> values, double duracion) {
+		interpolar(obj, property, values, duracion, new LinearEasing)
+	} 
+	
+	def static interpolar(Object obj, String property, List<? extends Number> values, double duracion, Easing easing) {
+		new Interpolacion(values, duracion, 0, easing).apply(obj, property)
 	}
 	
 }

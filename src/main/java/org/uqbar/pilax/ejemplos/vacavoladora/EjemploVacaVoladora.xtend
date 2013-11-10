@@ -40,28 +40,24 @@ class EjemploVacaVoladora {
 	def static cuanto_toca_item(Vaca vaca, Item i) {
     	i.eliminar()
     	puntos.aumentar(10)
-    	puntos.escala = 2
-    	interpolar(puntos, "escala", #[1])
-//    	puntos.escala = [1], 0.2 
+    	puntos.escala = 2.0
+    	interpolar(puntos, "escala", #[1], 0.2)
     	puntos.rotacion = randint(30, 60)
-    	interpolar(puntos, "rotacion", #[0])
-//    	puntos.rotacion = [0], 0.2
+    	interpolar(puntos, "rotacion", #[0], 0.2)
 	}
 
 	def static crear_item() {
-	    val un_item = new Item
-	    items.append(un_item)
+	    items.add(new Item)
 	    return true
 	}
 	
 	def static cuanto_toca_enemigo(Vaca vaca, Actor enemigo) {
 	    vaca.perder
-	    enemigo.eliminar()
+	    enemigo.eliminar
 	}
     
 	def static crear_enemigo() {
-	    val un_enemigo = new Enemigo
-	    enemigos.add(un_enemigo)
+	    enemigos.add(new Enemigo)
 	    return true
 	}
 	
@@ -89,7 +85,7 @@ class Ingresando extends Estado {
         vaca.definir_animacion(#[3, 4])
         contador = 0
         vaca.x = -380
-		interpolar(vaca, "x", #[-170.0]) //        vaca.x = [-170], 0.5
+		interpolar(vaca, "x", #[-170.0], 0.5) 
 	}
 	
     override actualizar() {
@@ -118,10 +114,10 @@ class Volando extends Estado {
         else if (pilas.mundo.control.abajo)
             vaca.y = vaca.y - velocidad
 
-        if (self.vaca.y > 210)
-            self.vaca.y = 210
-        else if (self.vaca.y < -210)
-            self.vaca.y = -210
+		if (vaca.y > 210) vaca.y = 210
+		if (vaca.y < -210) vaca.y = -210
+//		vaca.y = Math.min(210, vaca.y)
+//		vaca.y = Math.max(-210, vaca.y)
     }
 }
 
@@ -140,8 +136,8 @@ class Perdiendo extends Estado {
     	vaca => [
         	rotacion = rotacion + 7
         	escala = escala + 0.01
-        	x = vaca.x + 1
-        	y = vaca.y - 1
+        	x = x + 1
+        	y = y - 1
     	]
     }
 }
@@ -155,10 +151,10 @@ class Vaca extends Actor {
 	
 	new() {
         super(new GrillaImagen('vaca_voladora/sprites.png', 5, 1), 0, 0)
-        self.definir_animacion(#[0])
-        self.centro = (140 -> 59)
-        self.radioDeColision = 40
-        self.x = -170
+        definir_animacion(#[0])
+        centro = (140 -> 59)
+        radioDeColision = 40
+        x = -170
         estado = new Ingresando(this)
         contador = 0
 	}
@@ -195,9 +191,8 @@ class Vaca extends Actor {
     def perder() {
         estado = new Perdiendo(this)
         val t = new ActorTexto("Has perdido ...")
-        t.escala = 0
-        interpolar(t, "escala", #[1])
-//        t.escala = [1], 0.5
+        t.escala = 0.1
+        interpolar(t, "escala", #[1], 0.5)
     }
 }
 
@@ -237,13 +232,12 @@ class Nube extends Actor {
 
     new() {
         super(choice(#['vaca_voladora/nube1.png', 'vaca_voladora/nube2.png']), 0, 0)
-        val velocidad = randint(2, 10)
-        this.velocidad = velocidad
-        self.escala = velocidad / 10.0
-        self.transparencia = velocidad * 6
-        self.z = -1 * (velocidad - 5)
-        self.x = randint(-320, 320)
-        self.y = randint(-210, 210)
+        velocidad = randint(2, 10)
+        escala = velocidad / 10.0
+        transparencia = velocidad * 6
+        z = -1 * (velocidad - 5)
+        x = randint(-320, 320)
+        y = randint(-210, 210)
 	}
 	
     override actualizar() {

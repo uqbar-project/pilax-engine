@@ -76,7 +76,7 @@ abstract class EscenaBase {
 	def void actualizarEventos() {
 		tweener.update(16)
         tareas.actualizar(1 / 60.0f)
-        colisiones.verificarColisiones()
+        colisiones.verificarColisiones
 	}
 	
 	def actualizarFisica() {

@@ -23,11 +23,11 @@ class Control {
     }
 
     def procesar_cambio_de_estado_en_la_tecla(Tecla codigo, boolean estado) {
-    	if (codigo == Tecla.IZQUIERDA) izquierda = true
-    	if (codigo == Tecla.DERECHA) derecha = true
-    	if (codigo == Tecla.ARRIBA) arriba = true
-    	if (codigo == Tecla.ABAJO) abajo = true
-    	if (codigo == Tecla.ESPACIO) boton = true
+    	if (codigo == Tecla.IZQUIERDA) izquierda = estado
+    	if (codigo == Tecla.DERECHA) derecha = estado
+    	if (codigo == Tecla.ARRIBA) arriba = estado
+    	if (codigo == Tecla.ABAJO) abajo = estado
+    	if (codigo == Tecla.ESPACIO) boton = estado
     }
 
     def limpiar() {

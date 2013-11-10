@@ -12,12 +12,10 @@ class ActorBaseMotor {
 	@Property int x
 	@Property int y
 	
-	@Property double rotacion = 0  // double para interpolar
-	@Property int transparencia = 0
-    @Property int centro_x = 0
-    @Property int centro_y = 0
-	@Property double escala_x = 1
-    @Property double escala_y = 1
+	@Property double rotacion = 0
+	@Property double transparencia = 0
+	@Property Pair<Integer, Integer> centro
+	@Property Pair<Double, Double> escalas = (1.0 -> 1.0)
 	@Property boolean espejado = false
     @Property int fijo = 0
     
@@ -26,32 +24,25 @@ class ActorBaseMotor {
 		this.y = y
     }
 	
-	def setCentro(Pair<Integer, Integer> centro) {
-        self.centro_x = centro.key
-        self.centro_y = centro.value
-    }
-    
-    def getCentro() {
-    	self.centro_x -> self.centro_y
-    }
-
     def getPosicion() {
-        self.x -> self.y
+        x -> y
     }
 
     def setPosicion(Pair<Integer, Integer> posicion) {
-        self.x = posicion.key
-        self.y = posicion.value
+        x = posicion.key
+        y = posicion.value
     }
-
+    
+    // sospecho que algo esta mal aca
+    // esto solo se usa cuando implicitamente trabajas con 
+    // una escala igual para 'x' que para 'y'
     def getEscala() {
-        self._escala_x
+    	escalas.x
     }
 
-    def setEscala(double s) {
-        self._escala_x = s
-        self._escala_y = s
-    }
+    def void setEscala(Double s) {
+    	_escalas = s.asPair
+	}
 
 }
 
@@ -64,8 +55,7 @@ class ActorMotor extends ActorBaseMotor {
 	}
 
     def dibujar(QPainter painter) {
-        var escala_x = self.escala_x
-        var escala_y = self.escala_y
+        var escala_x = escalas.x
 
         if (espejado) 
             escala_x = escala_x * -1
@@ -78,7 +68,7 @@ class ActorMotor extends ActorBaseMotor {
         val x = this.x - delta.x
         val y = this.y - delta.y
 
-        imagen.dibujar(painter, x, y, this.centro_x, this.centro_y, escala_x, escala_y, this.rotacion.intValue, this.transparencia)
+        imagen.dibujar(painter, x, y, centro.x, centro.y, escala_x, escalas.y, this.rotacion.intValue, transparencia)
     }
     
     def void setImagen(ImagenMotor imagen) {
@@ -131,15 +121,16 @@ class ImagenMotor {
 	 *  rotacion: angulo de inclinacion en sentido de las agujas del reloj.
 	 *
 	 */    
-    def void dibujar(QPainter painter, int x, int y, int dx /*=0*/, int dy /*=0*/, double escala_x /*=1*/ , double escala_y /*=1*/, int rotacion /*=0*/, int transparencia /*=0*/) {
+    def void dibujar(QPainter painter, int x, int y, int dx, int dy, double escala_x, double escala_y, int rotacion, double transparencia) {
         painter => [
         	save
         	val centro = motor.centroFisico
 	        translate(x + centro.key, centro.value - y)
 	        rotate(rotacion)
 	        scale(escala_x, escala_y)
-	        if (transparencia != 0) 
-	            setOpacity(1 - transparencia / 100.0)
+	        if (transparencia != 0) { 
+	            opacity = 1 - transparencia / 100.0
+	        }
 	    ]
         dibujarPixmap(painter, -dx, -dy)
         painter.restore

@@ -89,6 +89,10 @@ class PilasExtensions {
 	// ** Pairs as coordinates
 	// ************************************
 	
+	def static <E> Pair<E,E> asPair(E e) {
+		e -> e
+	}
+	
 	def static <K,V> K x(Pair<K,V> pair) {
 		pair.key
 	}

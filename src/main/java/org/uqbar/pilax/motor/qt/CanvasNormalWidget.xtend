@@ -82,7 +82,7 @@ class CanvasNormalWidget extends QWidget {
 	override protected paintEvent(QPaintEvent event) {
 		//PILAX ( tuve que mover esto para que genere un nuevo painter cada
 		// vez, sino me fallaba. En pilas no es así! :(
-		painter = new QPainter()
+		painter = new QPainter
 		painter.begin(this)
 
         painter.scale(escala, escala)
