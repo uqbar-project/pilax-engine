@@ -116,8 +116,6 @@ class Volando extends Estado {
 
 		if (vaca.y > 210) vaca.y = 210
 		if (vaca.y < -210) vaca.y = -210
-//		vaca.y = Math.min(210, vaca.y)
-//		vaca.y = Math.max(-210, vaca.y)
     }
 }
 

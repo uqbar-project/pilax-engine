@@ -129,7 +129,7 @@ class DepuradorImpl implements Depurador {
 	def <T  extends ModoDepurador> alternarModo(Class<T> claseDelModo) {
         val clasesActivas = modos.map[it.class]
 
-        if (claseDelModo.in(clasesActivas))
+        if (clasesActivas.contains(claseDelModo))
             desactivarModo(claseDelModo)
         else
             activarModo(claseDelModo)

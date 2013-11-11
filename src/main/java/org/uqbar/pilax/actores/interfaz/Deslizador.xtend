@@ -116,18 +116,18 @@ class Deslizador extends ActorBaseInterfaz {
     }
     
 	override mostrar() {
-		super.mostrar()
+		super.mostrar
 		deslizador.transparencia = 0
 	}
     
 	override ocultar() {
-		super.ocultar()
+		super.ocultar
 		deslizador.transparencia = 100
 	}
 	
 	override eliminar() {
 		deslizador.eliminar
-		super.eliminar()
+		super.eliminar
 	}
 	
 	def void conectar(Procedure1<Double> f) {

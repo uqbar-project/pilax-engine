@@ -45,19 +45,19 @@ class Colisiones {
  * 
  */
 class Colision<A extends Actor, B extends Actor> {
-	@Property List<A> grupo_a
-	@Property List<B> grupo_b
+	@Property List<A> grupoA
+	@Property List<B> grupoB
 	@Property Procedure2<A,B> funcion
 	
 	new(List<A> grupo_a, List<B> grupo_b, Procedure2<A,B> funcion) {
-		this.grupo_a = grupo_a
-		this.grupo_b = grupo_b
+		this.grupoA = grupo_a
+		this.grupoB = grupo_b
 		this.funcion = funcion
 	} 
 	
 	def verificar() {
-		for (a : grupo_a.copy) {
-            for (b : grupo_b.copy) {
+		for (a : grupoA.copy) {
+            for (b : grupoB.copy) {
                 try {
                     if (id(a) != id(b) && Utils.colisionan(a, b)) {
                         funcion.apply(a, b)
@@ -65,16 +65,16 @@ class Colision<A extends Actor, B extends Actor> {
 
                     // verifica si alguno de los dos objetos muere en la colision.
                     if (!a.esActor) {
-                        if (grupo_a.contains(a))
-                            grupo_a.remove(a)
+                        if (grupoA.contains(a))
+                            grupoA.remove(a)
                     }
 
                     if (!b.esActor)
-                        if (grupo_b.contains(b))
-                            grupo_b.remove(b)
+                        if (grupoB.contains(b))
+                            grupoB.remove(b)
                 }
                 catch (RuntimeException e) {
-                    grupo_a.remove(a)
+                    grupoA.remove(a)
                     throw e
                 }
 			}
@@ -83,8 +83,8 @@ class Colision<A extends Actor, B extends Actor> {
 	
 	def verificarColisionesFisicasEnTupla(UUID id_actor_a, UUID id_actor_b) {
         /** Toma dos grupos de actores y analiza colisiones entre ellos.*/
-        for (a : grupo_a) {
-            for (b : grupo_b) {
+        for (a : grupoA) {
+            for (b : grupoB) {
                 try {
                 	val a_id = if (_es_objeto_fisico_con_actor_asociado(a))
                         			a.figura.id
@@ -102,17 +102,17 @@ class Colision<A extends Actor, B extends Actor> {
                         // verifica si alguno de los dos objetos muere en la colision.
                         if (_es_objeto_fisico_con_actor_asociado(a))
                             if (!a.esActor)
-                                if (a.in(grupo_a))
-                                    grupo_a.remove(a)
+                                if (grupoA.contains(a))
+                                    grupoA.remove(a)
 
 						if (_es_objeto_fisico_con_actor_asociado(b))
                             if (!b.esActor)
-                                if (b.in(grupo_a))
-                                    grupo_b.remove(b)
+                                if (grupoB.contains(b))
+                                    grupoB.remove(b)
                     }
 				}
                 catch (RuntimeException e) {
-                    grupo_a.remove(a)
+                    grupoA.remove(a)
                     throw e
                 }
             }

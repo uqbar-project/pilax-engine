@@ -20,8 +20,12 @@ class Figura implements ObjetoGrafico {
 	}
 	
 	/** Quita una figura de la simulación. */
-	def eliminar(){
-		Pilas.instance.escenaActual.fisica.eliminarFigura(this)
+	def eliminar() {
+		escena.fisica.eliminarFigura(this)
+	}
+
+	def getEscena() {
+		Pilas.instance.escenaActual
 	}
 	
 	override getX() {

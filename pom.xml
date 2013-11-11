@@ -32,10 +32,20 @@
             
 		<!-- QT -->
 		<dependency>
-        	<groupId>net.sf.qtjambi</groupId>
-        	<artifactId>qtjambi</artifactId>
-        	<version>4.6.3.2</version>
-    	</dependency>
+			<groupId>com.trolltech.qt</groupId>
+			<artifactId>qtjambi</artifactId>
+			<version>4.7.0.beta02</version>
+		</dependency>
+		<dependency>
+			<groupId>com.trolltech.qt</groupId>
+			<artifactId>qtjambi-util</artifactId>
+			<version>4.7.0.beta02</version>
+		</dependency>
+		<dependency>
+			<groupId>com.trolltech.qt</groupId>
+			<artifactId>qtjambi-linux64-gcc</artifactId>
+			<version>4.7.0.beta02</version>
+		</dependency>
     	<!-- /QT -->
    </dependencies>
    
