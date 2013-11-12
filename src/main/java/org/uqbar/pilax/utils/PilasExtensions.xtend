@@ -39,13 +39,39 @@ class PilasExtensions {
 	}
 	
 	// *********************************
-	// ** generales
+	// ** Closures
+	// *********************************
+	
+	def static void nTimes(Function0 procedure, int times) {
+		for (n : 1..times) {
+			procedure.apply
+		}
+	}
+	
+	// *********************************
+	// ** Miscs
 	// *********************************
 	
 	def static resolveFullPathFromClassPath(String fileName) {
 		val url = typeof(PilasExtensions).classLoader.getResource(fileName)
 		if (url == null) throw new PilaxException("No se encontro el archivo para la imagen '" + fileName + "' en el classpath!")
 		new File(url.toURI).absolutePath
+	}
+	
+	def static void execAsync(Procedure0 proc) {
+		Pilas.instance.service.execute([| proc.apply ])
+	}
+	
+	// *********************************
+	// ** Collections
+	// *********************************
+	
+	def static <E> List<E> subList(List<E> list, int from) {
+		list.subList(from, list.size)
+	}
+	
+	def static <E> asList(E e) {
+		newArrayList(e)
 	}
 	
 	def static <E> List<E> copy(List<E> aList) {
@@ -74,19 +100,13 @@ class PilasExtensions {
 		aList.get(0)
 	}
 	
-	def static void nTimes(Function0 procedure, int times) {
-		for (n : 1..times) {
-			procedure.apply
-		}
-	}
-	
 	def static <E> void removeIfContains(Collection<E> collection, E element) {
 		if (collection.contains(element))
         	collection.remove(element)
 	}
 	
 	// ************************************
-	// ** Pairs as coordinates
+	// ** Pairs
 	// ************************************
 	
 	def static <E> Pair<E,E> asPair(E e) {
@@ -148,23 +168,18 @@ class PilasExtensions {
 		UUID.randomUUID
 	}
 	
+	// ************************************
+	// ** numbers
+	// ************************************
+	
 	def static int operator_or(int a, int b) {
 		IntegerExtensions.bitwiseOr(a, b)
 	}
 	
-	def static <E> List<E> subList(List<E> list, int from) {
-		list.subList(from, list.size)
-	}
-	
 	def static dispatch minus(Double a, Number b) { a - b.doubleValue }
 	def static dispatch minus(Integer a, Number b) { a - b.intValue }
-
-	def static void execAsync(Procedure0 proc) {
-		Pilas.instance.service.execute([| proc.apply ])
-	}
 	
-	def static <E> asList(E e) {
-		newArrayList(e)
+	def static int abs(int n) {
+		Math.abs(n)		
 	}
-	
 }

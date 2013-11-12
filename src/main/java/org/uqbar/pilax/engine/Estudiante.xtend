@@ -106,17 +106,17 @@ class Estudiante {
 	def actualizarComportamientos() {
         var boolean termina = false
 
-        if (self.comportamientoActual != null) {
-            termina = self.comportamientoActual.actualizar()
+        if (comportamientoActual != null) {
+            termina = comportamientoActual.actualizar()
 
             if (termina) {
-                if (self.repetirComportamientosPorSiempre)
-                    self.comportamientos.add(self.comportamientoActual)
-                self.adoptarElSiguienteComportamiento()
+                if (repetirComportamientosPorSiempre)
+                    comportamientos.add(comportamientoActual)
+                adoptarElSiguienteComportamiento()
             }
         }
         else
-            self.adoptarElSiguienteComportamiento
+            adoptarElSiguienteComportamiento
 	}
 
     def adoptarElSiguienteComportamiento() {

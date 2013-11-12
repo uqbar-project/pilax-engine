@@ -3,6 +3,7 @@ package org.uqbar.pilax.engine
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.eventos.DataEventoMouse
+import org.uqbar.pilax.eventos.DataEventoMovimiento
 import org.uqbar.pilax.eventos.DataEventoRuedaMouse
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
@@ -10,7 +11,6 @@ import org.uqbar.pilax.fisica.MotorFisica
 import org.uqbar.pilax.interpolacion.tweener.Tweener
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import org.uqbar.pilax.eventos.DataEventoMovimiento
 
 abstract class EscenaBase {
 	@Property boolean iniciada
@@ -94,20 +94,20 @@ abstract class EscenaBase {
 	/** Este método se llama cuando se cambia de escena y así poder
         recuperar la ubicación de la cámara en la escena actual
      */
-	def guardar_posicion_camara() {
+	def guardarPosicionCamara() {
 		posicionAnteriorCamara = camara.x -> camara.y 
     }
 
-    def recuperar_posicion_camara() {
+    def recuperarPosicionCamara() {
         camara.x = posicionAnteriorCamara.x
         camara.y = posicionAnteriorCamara.y
     }
     
-    def pausar_fisica() {
+    def pausarFisica() {
         fisica.pausarMundo
     }
     
-    def reanudar_fisica() {
+    def reanudarFisica() {
         fisica.reanudarMundo
     }
 	

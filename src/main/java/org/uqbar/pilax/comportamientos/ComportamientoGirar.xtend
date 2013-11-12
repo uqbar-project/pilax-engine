@@ -3,6 +3,8 @@ package org.uqbar.pilax.comportamientos
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Comportamiento
 
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+
 class ComportamientoGirar extends Comportamiento<Actor> {
 	int delta
 	int velocidad
@@ -21,9 +23,9 @@ class ComportamientoGirar extends Comportamiento<Actor> {
 	override actualizar() {
 		receptor.rotacion = receptor.rotacion + velocidad
 
-        delta = Math.abs(receptor.rotacion - anguloFinal).intValue
+        delta = (receptor.rotacion - anguloFinal).intValue.abs
 
-        if (delta <= Math.abs(velocidad)) {
+        if (delta <= velocidad.abs) {
             receptor.rotacion = anguloFinal
             return true
         }

@@ -1,5 +1,7 @@
 package org.uqbar.pilax.engine
 
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+
 /**
  * Se agrega a un actor (Estudiante) y permite
  * colgarse del ciclo de ticks (o actualizaciones) para hacer cosas 

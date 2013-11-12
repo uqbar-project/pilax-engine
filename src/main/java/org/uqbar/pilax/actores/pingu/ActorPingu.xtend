@@ -10,7 +10,7 @@ class ActorPingu extends Actor {
 	
 	new(int x, int y) {
 		super(new GrillaImagen("pingu.png", 10), x, y)
-        definir_cuadro(4)
+        cuadro = 4
         hacer(new Esperando)
         radioDeColision = 30
         centroRelativo = (PosicionCentro.CENTRO -> PosicionCentro.ABAJO)
@@ -20,7 +20,7 @@ class ActorPingu extends Actor {
 		super.imagen as GrillaImagen
 	}
 	
-	def void definir_cuadro(int indice) {
+	def void setCuadro(int indice) {
         imagen.cuadro = indice
 	}
 	
@@ -34,7 +34,7 @@ class Esperando extends Comportamiento<ActorPingu> {
 	
 	override iniciar(ActorPingu receptor) {
 		super.iniciar(receptor)
-		receptor.definir_cuadro(4)
+		receptor.cuadro = 4
 	}
 	
 	override actualizar() {
@@ -60,7 +60,7 @@ class Caminando extends Comportamiento<ActorPingu> {
 	}
 	
 	override actualizar() {
-		avanzar_animacion
+		avanzarAnimacion
 
         if (receptor.escena.control.izquierda)
             receptor.x = receptor.x - receptor.velocidadMovimiento
@@ -71,26 +71,25 @@ class Caminando extends Comportamiento<ActorPingu> {
 
         if (receptor.escena.control.arriba)
             receptor.hacer(new Saltando)
-            
+
         false
 	}
 	
-	def avanzar_animacion() {
+	def avanzarAnimacion() {
         paso = paso + 1
         if (paso >= cuadros.size)
             paso = 0
-        receptor.definir_cuadro(cuadros.get(paso))
+        receptor.cuadro = cuadros.get(paso)
 	}
 }
 
 class Saltando extends Comportamiento<ActorPingu> {
-	double dy
+	double dy = 10
 	double origen
 	
 	override iniciar(ActorPingu receptor) {
 		super.iniciar(receptor)
-		dy = 10
-        receptor.definir_cuadro(0)
+        receptor.cuadro = 0
         origen = receptor.y
 	}
 	

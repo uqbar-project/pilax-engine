@@ -41,9 +41,9 @@ class GestorEscenas {
      */	
 	def almacenar_escena(EscenaBase escena) {
         if (escenaActual != null) {
-            escenaActual.pausar_fisica()
-            escenaActual.guardar_posicion_camara()
-            escenaActual.pausar()
+            escenaActual.pausarFisica
+            escenaActual.guardarPosicionCamara
+            escenaActual.pausar
         }
 
         escenas.add(escena)
@@ -59,8 +59,8 @@ class GestorEscenas {
             escenas.last.limpiar()
             escenas.pop
             escenas.last => [
-	            reanudar_fisica
-    	        recuperar_posicion_camara
+	            reanudarFisica
+    	        recuperarPosicionCamara
         	    control.limpiar
             	reanudar
             ]
