@@ -56,4 +56,8 @@ class Mundo {
 	def escenaActual() {
 		gestorEscenas.escenaActual
 	}
+	
+	def terminar() {
+		motor.terminar
+	}
 }

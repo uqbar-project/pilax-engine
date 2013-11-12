@@ -51,4 +51,12 @@ class Pilas {
 		new ActorTextoInferior(mensaje, 0, 0, true, retraso)
 	}
 	
+	def void cambiarEscena(EscenaBase escena) {
+    	mundo.gestorEscenas.cambiarEscena(escena)
+  	}
+  	
+  	def void terminar() {
+    	mundo.terminar()
+    }
+	
 }

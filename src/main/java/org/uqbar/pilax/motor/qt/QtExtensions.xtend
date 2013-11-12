@@ -9,6 +9,12 @@ import com.trolltech.qt.gui.QKeyEvent
 import com.trolltech.qt.core.Qt
 import com.trolltech.qt.gui.QPen
 import com.trolltech.qt.gui.QPainter
+import com.trolltech.qt.core.QEvent.Type
+import com.trolltech.qt.core.QEvent
+import com.trolltech.qt.core.Qt.KeyboardModifiers
+
+import static com.trolltech.qt.core.Qt.Key.*
+import static com.trolltech.qt.core.Qt.KeyboardModifier.*
 
 class QtExtensions {
 	
@@ -61,16 +67,32 @@ class QtExtensions {
 		Utils.aRelativa(p.x, p.y)
 	}
 	
-	def static isFullScreen(QKeyEvent event) {
-		event.key == Qt.Key.Key_F && event.modifiers == Qt.KeyboardModifier.AltModifier
+	// **************************************
+	// ** Keyboard extensions
+	// **************************************
+	
+	def static isFullScreen(QKeyEvent event) { event === Key_F + AltModifier }
+	def static isPausa(QKeyEvent event) { event === Key_P + AltModifier }
+	def static isEscape(QKeyEvent event) { event === Key_Escape }
+	
+	def static boolean operator_tripleEquals(QKeyEvent e1, QKeyEvent e2) {
+		e1.type == e2.type && e1.key == e2.key && e1.modifiers == e2.modifiers
 	}
 	
-	def static isPausa(QKeyEvent event) {
-		event.key == Qt.Key.Key_P && event.modifiers == Qt.KeyboardModifier.AltModifier
+	def static boolean operator_tripleEquals(QKeyEvent e1, Qt.Key key) {
+		e1.key == key.value // TODO: and not modifiers !
 	}
 	
-	def static isEscape(QKeyEvent event) {
-		event.key == Qt.Key.Key_Escape
+	def static QKeyEvent operator_plus(Qt.Key key, Qt.KeyboardModifier modifier) {
+		new QKeyEvent(QEvent.Type.KeyPress, key.value, new KeyboardModifiers(modifier))
+	}
+	
+	def static isKeyPressed(QKeyEvent event, Qt.Key key) {
+		event.key == key.value
+	}
+	
+	def static hasModifier(QKeyEvent event, Qt.KeyboardModifier modifier) {
+		event.modifiers.isSet(modifier)
 	}
 	
 }

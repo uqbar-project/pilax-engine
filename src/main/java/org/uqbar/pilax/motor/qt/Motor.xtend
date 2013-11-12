@@ -131,4 +131,8 @@ class Motor {
     	return new Area(-anchoBorde, anchoBorde, altoBorde, -altoBorde)
 	}
 	
+	def terminar() {
+		ventana.close
+	}
+	
 }

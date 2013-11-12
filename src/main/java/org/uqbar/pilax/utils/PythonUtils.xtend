@@ -8,12 +8,18 @@ import java.util.Map
 import java.util.Random
 import org.apache.commons.beanutils.PropertyUtils
 import org.eclipse.xtext.xbase.lib.IntegerRange
+import com.google.common.collect.Iterables
+import com.google.common.collect.Lists
 
 class PythonUtils {
 	static boolean printNotImplemented = true
 	
 	def static <T> T self(T aThis) {
 		aThis
+	}
+	
+	def static range(int from, int until) {
+		range(from, until, 1)
 	}
 	
 	def static range(int from, int until, int step) {
@@ -129,6 +135,10 @@ class PythonUtils {
 	
 	def static int randint(int Min, int Max) {
 		Min + (Math.random() * ((Max - Min) + 1)).intValue
+	}
+	
+	def static <E> E choice(Iterable<E> list) {
+		choice(Lists.newArrayList(list))
 	}
 	
 	def static <E> E choice(List<E> list) {

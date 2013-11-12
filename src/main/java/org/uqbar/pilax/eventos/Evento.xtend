@@ -52,6 +52,11 @@ class Evento<D extends DataEvento> {
             desconectar(x)
 	}
 	
+	def conectar(HandlerEvento<D> respuesta) {
+		//hack ?
+		conectar(String.valueOf(System.identityHashCode(respuesta)), respuesta)
+	}
+	
 	def conectar(String id, HandlerEvento<D> respuesta) {
 		respuestas.put(id, respuesta)
     }

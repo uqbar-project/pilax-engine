@@ -9,6 +9,7 @@ import com.trolltech.qt.gui.QPaintEvent
 import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
+import com.trolltech.qt.opengl.QGLWidget
 import java.util.List
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.actores.ActorPausa
@@ -25,11 +26,12 @@ import org.uqbar.pilax.eventos.DataEventoRuedaMouse
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
 
+import static org.uqbar.pilax.utils.PythonUtils.*
+
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 
-class CanvasNormalWidget extends /*QGLWidget*/ QWidget {
+class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	QPainter painter
 	boolean pausaHabilitada
 	Pair<Integer,Integer> mouse
@@ -158,7 +160,7 @@ class CanvasNormalWidget extends /*QGLWidget*/ QWidget {
         // Se mantiene este lanzador de eventos por la clase Control
         if (event.escape) eventos.pulsaTeclaEscape.emitir(new DataEvento)
         if (event.pausa) alternarPausa
-        if (event.fullScreen) alternar_pantalla_completa
+        if (event.fullScreen) alternarPantallaCompleta
 
         val codigo_de_tecla = _obtener_codigo_de_tecla_normalizado(event.key())
         eventos.pulsaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, event.isAutoRepeat, event.text))
@@ -237,7 +239,8 @@ class CanvasNormalWidget extends /*QGLWidget*/ QWidget {
             Qt.Key.Key_Plus.value -> Tecla::PLUS,
             Qt.Key.Key_Minus.value -> Tecla::MINUS,
             Qt.Key.Key_Control.value -> Tecla::CTRL,
-            Qt.Key.Key_Alt.value -> Tecla::ALT
+            Qt.Key.Key_Alt.value -> Tecla::ALT,
+            Qt.Key.Key_Escape.value -> Tecla::ESCAPE
         }
 
         if (teclas.containsKey(tecla_qt))
@@ -276,7 +279,7 @@ class CanvasNormalWidget extends /*QGLWidget*/ QWidget {
      * Permite cambiar el modo de video.
      * Si está en modo ventana, pasa a pantalla completa y viceversa.
      */
-    def alternar_pantalla_completa() {
+    def alternarPantallaCompleta() {
         if (estaEnPantallaCompleta)
             pantallaModoVentana
         else

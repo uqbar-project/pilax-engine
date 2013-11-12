@@ -85,7 +85,7 @@ abstract class EscenaBase {
 	}
 	
 	def limpiar() {
-		actores.forEach[destruir]
+		actores.copy.forEach[destruir]
         tareas.eliminarTodas
         tweener.eliminarTodas
 		fisica.reiniciar

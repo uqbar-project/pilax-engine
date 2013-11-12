@@ -7,6 +7,9 @@ import org.uqbar.pilax.engine.Pilas
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import javax.imageio.ImageIO
+import java.io.File
+import java.io.ByteArrayOutputStream
 
 class ActorBaseMotor {
 	@Property int x
@@ -101,16 +104,11 @@ class ImagenMotor {
 	}
 	
 	def QPixmap cargarJpeg(String ruta) {
-		throw new UnsupportedOperationException("Needs to implement support for jpg")
-		
-		// seems like it converts the jpeg into png
-		
-//        val pilImage = Image.open(ruta)
-//        val stringIO = new StringIO()
-//        pilImage.save(stringIO, "png")
-//        val pixmapImage = new QPixmap()
-//        pixmapImage.loadFromData(stringIO.getvalue())
-//        pixmapImage
+		val byteArrayOut = new ByteArrayOutputStream        
+        ImageIO.write(ImageIO.read(new File(ruta)), "png", byteArrayOut);
+        val pixmapImage = new QPixmap()
+        pixmapImage.loadFromData(byteArrayOut.toByteArray)
+        pixmapImage
 	}
 	
 	/**

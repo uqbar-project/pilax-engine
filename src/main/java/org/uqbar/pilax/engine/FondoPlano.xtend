@@ -39,3 +39,11 @@ class FondoPlano extends Fondo {
 	}
 
 }
+
+class FondoEspacio extends Fondo {
+	
+	new() {
+		super("fondos/espacio.jpg")
+	}
+	
+}
