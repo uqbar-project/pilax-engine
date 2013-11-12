@@ -12,6 +12,9 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.* 
 import org.uqbar.pilax.habilidades.RebotarComoPelota
 import org.uqbar.pilax.actores.ActorPelota
+import java.util.List
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import org.eclipse.xtext.xbase.lib.Functions.Function0
 
 class EjemploMono {
 	
@@ -29,17 +32,19 @@ class EjemploMono {
 			.hacerLuego(new ComportamientoGirar(0, 1), true)
 		
 		Pilas.instance.escenaActual.pulsaTecla.conectar("monoTeclado") [d|
-			if (d.tecla == Tecla.r) interpolar(mono, "rotacion", #[0, 180, 360])
-			if (d.tecla == Tecla.e) interpolar(mono, "escala", #[3, 1, 0, 1])
-			if (d.tecla == Tecla.DERECHA) interpolar(mono, "x", #[200])
-			if (d.tecla == Tecla.IZQUIERDA) interpolar(mono, "x", #[-200])
-			if (d.tecla == Tecla.ARRIBA) interpolar(mono, "y", #[150], new CircEaseOut)
-			if (d.tecla == Tecla.ABAJO) interpolar(mono, "y", #[-150], new LinearEasing)
+			switch (d.tecla) {
+				case Tecla.r: interpolar(mono, "rotacion", #[0, 180, 360])
+				case Tecla.e: interpolar(mono, "escala", #[3, 1, 0, 1])
+				case Tecla.DERECHA: interpolar(mono, "x", #[200])
+				case Tecla.IZQUIERDA: interpolar(mono, "x", #[-200])
+				case Tecla.ARRIBA: interpolar(mono, "y", #[150], new CircEaseOut)
+				case Tecla.ABAJO: interpolar(mono, "y", #[-150], new LinearEasing)
+			}
 		]
 		
 //		[| new ActorPelota(randint(0, 320), randint(0, 240)) ].nTimes(20)
 		
 		Pilas.instance.ejecutar
 	}
-
+	
 }

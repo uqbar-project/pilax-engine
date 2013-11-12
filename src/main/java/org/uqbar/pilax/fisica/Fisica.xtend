@@ -230,7 +230,7 @@ class Fisica implements MotorFisica {
                 }
                 else if (shape instanceof CircleShape) {
                     val xy = pilas.escenaActual.camara.desplazar((cuerpo.transform * (shape as CircleShape).m_p * PPM).asPair)
-                    lienzo.circulo(painter, xy.x, xy.y, (shape.radius * PPM).intValue, Color.white, grosor)
+                    lienzo.circulo(painter, xy.x.intValue, xy.y.intValue, (shape.radius * PPM).intValue, Color.white, grosor)
                 }
                 else
                     // TODO: implementar las figuras de tipo "edge" y "loop".

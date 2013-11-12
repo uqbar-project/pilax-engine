@@ -120,6 +120,10 @@ class PilasExtensions {
 		p.key.floatValue -> p.value.floatValue
 	}
 	
+	def static <N extends Number> Pair<Integer,Integer> asInteger(Pair<N,N> p) {
+		p.key.intValue -> p.value.intValue
+	}
+	
 	def static Pair<Float,Float> operator_minus(Pair<Float,Float> p1, Pair<Integer,Integer> p2) {
 		(p1.key - p2.key -> p1.value - p2.value)
 	}

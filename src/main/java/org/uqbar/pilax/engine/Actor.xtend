@@ -51,7 +51,11 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	def static getMotor() {
-		Pilas.instance.mundo.motor
+		mundo.motor
+	}
+	
+	def static getMundo() {
+		Pilas.instance.mundo
 	}
 	
 	/** Sobrescribir para crear otro actor de motor */
@@ -199,7 +203,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
         x - (centro.x * escala)
     }
 
-    def setIzquierda(int x) {
+    def setIzquierda(double x) {
         this.x = (x + centro.x * escala).intValue
     }
     
@@ -207,12 +211,16 @@ class Actor extends Estudiante implements ObjetoGrafico {
         izquierda + ancho * escala
     }
 	
-	def setDerecha(int x) {
+	def setDerecha(double x) {
         izquierda = x - ancho
     }
     
     def getAncho() {
     	imagen.ancho
+    }
+    
+    def void setAncho(double ancho) {
+    	imagen.imagen.size.width = ancho.intValue
     }
     
     def getAlto() {
@@ -223,11 +231,11 @@ class Actor extends Estudiante implements ObjetoGrafico {
     	y + centro.y * escala
     }
     
-    def setArriba(int y) {
+    def setArriba(double y) {
         this.y = (y - centro.y * escala).intValue
     }
     
-    def setAbajo(int y) {
+    def setAbajo(double y) {
         arriba = y + alto
     }
     

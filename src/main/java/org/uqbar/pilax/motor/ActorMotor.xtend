@@ -151,6 +151,10 @@ class ImagenMotor {
     def getAncho() {
         imagen.size.width
     }
+    
+    def void setAncho(int ancho) {
+        imagen.size.width = ancho
+    }
 
     def getAlto() {
         imagen.size.height

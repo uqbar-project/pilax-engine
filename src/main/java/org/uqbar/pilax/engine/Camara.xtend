@@ -55,20 +55,20 @@ class Camara {
 		val areaMotor = Pilas.instance.mundo.motor.area
 		val ancho = areaMotor.key
 		val alto = areaMotor.value
-		return new Area(x - ancho / 2, x + ancho / 2, y + alto / 2, y - alto / 2)
+		return new Area(x.intValue - ancho / 2, x.intValue + ancho / 2, y.intValue + alto / 2, y.intValue - alto / 2)
 	}
 	
 	def getPosicion() {
-		(x -> y)
+		(x.intValue -> y.intValue)
 	}
 
-	def setX(int x) {
+	def setX(double x) {
 		eventos.mueveCamara.emitir(new DataEventoMovimiento((x.floatValue -> y.floatValue), ((x - this.x).floatValue -> 0f)))
-		motor.centroDeLaCamara = (x -> this.y)
+		motor.centroDeLaCamara = (x.intValue -> this.y.intValue)
 	}
 
-	def getX() {
-		motor.centroDeLaCamara.key
+	def double getX() {
+		motor.centroDeLaCamara.x.doubleValue
 	}
 
 	def getMotor() {
@@ -78,20 +78,20 @@ class Camara {
 	/**Define la posición vertical de la cámara.
         :param y: Posición vertical.
         */
-	def setY(int y) {
+	def setY(double y) {
 		eventos.mueveCamara.emitir(new DataEventoMovimiento((this.x.floatValue -> y.floatValue), (0f -> (y - this.y).floatValue)))
-		motor.centroDeLaCamara = (this.x -> y)
+		motor.centroDeLaCamara = (this.x.intValue -> y.intValue)
 	}
 
-	def getY() {
-		motor.centroDeLaCamara.value
+	def double getY() {
+		motor.centroDeLaCamara.y.doubleValue
 	}
 
 	/** Mueve la cámara hacia una posición en particular.
         :param posicion: La posición destino, a donde enfocar.
      */	
 	def desplazar(Pair<Integer, Integer> posicion) {
-        (posicion.x - x -> posicion.y - y)
+        (posicion.x - x.intValue -> posicion.y - y.intValue)
 	}
 	
     /** Mueve la cámara a la posicion inicial (0,0). */

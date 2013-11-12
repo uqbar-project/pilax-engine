@@ -10,13 +10,14 @@ import org.uqbar.pilax.fisica.MotorFisica
 import org.uqbar.pilax.interpolacion.tweener.Tweener
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.eventos.DataEventoMovimiento
 
 abstract class EscenaBase {
 	@Property boolean iniciada
 	@Property List<Actor> actores = newArrayList
 	@Property Fondo fondo
 	@Property Camara camara
-	Pair<Integer,Integer> posicionAnteriorCamara
+	Pair<Double,Double> posicionAnteriorCamara
 	@Property Control control
 	@Property Tareas tareas
 	@Property Colisiones colisiones
@@ -24,7 +25,7 @@ abstract class EscenaBase {
 	@Property MotorFisica fisica
 	
 	// eventos
-	@Property Evento mueveCamara
+	@Property Evento<DataEventoMovimiento> mueveCamara
 	@Property Evento<DataEventoMouse> mueveMouse
 	@Property Evento<DataEventoMouse> clickDeMouse
 	@Property Evento terminaClick
