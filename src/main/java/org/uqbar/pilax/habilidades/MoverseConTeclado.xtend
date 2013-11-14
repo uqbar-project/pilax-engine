@@ -12,7 +12,7 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 class MoverseConTeclado extends Habilidad {
 	static int CUATRO_DIRECCIONES = 4
 	static int OCHO_DIRECCIONES = 8
-	@Property int velocidadMaxima = 4
+	@Property double velocidadMaxima = 4d
 	@Property int direcciones = OCHO_DIRECCIONES
 	@Property int aceleracion = 1
 	@Property double deceleracion = 0.1

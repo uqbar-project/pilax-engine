@@ -9,12 +9,12 @@ import org.jbox2d.common.Transform
 
 class Box2DExtensions {
 	
-	def static asVec(Pair<Integer,Integer> pair) {
+	def static asVec(Pair<Double,Double> pair) {
 		new Vec2(pair.key.floatValue, pair.value.floatValue)
 	}
 	
 	def static asPair(Vec2 v) {
-		v.x.intValue -> v.y.intValue
+		v.x.doubleValue -> v.y.doubleValue
 	}
 	
 	public static val PPM = 30f

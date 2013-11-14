@@ -8,13 +8,13 @@ import org.uqbar.pilax.motor.qt.Motor
 class Mundo {
 	@Property GestorEscenas gestorEscenas
 	@Property Motor motor
-	Pair<Integer,Integer> gravedad
+	Pair<Double,Double> gravedad
 	
 	new(Motor motor, int ancho, int alto) {
 		this.motor = motor
 		this.gestorEscenas = new GestorEscenas
 		this.motor.iniciarVentana(ancho, alto, "PilaX (Pilas Engine en XTend)", false, gestorEscenas, 60)
-        gravedad = (0 -> -10)
+        gravedad = (0d -> -10d)
 	}
 	
 	def void ejecutarBuclePrincipal() {

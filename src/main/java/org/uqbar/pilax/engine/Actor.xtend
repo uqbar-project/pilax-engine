@@ -26,11 +26,11 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	protected ActorMotor actorMotor
 	@Property EscenaBase escena
 	@Property int radioDeColision = 10
-	@Property Pair<Integer,Integer> velocidad = origen
-	@Property Pair<Integer,Integer> delta = origen
+	@Property Pair<Double,Double> velocidad = origen
+	@Property Pair<Double,Double> delta = origen
 	// velocidad
 	@Property boolean fijo
-	@Property Pair<Integer, Integer> centro
+	@Property Pair<Double, Double> centro
 	// cosas raras
 	@Property Object figura
 	
@@ -42,7 +42,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		this(imagen, 0, 0)
 	}
 	
-	new(ImagenMotor imagen, int x, int y) {
+	new(ImagenMotor imagen, double x, double y) {
 		id = uuid()
 		actorMotor = crearActorMotor(imagen, x, y)
         centro = centroDeImagen
@@ -63,7 +63,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	/** Sobrescribir para crear otro actor de motor */
-	def protected crearActorMotor(ImagenMotor imagen, int x, int y) {
+	def protected crearActorMotor(ImagenMotor imagen, double x, double y) {
 		motor.crearActor(imagen, x, y)
 	}
 	
@@ -85,7 +85,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	
 	def getPosicionRelativaACamara() {
 		val centroReferencia = if (fijo) origen else posicionCamara 
-        return posicion.asFloat - centroReferencia 
+        return posicion - centroReferencia 
 	}
 	
 	override getX() {
@@ -117,7 +117,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		actorMotor.y = y.intValue
 	}
 	
-	def void setCentro(Pair<Integer,Integer> centro) {
+	def void setCentro(Pair<Double,Double> centro) {
 		_centro = centro
         actorMotor.centro = centro
 	}
@@ -279,8 +279,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	 * Calcula la velocidad horizontal y vertical del actor.
 	 */	
 	def protected actualizarVelocidad() {
-		velocidad = Math.abs(delta.x - x).intValue  -> Math.abs(delta.y - y).intValue
-		delta = x.intValue -> y.intValue 
+		velocidad = Math.abs(delta.x - x) -> Math.abs(delta.y - y)
+		delta = x -> y
 	}
 	
 	def decir(String mensaje) {
@@ -327,8 +327,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
         aprender(Imitar) => [ objetoAImitar = otro ]
 	}
 	
-	def colisionaConPunto(Pair<Float,Float> punto) {
-		colisionaConPunto(punto.x.intValue, punto.y.intValue)
+	def colisionaConPunto(Pair<Double,Double> punto) {
+		colisionaConPunto(punto.x, punto.y)
 	}
 	
 	/** Determina si un punto colisiona con el area del actor.
@@ -341,7 +341,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
        :param y: Posición vertical del punto.
        :type y: int
      */	
-	def colisionaConPunto(int x, int y) {
+	def colisionaConPunto(double x, double y) {
         return izquierda <= x  && x <= derecha && abajo <= y && abajo <= arriba
 	}
 	

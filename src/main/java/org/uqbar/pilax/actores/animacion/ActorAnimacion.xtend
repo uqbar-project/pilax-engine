@@ -8,15 +8,15 @@ class ActorAnimacion extends ActorAnimado {
 	boolean ciclica
 	@Property double velocidad_de_animacion
 	
-	new(GrillaImagen imagen, int x, int y) {
+	new(GrillaImagen imagen, double x, double y) {
 		this(imagen, x, y, false)
 	}
 	
-	new(GrillaImagen imagen, int x, int y, boolean ciclica) {
+	new(GrillaImagen imagen, double x, double y, boolean ciclica) {
 		this(imagen, x, y, ciclica, 10)
 	}
 	
-	new(GrillaImagen imagen, int x, int y, boolean ciclica, int velocidad) {
+	new(GrillaImagen imagen, double x, double y, boolean ciclica, int velocidad) {
 		super(imagen, x, y)
 		
 		tick = 0

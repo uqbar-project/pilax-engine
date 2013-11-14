@@ -8,7 +8,7 @@ import org.uqbar.pilax.habilidades.Disparar
 
 class ActorNave extends ActorAnimacion {
 	
-	new(int x, int y, int velocidad) {
+	new(double x, double y, double velocidad) {
 		super(new GrillaImagen("nave.png", 2), x, y, true)
 		this.velocidad = velocidad -> velocidad
 		radioDeColision = 20

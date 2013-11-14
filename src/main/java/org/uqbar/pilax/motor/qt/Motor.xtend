@@ -20,11 +20,11 @@ import org.uqbar.pilax.geom.Area
 //RENAME: deberia ser MotorQT implements Motor
 class Motor {
 	QApplication application
-	int anchoOriginal
-	int altoOriginal
+	double anchoOriginal
+	double altoOriginal
 	String titulo
 	@Property Ventana ventana
-	@Property Pair<Integer, Integer> centroDeLaCamara = origen
+	@Property Pair<Double, Double> centroDeLaCamara = origen
 	CanvasNormalWidget canvas
 	boolean permitirDepuracion = true
 	
@@ -59,7 +59,7 @@ class Motor {
         }		
 	}
 	
-	def crearActor(ImagenMotor imagen, int x, int y) {
+	def crearActor(ImagenMotor imagen, double x, double y) {
 		new ActorMotor(imagen, x, y)
 	}
 	

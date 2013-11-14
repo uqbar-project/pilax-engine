@@ -19,8 +19,8 @@ import static extension org.uqbar.pilax.utils.PilasExtensions.*
 class Superficie extends ImagenMotor {
 	@Property QPainter canvas
 	
-	new(int ancho, int alto) {
-		imagen = new QPixmap(ancho, alto)
+	new(double ancho, double alto) {
+		imagen = new QPixmap(ancho.intValue, alto.intValue)
         imagen.fill(new QColor(255, 255, 255, 0))
         canvas = createQPainter
         ruta = urandom(25)
@@ -30,7 +30,7 @@ class Superficie extends ImagenMotor {
         imagen.fill(color.asQColor)
 	}
 	
-    def pintar_parte_de_imagen(ImagenMotor imagen, int origen_x, int origen_y, int ancho, int alto, int x, int y) {
+    def pintar_parte_de_imagen(ImagenMotor imagen, double origen_x, double origen_y, double ancho, double alto, double x, double y) {
         canvas.begin(this.imagen)
         canvas.drawPixmap(x, y, imagen.imagen, origen_x, origen_y, ancho, alto)
         canvas.end
@@ -40,7 +40,7 @@ class Superficie extends ImagenMotor {
 		pintar_imagen(imagen, 0, 0)
 	}
 
-    def pintar_imagen(ImagenMotor imagen, int x, int y) {
+    def pintar_imagen(ImagenMotor imagen, double x, double y) {
         pintar_parte_de_imagen(imagen, 0, 0, imagen.ancho, imagen.alto, x, y)
 	}
 	

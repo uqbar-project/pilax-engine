@@ -59,12 +59,12 @@ class Camara {
 	}
 	
 	def getPosicion() {
-		(x.intValue -> y.intValue)
+		(x -> y)
 	}
 
 	def setX(double x) {
-		eventos.mueveCamara.emitir(new DataEventoMovimiento((x.floatValue -> y.floatValue), ((x - this.x).floatValue -> 0f)))
-		motor.centroDeLaCamara = (x.intValue -> this.y.intValue)
+		eventos.mueveCamara.emitir(new DataEventoMovimiento((x -> y), (x - this.x -> 0d)))
+		motor.centroDeLaCamara = (x -> this.y)
 	}
 
 	def double getX() {
@@ -79,8 +79,8 @@ class Camara {
         :param y: Posición vertical.
         */
 	def setY(double y) {
-		eventos.mueveCamara.emitir(new DataEventoMovimiento((this.x.floatValue -> y.floatValue), (0f -> (y - this.y).floatValue)))
-		motor.centroDeLaCamara = (this.x.intValue -> y.intValue)
+		eventos.mueveCamara.emitir(new DataEventoMovimiento(this.x-> y, 0d -> y - this.y))
+		motor.centroDeLaCamara = this.x -> y
 	}
 
 	def double getY() {
@@ -90,8 +90,8 @@ class Camara {
 	/** Mueve la cámara hacia una posición en particular.
         :param posicion: La posición destino, a donde enfocar.
      */	
-	def desplazar(Pair<Integer, Integer> posicion) {
-        (posicion.x - x.intValue -> posicion.y - y.intValue)
+	def desplazar(Pair<Double, Double> posicion) {
+        (posicion.x - x -> posicion.y - y)
 	}
 	
     /** Mueve la cámara a la posicion inicial (0,0). */

@@ -15,11 +15,11 @@ import org.jbox2d.dynamics.Body
 
 class Rectangulo extends Figura {
 	
-	new(int x, int y, int ancho, int alto, boolean dinamica, Fisica fisica, double restitucion) {
+	new(double x, double y, double ancho, double alto, boolean dinamica, Fisica fisica, double restitucion) {
 		this(x, y, ancho, alto, dinamica, 1.0, 0.5, 0.2, 0.1, fisica, false)
 	} 
 	
-	new(int x0, int y0, int ancho0, int alto0, boolean dinamica, double densidad,
+	new(double x0, double y0, double ancho0, double alto0, boolean dinamica, double densidad,
             double restitucion, double friccion, double amortiguacion,
             Fisica fisica, boolean sin_rotacion) {
 
@@ -28,7 +28,7 @@ class Rectangulo extends Figura {
         val ancho = ancho0.aMetros
         val alto = alto0.aMetros
 
-		val polygon = new PolygonShape() => [ setAsBox(ancho/2, alto/2) ]
+		val polygon = new PolygonShape() => [ setAsBox(ancho.floatValue/2, alto.floatValue/2) ]
 
         val fixture = new FixtureDef() => [
         	shape = polygon
@@ -41,13 +41,13 @@ class Rectangulo extends Figura {
         if (dinamica)
            	cuerpo = fisica.mundo.createBody(new BodyDef() => [ 
             	type = BodyType.DYNAMIC 
-            	position = (x.intValue -> y.intValue).asVec
+            	position = (x -> y).asVec
             	linearDamping=amortiguacion.floatValue
             ])
         else
         	cuerpo = fisica.mundo.createBody(new BodyDef() => [ 
             	type = BodyType.KINEMATIC 
-            	position = (x.intValue -> y.intValue).asVec
+            	position = (x -> y).asVec
             	linearDamping=amortiguacion.floatValue
 //            	fixture =fixture
             ])

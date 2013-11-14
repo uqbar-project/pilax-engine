@@ -1,11 +1,6 @@
 package org.uqbar.pilax.fisica
 
-import org.eclipse.xtext.xbase.lib.Pair
-
 class FisicaDeshabilitada implements MotorFisica {
-
-	new(Pair<Integer, Integer> area, Pair<Integer,Integer> gravedad) {
-	}
 
 	override actualizar() {}
     override reiniciar() {}

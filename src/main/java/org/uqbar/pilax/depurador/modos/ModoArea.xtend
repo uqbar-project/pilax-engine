@@ -20,7 +20,7 @@ class ModoArea extends ModoDepurador {
     override dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {
         val centroActor = actor.centro
         val posicion = actor.posicionRelativaACamara
-        lienzo.rectangulo(painter, (posicion.x - centroActor.x).intValue, (posicion.y + centroActor.y).intValue, actor.ancho, actor.alto, Color.white, depurador.grosor_de_lineas.intValue)
+        lienzo.rectangulo(painter, posicion.x - centroActor.x, posicion.y + centroActor.y, actor.ancho, actor.alto, Color.white, depurador.grosor_de_lineas.intValue)
     }
 	
 	

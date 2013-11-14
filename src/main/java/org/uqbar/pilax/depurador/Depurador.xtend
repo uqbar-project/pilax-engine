@@ -18,6 +18,6 @@ interface Depurador {
 
     def void cuandoPulsaTecla(Tecla codigo_tecla, Object texto_tecla)
 
-    def boolean cuandoMueveElMouse(int x, int y)
+    def boolean cuandoMueveElMouse(double x, double y)
 	
 }

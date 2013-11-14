@@ -35,7 +35,7 @@ class TextoMotor extends ImagenMotor {
         this.areaTexto = motor.obtenerAreaDeTexto(texto, magnitud, vertical, fuente)
     }
 
-    override dibujarPixmap(QPainter painter, int dx, int dy) {
+    override dibujarPixmap(QPainter painter, double dx, double dy) {
         //PILAX
         val nombre_de_fuente = if (this.fuente != null) 
         							cargar_fuente_desde_cache(this.fuente)
@@ -56,7 +56,7 @@ class TextoMotor extends ImagenMotor {
 
 		var auxdy = dy
         for (line : lines) {
-            painter.drawText(dx, auxdy + this.alto, line)
+            painter.drawText(dx.intValue, (auxdy + this.alto).intValue, line)
             auxdy = auxdy + metrica.height
         }
 	}

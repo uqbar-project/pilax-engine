@@ -1,20 +1,23 @@
 package org.uqbar.pilax.motor.qt
 
+import com.trolltech.qt.core.QEvent
 import com.trolltech.qt.core.QPoint
+import com.trolltech.qt.core.Qt
+import com.trolltech.qt.core.Qt.KeyboardModifiers
 import com.trolltech.qt.gui.QColor
+import com.trolltech.qt.gui.QKeyEvent
+import com.trolltech.qt.gui.QPainter
+import com.trolltech.qt.gui.QPen
+import com.trolltech.qt.gui.QPixmap
 import java.awt.Color
 import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.motor.ImagenMotor
 import org.uqbar.pilax.utils.Utils
-import com.trolltech.qt.gui.QKeyEvent
-import com.trolltech.qt.core.Qt
-import com.trolltech.qt.gui.QPen
-import com.trolltech.qt.gui.QPainter
-import com.trolltech.qt.core.QEvent.Type
-import com.trolltech.qt.core.QEvent
-import com.trolltech.qt.core.Qt.KeyboardModifiers
 
 import static com.trolltech.qt.core.Qt.Key.*
 import static com.trolltech.qt.core.Qt.KeyboardModifier.*
+
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class QtExtensions {
 	
@@ -22,21 +25,35 @@ class QtExtensions {
 		painter.scale(scale, scale)
 	} 
 	
-	def static void fillRect(QPainter painter, Pair<Integer,Integer> point, Pair<Integer,Integer> size, Color color) {
-		painter.fillRect(point.key, point.value, size.key, size.value, color.asQColor)
+	def static void fillRect(QPainter painter, Pair<Double,Double> point, Pair<Double,Double> size, Color color) {
+		painter.fillRect(point.key.intValue, point.value.intValue, size.key.intValue, size.value.intValue, color.asQColor)
 	}
 	
-	def static void drawRect(QPainter painter, Pair<Integer,Integer> point, int width, int height) {
-		painter.drawRect(point.key, point.value, width, height)
+	def static void drawRect(QPainter painter, Pair<Double,Double> point, double width, double height) {
+		painter.drawRect(point.key.intValue, point.value.intValue, width.intValue, height.intValue)
 	}
 	
-	def static void drawLine(QPainter painter, Pair<Integer,Integer> p1, Pair<Integer,Integer> p2) {
-		painter.drawLine(p1.key, p1.value, p2.key, p2.value)
+	def static void drawLine(QPainter painter, Pair<Double,Double> p1, Pair<Double,Double> p2) {
+		painter.drawLine(p1.key.intValue, p1.value.intValue, p2.key.intValue, p2.value.intValue)
 	}
 	
-	def static void drawText(QPainter painter, Pair<Integer,Integer> point, String text) {
-		painter.drawText(point.key, point.value, text)
+	def static void drawText(QPainter painter, Pair<Double,Double> point, String text) {
+		painter.drawText(point.key.intValue, point.value.intValue, text)
 	} 
+	
+	def static void drawEllipse(QPainter p, double x, double y, double w, double h) {
+		p.drawEllipse(x.intValue, y.intValue, w.intValue, h.intValue)
+	}
+	
+	def static void drawTiledPixmap(QPainter painter, ImagenMotor imagen, double x, double y, double ancho, double alto){
+		val dx = x % imagen.ancho
+        val dy = 0d
+        painter.drawTiledPixmap(0, y.intValue, ancho.intValue, imagen.alto.intValue, imagen.imagen, (Math.abs(dx) % imagen.ancho).intValue, (dy % imagen.alto).intValue)
+	}
+	
+	def static void drawTiledPixmap(QPainter painter, Pair<Double,Double> pos, Pair<Double,Double> size, QPixmap pixmap, Pair<Double,Double> s) {
+		painter.drawTiledPixmap(pos.x.intValue, pos.y.intValue, size.x.intValue, size.y.intValue, pixmap, s.x.intValue, s.y.intValue)
+	}
 	
 	def static QPainter createQPainter() {
 		val painter = new QPainter /*  => [
@@ -55,15 +72,15 @@ class QtExtensions {
 		new QPen(color.asQColor, grosor)		
 	}
 	
-	def static QPoint operator_divide(QPoint p, float f) {
+	def static QPoint operator_divide(QPoint p, double f) {
 		p.divide(f)
 	}
 	
-	def static QPoint operator_multiply(QPoint p, float f) {
+	def static QPoint operator_multiply(QPoint p, double f) {
 		p.multiply(f)
 	}
 	
-	def static Pair<Float,Float> aRelativa(QPoint p) {
+	def static Pair<Double,Double> aRelativa(QPoint p) {
 		Utils.aRelativa(p.x, p.y)
 	}
 	
@@ -93,6 +110,10 @@ class QtExtensions {
 	
 	def static hasModifier(QKeyEvent event, Qt.KeyboardModifier modifier) {
 		event.modifiers.isSet(modifier)
+	}
+	
+	def static drawPixmap(QPainter painter, double x, double y, QPixmap pixmap, double dx, double dy, double ancho, double alto) {
+		painter.drawPixmap(x.intValue,y.intValue, pixmap, dx.intValue, dy.intValue, ancho.intValue, alto.intValue)
 	}
 	
 }

@@ -28,7 +28,7 @@ class Fisica implements MotorFisica {
     :param area: El area de juego.
     :param gravedad: La gravedad del escenario.
     """ */
-	def static crearMotorFisica(Pair<Integer, Integer> area, Pair<Integer,Integer> gravedad) {
+	def static crearMotorFisica(Pair<Double, Double> area, Pair<Double,Double> gravedad) {
 		//TODO PILAX completar fisica con box2d
 		
 	    if (ENABLED) {
@@ -36,13 +36,13 @@ class Fisica implements MotorFisica {
         }
 	    else {
         	print("Fisica Box2D deshabilita.")
-        	return new FisicaDeshabilitada(area, gravedad)
+        	return new FisicaDeshabilitada
       }
 	}
 	
 	@Property World mundo
 	ContactListener objetosContactListener
-	Pair<Integer,Integer> area
+	Pair<Double,Double> area
 	List<Body> figuras_a_eliminar
 	ConstanteDeMovimiento constante_mouse
 	double velocidad
@@ -58,7 +58,7 @@ class Fisica implements MotorFisica {
      *   :param area: El area del escenario, en forma de tupla.
      *   :param gravedad: La aceleración del escenario.
      */	
-	new(Pair<Integer, Integer> area, Pair<Integer, Integer> gravedad) {
+	new(Pair<Double, Double> area, Pair<Double, Double> gravedad) {
         this.mundo = new World(gravedad.asVec) // new DefaultWorldPool(100, 40)) // tomado de testbed
         this.objetosContactListener = new ObjetosContactListener
         this.mundo.contactListener = this.objetosContactListener
@@ -81,11 +81,11 @@ class Fisica implements MotorFisica {
         crear_paredes(area)
     }
     
-    def crear_techo(Pair<Integer, Integer> area) {
+    def crear_techo(Pair<Double, Double> area) {
     	crear_techo(area, 0)
     }
     
-    def crear_techo(Pair<Integer, Integer> area, int restitucion) {
+    def crear_techo(Pair<Double, Double> area, int restitucion) {
         /**Genera un techo sólido para el escenario.
 
         :param ancho: El ancho del techo.
@@ -95,7 +95,7 @@ class Fisica implements MotorFisica {
         this.techo = new Rectangulo(0, area.alto / 2, area.ancho, 2, false, this, restitucion)
     }
     
-    def crear_suelo(Pair<Integer, Integer> area) {
+    def crear_suelo(Pair<Double, Double> area) {
     	crear_suelo(area, 0)
     }
 
@@ -105,11 +105,11 @@ class Fisica implements MotorFisica {
      *  :param alto: Alto del suelo.
      *  :param restitucion: El grado de conservación de energía ante una colisión.
      */    
-    def crear_suelo(Pair<Integer, Integer> area, int restitucion) {
+    def crear_suelo(Pair<Double, Double> area, int restitucion) {
         this.suelo = new Rectangulo(0, -area.alto/2, area.ancho, 2, false, this, restitucion)
     }
     
-    def crear_paredes(Pair<Integer, Integer> area) {
+    def crear_paredes(Pair<Double, Double> area) {
     	crear_paredes(area, 0)
     }
 
@@ -118,7 +118,7 @@ class Fisica implements MotorFisica {
         :param alto: El alto de las paredes.
         :param restitucion: El grado de conservación de energía ante una colisión.
      */    
-    def crear_paredes(Pair<Integer, Integer> area, int restitucion) {
+    def crear_paredes(Pair<Double, Double> area, int restitucion) {
         pared_izquierda = new Rectangulo(-area.ancho/2, 0, 2, area.alto, false, this, restitucion)
         pared_derecha = new Rectangulo(area.ancho/2, 0, 2, area.alto, false, this, restitucion)
     }

@@ -150,7 +150,7 @@ class Vaca extends Actor {
 	new() {
         super(new GrillaImagen('vaca_voladora/sprites.png', 5, 1), 0, 0)
         definir_animacion(#[0])
-        centro = (140 -> 59)
+        centro = (140d -> 59d)
         radioDeColision = 40
         x = -170
         estado = new Ingresando(this)

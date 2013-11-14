@@ -15,5 +15,5 @@ class DepuradorDeshabilitado implements Depurador {
 
     override cuandoPulsaTecla(Tecla codigo_tecla, Object texto_tecla) {}
 
-    override boolean cuandoMueveElMouse(int x, int y) { true }
+    override boolean cuandoMueveElMouse(double x, double y) { true }
 }

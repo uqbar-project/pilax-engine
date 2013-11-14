@@ -12,17 +12,17 @@ import java.io.File
 import java.io.ByteArrayOutputStream
 
 class ActorBaseMotor {
-	@Property int x
-	@Property int y
+	@Property double x
+	@Property double y
 	
 	@Property double rotacion = 0
 	@Property double transparencia = 0
-	@Property Pair<Integer, Integer> centro
+	@Property Pair<Double, Double> centro
 	@Property Pair<Double, Double> escalas = (1.0 -> 1.0)
 	@Property boolean espejado = false
     @Property int fijo = 0
     
-    new(int x, int y) {
+    new(double x, double y) {
     	this.x = x
 		this.y = y
     }
@@ -52,7 +52,7 @@ class ActorBaseMotor {
 class ActorMotor extends ActorBaseMotor {
 	@Property ImagenMotor imagen
 	
-	new(ImagenMotor imagen, int x, int y) {
+	new(ImagenMotor imagen, double x, double y) {
 		super(x,y)
 		this.imagen = imagen
 	}
@@ -63,7 +63,7 @@ class ActorMotor extends ActorBaseMotor {
         if (espejado) 
             escala_x = escala_x * -1
 
-		var Pair<Integer,Integer> delta = if (this.fijo == 0)
+		var Pair<Double,Double> delta = if (this.fijo == 0)
         										motor.centroDeLaCamara
 											else
         										origen
@@ -119,7 +119,7 @@ class ImagenMotor {
 	 *  rotacion: angulo de inclinacion en sentido de las agujas del reloj.
 	 *
 	 */    
-    def void dibujar(QPainter painter, int x, int y, int dx, int dy, double escala_x, double escala_y, int rotacion, double transparencia) {
+    def void dibujar(QPainter painter, double x, double y, double dx, double dy, double escala_x, double escala_y, double rotacion, double transparencia) {
         painter => [
         	save
         	val centro = motor.centroFisico
@@ -142,20 +142,20 @@ class ImagenMotor {
 		Pilas.instance.mundo
 	}
 	
-	def protected dibujarPixmap(QPainter painter, int x, int y) {
-        painter.drawPixmap(x, y, imagen)
+	def protected dibujarPixmap(QPainter painter, double x, double y) {
+        painter.drawPixmap(x.intValue, y.intValue, imagen)
     }
     
     def getAncho() {
-        imagen.size.width
+        imagen.size.width.doubleValue
     }
     
-    def void setAncho(int ancho) {
-        imagen.size.width = ancho
+    def void setAncho(double ancho) {
+        imagen.size.width = ancho.intValue
     }
 
     def getAlto() {
-        imagen.size.height
+        imagen.size.height.doubleValue
     }
 
    	/* Retorna una tupla con la coordenada del punto medio del la imagen. */

@@ -30,7 +30,7 @@ class PilasExtensions {
 		Pilas.instance.escenaActual
 	}
 	
-	def static relativaALaCamara(Pair<Float, Float> coordenada) {
+	def static relativaALaCamara(Pair<Double, Double> coordenada) {
 		coordenada + motor.centroDeLaCamara
 	}
 	
@@ -144,20 +144,24 @@ class PilasExtensions {
 		p.key.intValue -> p.value.intValue
 	}
 	
-	def static Pair<Float,Float> operator_minus(Pair<Float,Float> p1, Pair<Integer,Integer> p2) {
+	def static Pair<Double,Double> operator_minus(Pair<Double,Double> p1, Pair<Double,Double> p2) {
 		(p1.key - p2.key -> p1.value - p2.value)
 	}
 	
-	def static Pair<Float,Float> operator_plus(Pair<Float,Float> p1, Pair<Integer,Integer> p2) {
+	def static Pair<Double,Double> operator_plus(Pair<Double,Double> p1, Pair<Double,Double> p2) {
 		(p1.key + p2.key -> p1.value + p2.value)
 	}
 	
-	def static Pair<Integer,Integer> operator_divide(Pair<Integer,Integer> pair, Integer divisor) {
+	def static Pair<Double,Double> operator_divide(Pair<Double,Double> pair, Integer divisor) {
 		pair.x / divisor -> pair.y / divisor
 	}
 	
-	def static Pair<Integer,Integer> origen() {
-		(0 -> 0)
+	def static Pair<Double,Double> operator_modulo(Pair<Double,Double> pair, Integer divisor) {
+		pair.x % divisor -> pair.y % divisor
+	}
+	
+	def static Pair<Double,Double> origen() {
+		(0d -> 0d)
 	}
 	
 	def static Pair<Integer,Integer> toInt(Pair<Float,Float> p) {

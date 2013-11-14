@@ -14,16 +14,16 @@ import org.uqbar.pilax.interpolacion.tweener.easing.LinearEasing
 
 class Utils {
 	
-	def static Pair<Float,Float> aRelativa(Pair<Float, Float> p) {
+	def static Pair<Double,Double> aRelativa(Pair<Double, Double> p) {
 		aRelativa(p.x, p.y)
 	}
 	
-	def static Pair<Float,Float> aRelativa(float x, float y) {
+	def static Pair<Double,Double> aRelativa(double x, double y) {
 		val centroFisico = motor.centroFisico
     	x - centroFisico.x -> centroFisico.y - y
 	}
 	
-	def static aAbsoluta(int x, int y) {
+	def static aAbsoluta(double x, double y) {
 		val centro = motor.centroFisico
     	return (x + centro.x -> centro.y - y)
 	}

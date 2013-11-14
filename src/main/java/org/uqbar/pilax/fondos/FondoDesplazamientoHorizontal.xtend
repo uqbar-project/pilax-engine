@@ -9,6 +9,8 @@ import org.uqbar.pilax.motor.ImagenMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
+import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
+
 class FondoDesplazamientoHorizontal extends Fondo {
 	List<Capa> capas = newArrayList
 	
@@ -61,10 +63,8 @@ class Capa {
         this.velocidad = velocidad
 	}
 	
-	def dibujar_tiled_horizontal(QPainter painter, int ancho, int alto) {
-        val dx = x % imagen.ancho
-        val dy = 0
-        painter.drawTiledPixmap(0, y.intValue, ancho, imagen.alto, imagen.imagen, (Math.abs(dx) % imagen.ancho).intValue, dy % imagen.alto)
+	def dibujar_tiled_horizontal(QPainter painter, double ancho, double alto) {
+		painter.drawTiledPixmap(imagen, x, y, ancho, alto)
 	}
     
     def mover_horizontal(int dx) {

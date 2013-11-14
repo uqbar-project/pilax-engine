@@ -6,7 +6,7 @@ import org.uqbar.pilax.actores.PosicionCentro
 
 class ActorAnimado extends Actor {
 	
-	new(GrillaImagen imagen, int x, int y) {
+	new(GrillaImagen imagen, double x, double y) {
 		super(imagen, x, y)
 		setCuadro(0)
 	}

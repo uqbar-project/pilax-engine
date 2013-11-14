@@ -1,12 +1,12 @@
 package org.uqbar.pilax.geom
 
 class Area {
-	@Property int izquierda
-	@Property int derecha
-	@Property int arriba
-	@Property int abajo
+	@Property double izquierda
+	@Property double derecha
+	@Property double arriba
+	@Property double abajo
 	
-	new(int izquierda, int derecha, int arriba, int abajo) {
+	new(double izquierda, double derecha, double arriba, double abajo) {
 		this.izquierda = izquierda
 		this.derecha = derecha
 		this.arriba = arriba

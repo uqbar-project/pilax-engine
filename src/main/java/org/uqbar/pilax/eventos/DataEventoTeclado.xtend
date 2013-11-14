@@ -42,7 +42,7 @@ class DataEventoRuedaMouse extends DataEvento {
 class DataEventoMouse extends DataEventoMovimiento {
 	@Property MouseButton boton
 	
-	new(Pair<Float, Float> pos, Pair<Float,Float> delta, MouseButton boton) {
+	new(Pair<Double, Double> pos, Pair<Double,Double> delta, MouseButton boton) {
 		super(pos, delta)
 		this.boton = boton
 	}
@@ -50,10 +50,10 @@ class DataEventoMouse extends DataEventoMovimiento {
 }
 
 class DataEventoMovimiento extends DataEvento {
-	@Property Pair<Float,Float> posicion
-	@Property Pair<Float,Float> delta
+	@Property Pair<Double,Double> posicion
+	@Property Pair<Double,Double> delta
 	
-	new(Pair<Float,Float> posicion, Pair<Float,Float> delta) {
+	new(Pair<Double,Double> posicion, Pair<Double,Double> delta) {
 		this.posicion = posicion
 		this.delta = delta
 	}

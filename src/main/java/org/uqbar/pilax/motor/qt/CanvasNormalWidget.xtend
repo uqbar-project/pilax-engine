@@ -30,23 +30,24 @@ import static org.uqbar.pilax.utils.PythonUtils.*
 
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.utils.Utils
 
 class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	QPainter painter
 	boolean pausaHabilitada
-	Pair<Integer,Integer> mouse
+	Pair<Double,Double> mouse
 	Motor motor
 	List<Actor> listaActores
 	FPS fps
-	float escala
+	double escala
 	//capaz es de QWidget
-	int original_width
-	int original_height
+	double original_width
+	double original_height
 	Depurador depurador
 	GestorEscenas gestorEscenas
 	ActorPausa actorPausa
 	
-	new(Motor motor, List<Actor> lista_actores, int ancho, int alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
+	new(Motor motor, List<Actor> lista_actores, double ancho, double alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
 		super(null as QWidget)
 //        this.painter = new QPainter()
         mouseTracking = true
@@ -68,7 +69,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
         gestorEscenas = gestor_escenas
     }
 
-    def resize_to(int new_width, int new_height) {
+    def resize_to(double new_width, double new_height) {
     	val relacion = new_width / original_width -> new_height / original_height 
         this.escala = relacion.min
 
@@ -93,7 +94,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
         			QPainter.RenderHint.HighQualityAntialiasing,
         			QPainter.RenderHint.SmoothPixmapTransform));
 
-        painter.fillRect(0, 0, original_width, original_height, new QColor(128, 128, 128))
+        painter.fillRect(0, 0, original_width.intValue, original_height.intValue, new QColor(128, 128, 128))
         depurador.comienzaDibujado(motor, painter)
 
         if (gestorEscenas.escenaActual != null) {
@@ -152,7 +153,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	override protected mouseMoveEvent(QMouseEvent e) {
         var posRelativa = (e.pos / escala).aRelativa + motor.centroDeLaCamara
         gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(posRelativa, posRelativa - mouse, null))
-		mouse = posRelativa.toInt
+		mouse = posRelativa
         depurador.cuandoMueveElMouse(x.intValue, y.intValue)
 	}
 	
@@ -187,7 +188,8 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
     
     def protected triggerearEventoDeMouseClick(QMouseEvent e, Evento<DataEventoMouse> evento) {
 		val posRelativa = (e.pos / escala).aRelativa
-        evento.emitir(new DataEventoMouse(posRelativa, (0f -> 0f), e.button))
+		val d = new DataEventoMouse(posRelativa, origen(), e.button)
+        evento.emitir(d)
 	}
 
     def _obtener_codigo_de_tecla_normalizado(int tecla_qt) {

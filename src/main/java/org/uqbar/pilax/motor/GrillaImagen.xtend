@@ -3,14 +3,16 @@ package org.uqbar.pilax.motor
 import org.uqbar.pilax.motor.ImagenMotor
 import com.trolltech.qt.gui.QPainter
 
+import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
+
 class GrillaImagen extends ImagenMotor {
 	int cantidadDeCuadros
-	int cuadroAncho
-	int cuadroAlto
+	double cuadroAncho
+	double cuadroAlto
 	int columnas
 	int filas
-	int dx
-	int dy
+	double dx
+	double dy
 	int cuadro
 	
 	new(String ruta) {
@@ -48,7 +50,7 @@ class GrillaImagen extends ImagenMotor {
         dy = frameRow * cuadroAlto
 	}
 	
-	override protected dibujarPixmap(QPainter painter, int x, int y) {
+	override protected dibujarPixmap(QPainter painter, double x, double y) {
 		painter.drawPixmap(x, y, imagen, dx, dy, cuadroAncho, cuadroAlto)
 	}
 	

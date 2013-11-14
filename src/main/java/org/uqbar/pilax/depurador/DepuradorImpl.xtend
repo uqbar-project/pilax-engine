@@ -25,7 +25,7 @@ class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
 	Lienzo lienzo
 	FPS fps
-	Pair<Integer,Integer> posicion_del_mouse
+	Pair<Double,Double> posicion_del_mouse
 	@Property double grosor_de_lineas = 1.0
 	
 	new(Lienzo lienzo, FPS fps) {
@@ -152,7 +152,7 @@ class DepuradorImpl implements Depurador {
         grosor_de_lineas = Math.max(1, grosor_de_lineas + cambio)
     }
 	
-	override boolean cuandoMueveElMouse(int x, int y) {
+	override boolean cuandoMueveElMouse(double x, double y) {
 		posicion_del_mouse = x -> y
         true
 	}
