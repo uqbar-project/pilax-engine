@@ -12,14 +12,17 @@ abstract class Estado {
 class Jugando extends Estado {
 	int nivel
 	EscenaAsteroides juego
+	
 	new (EscenaAsteroides juego, int nivel) {
 		this.nivel = nivel
 		this.juego = juego
+		juego.crear_naves(nivel * 3)
+		Pilas.instance.mundo.agregarTarea(1, [|actualizar])
 	}
 	
 	override actualizar() {
 		if (juego.ha_eliminado_todas_las_piedras()) {
-            juego.cambiar_estado(new Iniciando(juego, nivel + 1))
+            juego.cambiarEstado(new Iniciando(juego, nivel + 1))
             return false
         }
         true
@@ -46,7 +49,7 @@ class Iniciando extends Estado {
 		contador_de_segundos = contador_de_segundos + 1
 
         if (contador_de_segundos > 2) {
-            juego.cambiar_estado(new Jugando(juego, nivel))
+            juego.cambiarEstado(new Jugando(juego, nivel))
             texto.eliminar
             return false
         }
@@ -64,19 +67,19 @@ class PierdeVida extends Estado {
 		contador_de_segundos = 0
         this.juego = juego
 
-        if (juego.contador_de_vidas.le_quedan_vidas()) {
-            juego.contador_de_vidas.quitar_una_vida()
+        if (juego.contadorDeVidas.le_quedan_vidas()) {
+            juego.contadorDeVidas.quitar_una_vida()
             Pilas.instance.mundo.agregarTarea(1, [|actualizar])
         }
         else
-            juego.cambiar_estado(new PierdeTodoElJuego(juego))
+            juego.cambiarEstado(new PierdeTodoElJuego(juego))
 	}
 	
 	override actualizar() {
 		contador_de_segundos = contador_de_segundos + 1
 
         if (contador_de_segundos > 2) {
-            juego.crear_nave()
+            juego.crearNave()
             return false
         }
 

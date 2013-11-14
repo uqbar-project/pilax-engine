@@ -146,4 +146,16 @@ class PythonUtils {
 		list.get(index)
 	}
 	
+	def static issubclass(Class a, Class b) {
+		b.isAssignableFrom(a)		
+	}
+	
+	def static math() {
+		Math
+	}
+	
+	def static radians(Class<Math> math, double number) {
+		Math.toRadians(number)
+	}
+	
 }

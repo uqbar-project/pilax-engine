@@ -42,7 +42,7 @@ class Tareas {
         contadorDeTiempo = contadorDeTiempo + dt
         val tareasAEliminar = newArrayList
 
-        for (tarea : tareasPlanificadas){
+        for (tarea : tareasPlanificadas.copy) {
             if (contadorDeTiempo > tarea.timeOut) {
                 tarea.ejecutar
 

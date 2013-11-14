@@ -45,9 +45,13 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	new(ImagenMotor imagen, int x, int y) {
 		id = uuid()
 		actorMotor = crearActorMotor(imagen, x, y)
-		Pilas.instance.escenaActual.agregarActor(this)
-		delta = x -> y
         centro = centroDeImagen
+		delta = x -> y
+		agregateAEscena
+	}
+	
+	def void agregateAEscena() {
+		Pilas.instance.escenaActual.agregarActor(this)
 	}
 	
 	def static getMotor() {
@@ -339,5 +343,13 @@ class Actor extends Estudiante implements ObjetoGrafico {
      */	
 	def colisionaConPunto(int x, int y) {
         return izquierda <= x  && x <= derecha && abajo <= y && abajo <= arriba
+	}
+	
+	def getEspejado() {
+		actorMotor.espejado
+	}
+	
+	def void setEspejado(boolean espejado) {
+		actorMotor.espejado = espejado
 	}
 }

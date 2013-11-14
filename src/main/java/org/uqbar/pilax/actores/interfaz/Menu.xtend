@@ -77,7 +77,7 @@ class Menu extends Actor {
 	}
     
     def cuando_mueve_el_mouse(DataEventoMovimiento evento) {
-    	val i = 0
+    	var i = 0
         for (opcion : opciones_como_actores) {
             if (opcion.colisionaConPunto(evento.posicion)) {
                 if (i != opcion_actual) {
@@ -87,6 +87,7 @@ class Menu extends Actor {
                 }
                 return true
             }
+            i = i + 1
         }
 	}
     

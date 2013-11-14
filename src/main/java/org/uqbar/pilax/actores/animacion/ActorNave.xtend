@@ -4,6 +4,7 @@ import org.uqbar.pilax.actores.animacion.ActorAnimacion
 import org.uqbar.pilax.motor.GrillaImagen
 import org.uqbar.pilax.habilidades.PuedeExplotar
 import org.uqbar.pilax.habilidades.MoverseConTeclado
+import org.uqbar.pilax.habilidades.Disparar
 
 class ActorNave extends ActorAnimacion {
 	
@@ -14,22 +15,22 @@ class ActorNave extends ActorAnimacion {
 		aprender(PuedeExplotar)
 		
 //		municion = new ActorMisil
-//		aprender(Disparar) => [
+		aprender(Disparar) => [
 //			municion=self.municion,
 //                       angulo_salida_disparo=0,
 //                       frecuencia_de_disparo=6,
 //                       offset_disparo=(29,29),
 //                       escala=0.7
-//		]
+		]
 		aprender(MoverseConTeclado) 
-//		=> [
-//			velocidad_maxima=self.velocidad,
-//                      aceleracion=1,
-//                      deceleracion=0.04,
-//                      con_rotacion=True,
-//                      velocidad_rotacion=1,
-//                      marcha_atras=False)
-//		]
+		=> [
+				velocidadMaxima=velocidad
+            	aceleracion=1
+                deceleracion=0.04
+                conRotacion=true
+                velocidadRotacion=1
+                marchaAtras=false
+		]
 	}
 	
 //	    def definir_enemigos(self, grupo, cuando_elimina_enemigo=None):

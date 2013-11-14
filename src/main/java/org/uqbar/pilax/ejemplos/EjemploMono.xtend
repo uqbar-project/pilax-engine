@@ -3,18 +3,14 @@ package org.uqbar.pilax.ejemplos
 import org.uqbar.pilax.actores.ActorMono
 import org.uqbar.pilax.actores.ActorTexto
 import org.uqbar.pilax.comportamientos.ComportamientoGirar
+import org.uqbar.pilax.engine.ActorPiedra
 import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.engine.Tamanio
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.interpolacion.tweener.easing.CircEaseOut
 import org.uqbar.pilax.interpolacion.tweener.easing.LinearEasing
-import static extension org.uqbar.pilax.utils.Utils.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-import static extension org.uqbar.pilax.utils.PilasExtensions.* 
-import org.uqbar.pilax.habilidades.RebotarComoPelota
-import org.uqbar.pilax.actores.ActorPelota
-import java.util.List
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
-import org.eclipse.xtext.xbase.lib.Functions.Function0
+
+import static org.uqbar.pilax.utils.Utils.*
 
 class EjemploMono {
 	
@@ -27,6 +23,8 @@ class EjemploMono {
 //		mono.aprender(MoverseConTeclado) 
 		
 		mono.decir("Hola mundo!")
+		
+		new ActorPiedra(Tamanio.grande, -20, -20)
 		
 		new ActorTexto("Hola Mundo Mono", 100, 100)
 			.hacerLuego(new ComportamientoGirar(0, 1), true)
