@@ -14,6 +14,7 @@ import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.geom.Area
 
 /**
  * 
@@ -27,14 +28,14 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	@Property EscenaBase escena
 	@Property int radioDeColision = 10
 	@Property Pair<Double,Double> velocidad = origen
-	@Property Pair<Double,Double> delta = origen
+	@Property Pair<Double,Double> posicionAnterior = origen
 	// velocidad
 	@Property boolean fijo
 	@Property Pair<Double, Double> centro
 	// cosas raras
 	@Property Object figura
 	
-	new(String imagen, int x, int y) {
+	new(String imagen, double x, double y) {
 		this(Pilas.instance.mundo.motor.cargarImagen(imagen), x, y)
 	}
 	
@@ -46,7 +47,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		id = uuid()
 		actorMotor = crearActorMotor(imagen, x, y)
         centro = centroDeImagen
-		delta = x -> y
+		posicionAnterior = x -> y
 		agregateAEscena
 	}
 	
@@ -90,12 +91,12 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	
 	override getX() {
 		// REVIEW: double para interpolar
-		actorMotor.x.doubleValue
+		actorMotor.x
 	}
 	
 	def void setX(double x) {
 		// REVIEW: double para interpolar
-		actorMotor.x = x.intValue
+		actorMotor.x = x
 	}
 	
 	def void setPosicion(int x, int y) {
@@ -110,11 +111,11 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	override getY() {
-		actorMotor.y.doubleValue
+		actorMotor.y
 	}
 	
 	def void setY(double y) {
-		actorMotor.y = y.intValue
+		actorMotor.y = y
 	}
 	
 	def void setCentro(Pair<Double,Double> centro) {
@@ -192,7 +193,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
     
     def void setRotacion(double rotacion) {
-    	actorMotor.rotacion = rotacion
+    	val rot = if (rotacion < 0) 360 + rotacion else rotacion 
+    	actorMotor.rotacion = rot % 360
     }
     
     def void setTransparencia(double transparencia) {
@@ -208,7 +210,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
 
     def setIzquierda(double x) {
-        this.x = (x + centro.x * escala).intValue
+        this.x = x + centro.x * escala
     }
     
     def getDerecha() {
@@ -279,8 +281,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	 * Calcula la velocidad horizontal y vertical del actor.
 	 */	
 	def protected actualizarVelocidad() {
-		velocidad = Math.abs(delta.x - x) -> Math.abs(delta.y - y)
-		delta = x -> y
+		velocidad = Math.abs(posicionAnterior.x - x) -> Math.abs(posicionAnterior.y - y)
+		posicionAnterior = x -> y
 	}
 	
 	def decir(String mensaje) {
@@ -352,4 +354,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	def void setEspejado(boolean espejado) {
 		actorMotor.espejado = espejado
 	}
+	
+	def getArea() {
+    	new Area(centro.x, centro.y, ancho, alto)
+    }
 }

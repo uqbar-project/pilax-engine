@@ -19,7 +19,7 @@ class ActorNave extends ActorAnimacion {
 //			municion=self.municion,
 //                       angulo_salida_disparo=0,
 //                       frecuencia_de_disparo=6,
-//                       offset_disparo=(29,29),
+//                       offsetDisparos= 29d -> 29d
 //                       escala=0.7
 		]
 		aprender(MoverseConTeclado) 

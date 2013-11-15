@@ -13,6 +13,7 @@ import org.uqbar.pilax.motor.qt.Motor
 import java.util.List
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import com.trolltech.qt.gui.QBrush
 
 class Lienzo extends ImagenMotor {
     
@@ -81,12 +82,20 @@ class Lienzo extends ImagenMotor {
     }
 
 	def rectangulo(QPainter painter, int x, int y, int ancho, int alto) {
-		rectangulo(painter, x, y, ancho, alto, Color.black, 1)
+		rectangulo(painter, x, y, ancho, alto, Color.black, 1, false)
 	}
 
-    def rectangulo(QPainter painter, double x, double y, double ancho, double alto, Color color, int grosor) {
+	def rectangulo(QPainter painter, double x, double y, double ancho, double alto, Color color, int grosor) {
+		rectangulo(painter, x, y, ancho, alto, color, grosor, false)
+	}
+
+    def rectangulo(QPainter painter, double x, double y, double ancho, double alto, Color color, int grosor, boolean fill) {
         painter.pen = color.createPen(grosor)
-        painter.drawRect(Utils.aAbsoluta(x, y), ancho, alto)
+        if (fill) {
+        	painter.fillRect(Utils.aAbsoluta(x, y), ancho, alto, color)
+      	}
+        else 
+        	painter.drawRect(Utils.aAbsoluta(x, y), ancho, alto)
     }
 	
 }

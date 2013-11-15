@@ -12,6 +12,7 @@ import org.uqbar.pilax.depurador.modos.ModoRadiosDeColision
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.Tecla
+import org.uqbar.pilax.fisica.Fisica
 import org.uqbar.pilax.motor.Lienzo
 import org.uqbar.pilax.motor.qt.FPS
 import org.uqbar.pilax.motor.qt.Motor
@@ -19,7 +20,7 @@ import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.fisica.Fisica
+import org.uqbar.pilax.depurador.modos.ModoAngulo
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -103,6 +104,8 @@ class DepuradorImpl implements Depurador {
 	
 	override cuandoPulsaTecla(Tecla codigo_tecla, Object texto_tecla) {
 		switch(codigo_tecla) {
+			case Tecla.F4:
+				alternarModo(ModoAngulo)
 //			case Tecla.F5:
 //            	self.alternarModo(ModoWidgetLog)
 //            case Tecla.F6:	

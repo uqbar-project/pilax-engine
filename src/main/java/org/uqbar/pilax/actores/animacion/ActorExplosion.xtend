@@ -11,7 +11,7 @@ class ActorExplosion extends ActorAnimacion {
         :param y: Posición vertical de la explosion.
         :type y: int
         */
-	new(int x, int y) {
+	new(double x, double y) {
 		super(new GrillaImagen("explosion.png", 7), x, y)
 		// sonido
 //        sonido_explosion = pilas.sonidos.cargar("explosion.wav")

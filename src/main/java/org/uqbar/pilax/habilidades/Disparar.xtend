@@ -18,7 +18,7 @@ class Disparar extends Habilidad {
 	int frecuenciaDeDisparo = 10
 	@Property List<Actor> enemigos = newArrayList
 	int anguloSalidaDisparos = 0
-	Pair<Double,Double> offsetDisparos = origen
+	@Property Pair<Double,Double> offsetDisparos = origen
 	Pair<Double,Double> offsetOrigenAutor = origen
 	Procedure0 cuandoDispara
 	double escala = 1
@@ -63,7 +63,7 @@ class Disparar extends Habilidad {
 	}
 	
     def _desplazar_proyectil(Actor proyectil, double offset_x, double offset_y) {
-        val rotacion_en_radianes = Math.toRadians(-proyectil.rotacion)
+        val rotacion_en_radianes = Math.toRadians(-1 * proyectil.rotacion)
         val dx = Math.cos(rotacion_en_radianes)
         val dy = Math.sin(rotacion_en_radianes)
 

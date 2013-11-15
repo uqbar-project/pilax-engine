@@ -10,6 +10,7 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 import javax.imageio.ImageIO
 import java.io.File
 import java.io.ByteArrayOutputStream
+import org.uqbar.pilax.geom.Area
 
 class ActorBaseMotor {
 	@Property double x

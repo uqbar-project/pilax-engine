@@ -218,7 +218,7 @@ class Item extends Actor {
 	}
 	
     override actualizar() {
-        izquierda = (izquierda - 5).intValue
+        izquierda = izquierda - 5
 
         if (derecha < -320)
         	eliminar

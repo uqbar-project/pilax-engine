@@ -52,10 +52,10 @@ class EscenaMenu extends EscenaBase {
     }
 
     def crear_asteroides() {
-        val fuera_de_la_pantalla = #[-600, -650, -700, -750, -800]
+        val fueraDeLaPantalla = #[-600, -650, -700, -750, -800]
         for (n : range(5)) {
-            val x = choice(fuera_de_la_pantalla)
-            val y = choice(fuera_de_la_pantalla)
+            val x = choice(fueraDeLaPantalla)
+            val y = choice(fueraDeLaPantalla)
             new PiedraEspacial(newArrayList, x, y, Tamanio.chica)
         }
     }

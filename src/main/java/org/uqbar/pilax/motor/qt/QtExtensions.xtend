@@ -2,6 +2,7 @@ package org.uqbar.pilax.motor.qt
 
 import com.trolltech.qt.core.QEvent
 import com.trolltech.qt.core.QPoint
+import com.trolltech.qt.core.QRectF
 import com.trolltech.qt.core.Qt
 import com.trolltech.qt.core.Qt.KeyboardModifiers
 import com.trolltech.qt.gui.QColor
@@ -11,6 +12,7 @@ import com.trolltech.qt.gui.QPen
 import com.trolltech.qt.gui.QPixmap
 import java.awt.Color
 import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.geom.Area
 import org.uqbar.pilax.motor.ImagenMotor
 import org.uqbar.pilax.utils.Utils
 
@@ -18,8 +20,13 @@ import static com.trolltech.qt.core.Qt.Key.*
 import static com.trolltech.qt.core.Qt.KeyboardModifier.*
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import com.trolltech.qt.core.Qt.BrushStyle
 
 class QtExtensions {
+	
+	def static asQRect(Area a) {
+		new QRectF(a.izquierda, a.derecha, a.arriba, a.abajo)
+	}
 	
 	def static void scale(QPainter painter, double scale) {
 		painter.scale(scale, scale)
@@ -27,6 +34,10 @@ class QtExtensions {
 	
 	def static void fillRect(QPainter painter, Pair<Double,Double> point, Pair<Double,Double> size, Color color) {
 		painter.fillRect(point.key.intValue, point.value.intValue, size.key.intValue, size.value.intValue, color.asQColor)
+	}
+	
+	def static void fillRect(QPainter painter, Pair<Double,Double> point, double width, double height, Color color) {
+		painter.fillRect(point.key.intValue, point.value.intValue, width.intValue, height.intValue, color.asQColor)
 	}
 	
 	def static void drawRect(QPainter painter, Pair<Double,Double> point, double width, double height) {

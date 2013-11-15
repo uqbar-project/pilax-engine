@@ -16,21 +16,18 @@ class PiedraEspacial extends ActorPiedra {
 		this(piedras, x, y, Tamanio.grande)
 	}
 	
-	new(List<PiedraEspacial> piedras, int x, int y, Tamanio tamanio) {
-		super(tamanio, x, y)
+	new(List<PiedraEspacial> piedras, double x, double y, Tamanio tamanio) {
+		super(tamanio, x, y, calcularVelocidad, calcularVelocidad)
         this.piedras = piedras
-        
-        val posibles_velocidades = Iterables.concat(range(-10, -2), range(2, 10))
-        val mx = choice(posibles_velocidades) / 10f
-        val my = choice(posibles_velocidades) / 10f
-        
-//        movimiento = choice(posibles_velocidades) / 10  -> choice(posibles_velocidades) / 10
-		movimiento = mx -> my
-//		delta = mx.intValue -> my.intValue
+	}
+	
+	def static double calcularVelocidad() {
+		val posibles_velocidades = Iterables.concat(range(-10, -2), range(2, 10))
+        choice(posibles_velocidades) / 10d
 	}
 	
 	override eliminar() {
-		new ActorExplosion(x.intValue, y.intValue)
+		new ActorExplosion(x, y)
         super.eliminar
 
         if (tamanio == Tamanio.grande)
@@ -40,8 +37,8 @@ class PiedraEspacial extends ActorPiedra {
 	}
 	
 	def crear_dos_piedras_mas_pequenas(double x, double y, Tamanio tamano) {
-        piedras.add(new PiedraEspacial(piedras, x.intValue, y.intValue, tamano))
-        piedras.add(new PiedraEspacial(piedras, x.intValue, y.intValue, tamano))
+        piedras.add(new PiedraEspacial(piedras, x, y, tamano))
+        piedras.add(new PiedraEspacial(piedras, x, y, tamano))
     }
 	
 }

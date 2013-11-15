@@ -14,7 +14,7 @@ class PuedeExplotar extends Habilidad implements ActorListener {
 	}
 	
 	override eliminar(Actor actor, EventChain chain) {
-		val explosion = new ActorExplosion(receptor.x.intValue, receptor.y.intValue)
+		val explosion = new ActorExplosion(receptor.x, receptor.y)
         explosion.escala = receptor.escala * 2		
 		chain.proceed(actor)
 	}

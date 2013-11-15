@@ -4,7 +4,7 @@ import org.uqbar.pilax.actores.animacion.ActorAnimado
 import org.uqbar.pilax.motor.GrillaImagen
 
 class ActorAnimacion extends ActorAnimado {
-	int tick
+	double tick
 	boolean ciclica
 	@Property double velocidad_de_animacion
 	
@@ -30,7 +30,7 @@ class ActorAnimacion extends ActorAnimado {
 	
 	override actualizar() {
         /** Hace avanzar la animacion. */
-        tick =  (tick + velocidad_de_animacion).intValue
+        tick =  tick + velocidad_de_animacion
 
         if (tick > 1000.0) {
             tick = tick - 1000

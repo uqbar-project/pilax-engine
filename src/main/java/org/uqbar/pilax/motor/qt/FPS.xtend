@@ -30,16 +30,16 @@ class FPS {
         if (actual > self.siguiente) {
             var cantidad = 0
 
-            while (actual > self.siguiente) {
-                self.siguiente = self.siguiente + self.frecuencia
+            while (actual >siguiente) {
+                siguiente = siguiente + frecuencia
                 cantidad = cantidad + 1
-                self._procesar_fps(actual)
+                _procesar_fps(actual)
 			}
             if (cantidad > 10) {
                 cantidad = 10
             }
 
-            self.cuadros = self.cuadros + 1
+            cuadros = cuadros + 1
             return cantidad
         }
         else {

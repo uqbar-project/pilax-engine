@@ -68,7 +68,7 @@ class EscenaAsteroides extends EscenaBase {
             val y = choice(fuera_de_la_pantalla)
             val t = choice(tamanos)
 
-            piedras.add(new PiedraEspacial(piedras, x.intValue, y.intValue, t))
+            piedras.add(new PiedraEspacial(piedras, x, y, t))
         }
 	}
 	

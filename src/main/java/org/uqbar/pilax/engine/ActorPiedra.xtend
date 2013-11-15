@@ -9,8 +9,11 @@ class ActorPiedra extends Actor {
 	@Property Pair<Float,Float> movimiento = (0f -> 0f) 
 	
 	
-	new(Tamanio tamanio, int x, int y) {
+	new(Tamanio tamanio, double x, double y, double dx, double dy) {
 		super('''piedra_«tamanio.name».png''', x, y)
+		this.x = x
+		this.y = y
+		this.posicionAnterior = dx -> dy
 		this.tamanio = tamanio
 		val radios = #{
             Tamanio.grande -> 25,
@@ -20,15 +23,15 @@ class ActorPiedra extends Actor {
         radioDeColision = radios.get(tamanio)
         aprender(SeMantieneEnPantalla)
         rotacion = 0
-        delta = origen
+        posicionAnterior = origen
 	}
 	
 	override actualizar() {
 		rotacion = rotacion + 1
-//		x = x + delta.x
-//		y = y + delta.y
-		x = x + movimiento.x
-		y = y + movimiento.y
+//		x = x + posicionAnterior.x
+//		y = y + posicionAnterior.y
+		x = x + velocidad.x
+		y = y + velocidad.y
 	}
 	
 }
