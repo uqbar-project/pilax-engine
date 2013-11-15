@@ -28,10 +28,8 @@ class ModoAngulo extends ModoDepurador {
         lienzo.linea(painter, posicion.x, posicion.y, posicion.x, posicion.y + longitudRadio, Color.white, 2)
 
 		// lineaAngular
-		val angInRads = Math.toRadians(actor.rotacion)
-		val xr = Math.sin(angInRads) * longitudRadio
-		val yr = Math.cos(angInRads) * longitudRadio
-		lienzo.linea(painter, posicion.x, posicion.y, posicion.x + xr, posicion.y + yr, Color.red, 2)
+		val punto = actor.getPuntoADistanciaSobreRectaRotacion(longitudRadio)
+		lienzo.linea(painter, posicion.x, posicion.y, punto.x, punto.y , Color.red, 2)
         
         // texto r=23°
         lienzo.texto(painter, "r=" + actor.rotacion + "°", posicion.x.intValue + 15, posicion.y.intValue + 15, Color.orange)
@@ -43,9 +41,10 @@ class ModoAngulo extends ModoDepurador {
         
         // arriba
         val techoY = motor.area.y / 2
-        val textoY = posicion.y + (techoY - posicion.y) / 2
+        val textoY = posicion.y + actor.arriba // posicion.y + (techoY - posicion.y) / 2
         lienzo.texto(painter, "up=" + actor.arriba, posicion.x.intValue + 15, textoY.intValue, Color.orange)
-        lienzo.linea(painter, posicion.x, posicion.y, posicion.x, techoY, Color.CYAN, 2)
+//        lienzo.linea(painter, posicion.x, posicion.y, posicion.x, techoY, Color.CYAN, 2)
+		lienzo.linea(painter, posicion.x, posicion.y, posicion.x, textoY, Color.CYAN, 2)
     }
 	
 }

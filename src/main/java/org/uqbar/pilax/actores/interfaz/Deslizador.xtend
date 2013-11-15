@@ -94,7 +94,7 @@ class Deslizador extends ActorBaseInterfaz {
       :param x: Nueva posición horizontal.
       :param y: Nueva posición vertical.
      */    
-    override setPosicion(int x, int y) {
+    override setPosicion(double x, double y) {
         this.x = x
         this.y = y
     }

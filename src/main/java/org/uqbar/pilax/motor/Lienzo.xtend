@@ -91,9 +91,8 @@ class Lienzo extends ImagenMotor {
 
     def rectangulo(QPainter painter, double x, double y, double ancho, double alto, Color color, int grosor, boolean fill) {
         painter.pen = color.createPen(grosor)
-        if (fill) {
+        if (fill)
         	painter.fillRect(Utils.aAbsoluta(x, y), ancho, alto, color)
-      	}
         else 
         	painter.drawRect(Utils.aAbsoluta(x, y), ancho, alto)
     }

@@ -18,6 +18,8 @@ class Proyectil extends Comportamiento<Actor> {
 		this.aceleracion = aceleracion
 		this.angulo_de_movimiento = angulo
 		this.gravedad = gravedad
+		vy = gravedad
+		velocidad = if (aceleracion == 1) velocidadMaxima else 0
 	}
 	
 	override actualizar() {

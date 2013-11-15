@@ -21,7 +21,7 @@ class Bala extends Actor {
 		super("disparos/bola_amarilla.png", x, y)
 		this.rotacion = rotacion
 		radioDeColision = 5
-		hacer(new Proyectil(velocidadMaxima,1, anguloMovimiento, 0))
+		hacer(new Proyectil(velocidadMaxima, 1, anguloMovimiento, 0))
 	}
 	
 }

@@ -2,15 +2,14 @@ package org.uqbar.pilax.motor
 
 import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QPixmap
+import java.io.ByteArrayOutputStream
+import java.io.File
+import javax.imageio.ImageIO
 import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Pilas
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import javax.imageio.ImageIO
-import java.io.File
-import java.io.ByteArrayOutputStream
-import org.uqbar.pilax.geom.Area
 
 class ActorBaseMotor {
 	@Property double x
@@ -32,7 +31,7 @@ class ActorBaseMotor {
         x -> y
     }
 
-    def setPosicion(Pair<Integer, Integer> posicion) {
+    def setPosicion(Pair<Double, Double> posicion) {
         x = posicion.key
         y = posicion.value
     }

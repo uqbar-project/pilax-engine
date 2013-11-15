@@ -18,7 +18,7 @@ class Disparar extends Habilidad {
 	int frecuenciaDeDisparo = 10
 	@Property List<Actor> enemigos = newArrayList
 	int anguloSalidaDisparos = 0
-	@Property Pair<Double,Double> offsetDisparos = origen
+	@Property double offsetDisparos = 0
 	Pair<Double,Double> offsetOrigenAutor = origen
 	Procedure0 cuandoDispara
 	double escala = 1
@@ -49,7 +49,6 @@ class Disparar extends Habilidad {
 	
     def _agregar_disparo(Actor proyectil) {
         proyectil.escala = escala
-        _desplazar_proyectil(proyectil, offsetDisparos.x, offsetDisparos.y)
         proyectiles.add(proyectil)
     }
 
@@ -62,28 +61,20 @@ class Disparar extends Habilidad {
         }
 	}
 	
-    def _desplazar_proyectil(Actor proyectil, double offset_x, double offset_y) {
-        val rotacion_en_radianes = Math.toRadians(-1 * proyectil.rotacion)
-        val dx = Math.cos(rotacion_en_radianes)
-        val dy = Math.sin(rotacion_en_radianes)
-
-        proyectil.x = proyectil.x + dx * offset_x
-        proyectil.y = proyectil.x + dy * offset_y
-    }
-
     def disparar() {
     	val offsetAut = if (receptor.espejado) -offsetOrigenAutor.x else offsetOrigenAutor.x
 
+		val puntoOrigen = receptor.getPuntoADistanciaSobreRectaRotacion(offsetDisparos)
+		
         if (issubclass(municion, Municion)) {
 //            val objeto_a_disparar = municion.newInstanceWith(parametros_municion) as Municion
             val objeto_a_disparar = municion.newInstance as Municion
 
-            objeto_a_disparar.disparar(receptor.x + offsetAut,
-                                   receptor.y + offsetOrigenAutor.y,
+            objeto_a_disparar.disparar(puntoOrigen.x, puntoOrigen.y,
                                    receptor.rotacion - 90,
                                    receptor.rotacion + -(anguloSalidaDisparos),
-                                   offsetDisparos.x,
-                                   offsetDisparos.y)
+                                   0,
+                                   0)
 
             for (disparo : objeto_a_disparar.proyectiles) {
                 _agregar_disparo(disparo)
@@ -91,8 +82,8 @@ class Disparar extends Habilidad {
 			}
 		}
         else if (issubclass(municion, Actor)) {
-            val objeto_a_disparar = municion.newInstanceWith(receptor.x + offsetAut,
-                                              receptor.y+ offsetOrigenAutor.y,
+        	
+        	val objeto_a_disparar = municion.newInstanceWith(puntoOrigen.x, puntoOrigen.y,
                                               receptor.rotacion - 90,
                                               receptor.rotacion + -(anguloSalidaDisparos))
 

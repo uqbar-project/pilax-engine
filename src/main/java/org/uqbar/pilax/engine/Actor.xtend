@@ -99,14 +99,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		actorMotor.x = x
 	}
 	
-	def void setPosicion(int x, int y) {
-        /** Define la posición del Actor en el mundo.
-
-        :param x: Posición horizontal del Actor en el mundo.
-        :type x: int
-        :param y: Posición vertical del Actor en el mundo.
-        :type y: int
-        */
+	def void setPosicion(double x, double y) {
         actorMotor.setPosicion = x -> y
 	}
 	
@@ -358,4 +351,18 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	def getArea() {
     	new Area(centro.x, centro.y, ancho, alto)
     }
+
+	/**
+	 * Retorna las coordenadas de un punto que se encuentra a una distancia dada por el parametro
+	 * trazado sobre el eje del angulo de rotacion actual.
+	 * Sirve por ejemplo para los disparos que nacen un poco trasladados del centro del objeto, en sentido
+	 * a su rotación
+	 */	
+	def getPuntoADistanciaSobreRectaRotacion(double distanciaRadio) {
+		val angInRads = Math.toRadians(this.rotacion)
+		val xr = Math.sin(angInRads) * distanciaRadio
+		val yr = Math.cos(angInRads) * distanciaRadio
+		posicion.x + xr -> posicion.y + yr
+	}
+	
 }
