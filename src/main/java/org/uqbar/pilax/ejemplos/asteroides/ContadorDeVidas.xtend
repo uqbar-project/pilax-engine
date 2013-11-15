@@ -21,8 +21,8 @@ class ContadorDeVidas {
         
        	var indice = 0
         for (vida : vidas) {
-            vida.x = -230 + indice * 30
-            vida.arriba = 230
+            vida.x = -210 + indice * 30
+            vida.arriba = 220
             indice = indice + 1
         }
 	}

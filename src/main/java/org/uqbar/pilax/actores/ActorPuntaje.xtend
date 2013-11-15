@@ -23,9 +23,6 @@ class ActorPuntaje extends ActorTexto {
 	}
 	
     def definir(int puntaje_variable) {
-        /** Cambia el texto que se mostrará cómo puntaje.
-        :param puntaje_variable: Texto a definir.
-        */
         valor = Integer.valueOf(puntaje_variable)
         texto = valor.toString
 	}

@@ -238,7 +238,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
     
     def setArriba(double y) {
-        this.y = (y - centro.y * escala).intValue
+        this.y = y - centro.y * escala
     }
     
     def setAbajo(double y) {
