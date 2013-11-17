@@ -47,13 +47,13 @@ class Tareas {
                 tarea.ejecutar
 
                 if (tarea.unaVez)
-                    tareasAEliminar.add(tarea)
+                    tareasAEliminar += tarea
                 else {
                     val w = contadorDeTiempo - tarea.timeOut
-                    val parteEntera = ((w)/ tarea.dt.floatValue).intValue
+                    val parteEntera = (w / tarea.dt).intValue
                     val resto = w - (parteEntera * tarea.dt)
 					
-					[|tarea.ejecutar()].nTimes(parteEntera)
+					[| tarea.ejecutar() ].nTimes(parteEntera)
 					
                     tarea.timeOut = tarea.timeOut + tarea.dt + (parteEntera * tarea.dt) - resto
                 }

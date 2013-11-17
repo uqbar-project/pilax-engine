@@ -16,12 +16,12 @@ class Jugando extends Estado {
 	new (EscenaAsteroides juego, int nivel) {
 		this.nivel = nivel
 		this.juego = juego
-		juego.crear_naves(nivel * 3)
+		juego.crearAsteroides(nivel * 3)
 		Pilas.instance.mundo.agregarTarea(1, [|actualizar])
 	}
 	
 	override actualizar() {
-		if (juego.ha_eliminado_todas_las_piedras()) {
+		if (juego.haEliminadoTodasLasPiedras) {
             juego.cambiarEstado(new Iniciando(juego, nivel + 1))
             return false
         }
@@ -54,36 +54,37 @@ class Iniciando extends Estado {
             return false
         }
 
-        return true    // para indicarle al contador que siga trabajado.
+        true    // para indicarle al contador que siga trabajado.
 	}
 	
 }
 
 class PierdeVida extends Estado {
-	int contador_de_segundos
+	int contadorDeSegundos
 	EscenaAsteroides juego
+	boolean seEjecuto = false
 	
 	new(EscenaAsteroides juego) {
-		contador_de_segundos = 0
+		contadorDeSegundos = 0
         this.juego = juego
 
-        if (juego.contadorDeVidas.le_quedan_vidas()) {
-            juego.contadorDeVidas.quitar_una_vida()
-            Pilas.instance.mundo.agregarTarea(1, [|actualizar])
-        }
+		juego.contadorDeVidas.quitarUnaVida
+        if (juego.contadorDeVidas.leQuedanVidas)
+            Pilas.instance.mundo.agregarTarea(1, [| actualizar])
         else
             juego.cambiarEstado(new PierdeTodoElJuego(juego))
 	}
 	
 	override actualizar() {
-		contador_de_segundos = contador_de_segundos + 1
-
-        if (contador_de_segundos > 2) {
-            juego.crearNave()
-            return false
+		contadorDeSegundos = contadorDeSegundos + 1
+        if (!seEjecuto && contadorDeSegundos > 2) {
+        	seEjecuto = true
+            juego.crearNave
+            false
         }
-
-        return true
+		else {
+	        true
+        }
 	}
 	
 }

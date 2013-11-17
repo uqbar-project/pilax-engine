@@ -35,11 +35,11 @@ class ContadorDeVidas {
         texto.arriba = 220
     }
 
-    def le_quedan_vidas() {
+    def isLeQuedanVidas() {
         return cantidadDeVidas > 0
     }
 
-    def quitar_una_vida() {
+    def quitarUnaVida() {
         cantidadDeVidas = cantidadDeVidas - 1
         val vida = vidas.pop
         vida.eliminar

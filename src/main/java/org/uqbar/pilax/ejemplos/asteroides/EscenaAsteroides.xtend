@@ -36,11 +36,11 @@ class EscenaAsteroides extends EscenaBase {
     def crearNave() {
         nave = new ActorNave(0, 0, 2)
         nave.aprender(SeMantieneEnPantalla)
-        nave.definirEnemigos(piedras, [|cuando_explota_asterioide])
-        colisiones.agregar(nave, piedras, [n,p| explotar_y_terminar(n,p)])
+        nave.definirEnemigos(piedras, [| cuandoExplotaAsterioide])
+        colisiones.agregar(nave, piedras, [n,p| explotarYTerminar(n,p)])
 	}
 	
-    def cuando_explota_asterioide() {
+    def cuandoExplotaAsterioide() {
         puntaje.aumentar(1)
 	}
 	
@@ -49,17 +49,15 @@ class EscenaAsteroides extends EscenaBase {
     }
 
     def pulsaEscape() {
-        Pilas.instance.cambiarEscena(new EscenaMenu)
+        cambiarEscenaActual(new EscenaMenu)
 	}
 	
-    def explotar_y_terminar(ActorNave nave, PiedraEspacial piedra) {
-        /* Responde a la colision entre la nave y una piedra.*/
+    def explotarYTerminar(ActorNave nave, PiedraEspacial piedra) {
         nave.eliminar
         cambiarEstado(new PierdeVida(this))
 	}
 	
-    def crear_naves(int cantidad) {
-        /**Genera una cantidad especifica de naves en el escenario.*/
+    def crearAsteroides(int cantidad) {
         val fuera_de_la_pantalla = #[-600, -650, -700, -750, -800]
         val tamanos = #[Tamanio.grande, Tamanio.media, Tamanio.chica]
 
@@ -72,8 +70,8 @@ class EscenaAsteroides extends EscenaBase {
         }
 	}
 	
-    def ha_eliminado_todas_las_piedras() {
-        return piedras.empty
+    def haEliminadoTodasLasPiedras() {
+        piedras.empty
     }
 	
 }

@@ -27,7 +27,7 @@ class PythonUtils {
 	}
 	
 	def static range(int numero) {
-		0..numero
+		0..(numero - 1)
 	}
 	
 	def static int id(Object obj) {

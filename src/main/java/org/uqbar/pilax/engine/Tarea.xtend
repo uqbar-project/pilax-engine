@@ -37,7 +37,7 @@ class TareaCondicional extends Tarea {
 		super(planificador, timeOut, dt, funcion, unaVez)
 	}
 	
-	/** """Ejecuta la tarea, y se detiene si no revuelve True.""" */	
+	/** """Ejecuta la tarea, y se detiene si no devuelve True.""" */	
 	override ejecutar() {
         val retorno = super.ejecutar()
 
