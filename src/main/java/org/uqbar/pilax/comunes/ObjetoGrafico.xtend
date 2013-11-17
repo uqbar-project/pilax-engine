@@ -12,7 +12,11 @@ interface ObjetoGrafico {
 	
 	def double getX()
 	
+	def void setX(double x)
+	
 	def double getY()
+	
+	def void setY(double y)
 	
 	def double getRotacion()
 	

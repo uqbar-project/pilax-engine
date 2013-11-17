@@ -21,7 +21,7 @@ import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import com.trolltech.qt.gui.QPainter
 
 class Fisica implements MotorFisica {
-	static final boolean ENABLED = true	
+	static final boolean ENABLED = true
 	
 	/**"""Genera el motor de física Box2D.
 

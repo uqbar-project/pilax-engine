@@ -109,6 +109,10 @@ class PilasExtensions {
 	// ** Pairs
 	// ************************************
 	
+	def static <X,Y> Pair<X,Y> copy(Pair<X,Y> p) {
+		p.x -> p.y
+	} 
+	
 	def static <E> Pair<E,E> asPair(E e) {
 		e -> e
 	}

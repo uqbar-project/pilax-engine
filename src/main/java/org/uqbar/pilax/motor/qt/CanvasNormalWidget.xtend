@@ -145,8 +145,8 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
         try {
         	gestorEscenas.escenaActual.actores.copy.forEach[preActualizar; actualizar]
         }
-        catch (Exception e) {
-            e.printStackTrace
+        catch (RuntimeException e) {
+            throw new PilaxException("Error actualizando actores de la escena!", e)
         }
 	}
 	

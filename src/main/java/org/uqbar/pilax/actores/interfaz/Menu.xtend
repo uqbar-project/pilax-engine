@@ -97,14 +97,8 @@ class Menu extends Actor {
     }
     
     def mover_cursor(int delta) {
-        // Deja como no-seleccionada la opcion actual.
-        _deshabilitar_opcion_actual()
-
-        // Se asegura que las opciones esten entre 0 y 'cantidad de opciones'.
+        _deshabilitar_opcion_actual
         opcion_actual = opcion_actual + delta
-        opcion_actual = opcion_actual % opciones_como_actores.size
-
-        // Selecciona la opcion nueva.
         opcionSeleccionada.resaltar
     }
     
@@ -127,11 +121,11 @@ class Menu extends Actor {
                 seleccionar_opcion_actual()
                 demora_al_responder = DEMORA
 			}
-            if (control_menu.abajo) {
+            if (control_menu.abajo && opcion_actual < opciones_como_actores.size - 1) {
                 mover_cursor(1)
                 demora_al_responder = DEMORA
             }
-            else if (control_menu.arriba) {
+            else if (control_menu.arriba && opcion_actual > 0) {
                 mover_cursor(-1)
                 demora_al_responder = DEMORA
             }

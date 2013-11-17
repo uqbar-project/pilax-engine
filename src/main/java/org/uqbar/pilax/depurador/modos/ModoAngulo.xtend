@@ -40,11 +40,9 @@ class ModoAngulo extends ModoDepurador {
         lienzo.texto(painter, "vx=" + actor.velocidad.x, (posicion.x + anchoRectVelx + 6).intValue, posicion.y.intValue, Color.green)
         
         // arriba
-        val techoY = motor.area.y / 2
-        val textoY = posicion.y + actor.arriba // posicion.y + (techoY - posicion.y) / 2
-        lienzo.texto(painter, "up=" + actor.arriba, posicion.x.intValue + 15, textoY.intValue, Color.orange)
-//        lienzo.linea(painter, posicion.x, posicion.y, posicion.x, techoY, Color.CYAN, 2)
-		lienzo.linea(painter, posicion.x, posicion.y, posicion.x, textoY, Color.CYAN, 2)
+        val textoY = actor.arriba / 2 // posicion.y + (techoY - posicion.y) / 2
+        lienzo.texto(painter, "up=" + actor.arriba, posicion.x.intValue - 15, textoY.intValue, Color.orange)
+		lienzo.linea(painter, posicion.x, 0, posicion.x, actor.arriba, Color.CYAN, 2)
     }
 	
 }

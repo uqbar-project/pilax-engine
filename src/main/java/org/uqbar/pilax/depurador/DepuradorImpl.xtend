@@ -21,6 +21,7 @@ import org.uqbar.pilax.utils.Utils
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 import org.uqbar.pilax.depurador.modos.ModoAngulo
+import org.uqbar.pilax.depurador.modos.ModoCamara
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -104,6 +105,8 @@ class DepuradorImpl implements Depurador {
 	
 	override cuandoPulsaTecla(Tecla codigo_tecla, Object texto_tecla) {
 		switch(codigo_tecla) {
+			case Tecla.F3:
+				alternarModo(ModoCamara)
 			case Tecla.F4:
 				alternarModo(ModoAngulo)
 //			case Tecla.F5:

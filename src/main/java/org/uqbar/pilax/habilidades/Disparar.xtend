@@ -1,17 +1,18 @@
 package org.uqbar.pilax.habilidades
 
 import java.util.List
+import org.eclipse.xtext.xbase.lib.Pair
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Habilidad
+import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.engine.PilaxException
+import org.uqbar.pilax.habilidades.disparar.Bala
+import org.uqbar.pilax.habilidades.disparar.Municion
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.habilidades.disparar.Municion
-import org.uqbar.pilax.habilidades.disparar.Bala
-import org.uqbar.pilax.engine.PilaxException
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
-import org.uqbar.pilax.engine.Pilas
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
 
 class Disparar extends Habilidad {
 	Class municion = Bala
@@ -62,8 +63,6 @@ class Disparar extends Habilidad {
 	}
 	
     def disparar() {
-    	val offsetAut = if (receptor.espejado) -offsetOrigenAutor.x else offsetOrigenAutor.x
-
 		val puntoOrigen = receptor.getPuntoADistanciaSobreRectaRotacion(offsetDisparos)
 		
         if (issubclass(municion, Municion)) {

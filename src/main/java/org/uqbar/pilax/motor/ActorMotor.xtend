@@ -9,31 +9,38 @@ import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Pilas
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
 
 class ActorBaseMotor {
-	@Property double x
-	@Property double y
-	
+	@Property Pair<Double,Double> posicion = origen
+	@Property Pair<Double, Double> centro
+	@Property Pair<Double, Double> escalas = (1.0 -> 1.0) 
 	@Property double rotacion = 0
 	@Property double transparencia = 0
-	@Property Pair<Double, Double> centro
-	@Property Pair<Double, Double> escalas = (1.0 -> 1.0)
 	@Property boolean espejado = false
-    @Property int fijo = 0
+    @Property boolean fijo = false
     
     new(double x, double y) {
-    	this.x = x
-		this.y = y
+    	this.posicion = x -> y
     }
 	
-    def getPosicion() {
-        x -> y
-    }
-
     def setPosicion(Pair<Double, Double> posicion) {
-        x = posicion.key
-        y = posicion.value
+    	_posicion = posicion
+    }
+    
+    def getX() {
+    	posicion.x
+    }
+    
+    def void setX(double x) {
+    	posicion = x -> this.y
+    }
+    
+    def void setY(double y) {
+    	posicion = this.x -> y
+    }
+    
+    def getY() {
+    	posicion.y
     }
     
     // sospecho que algo esta mal aca
@@ -63,13 +70,13 @@ class ActorMotor extends ActorBaseMotor {
         if (espejado) 
             escala_x = escala_x * -1
 
-		var Pair<Double,Double> delta = if (this.fijo == 0)
+		var Pair<Double,Double> delta = if (this.fijo)
         										motor.centroDeLaCamara
 											else
         										origen
 		
-        val x = this.x - delta.x
-        val y = this.y - delta.y
+        val x = posicion.x - delta.x
+        val y = posicion.y - delta.y
 
         imagen.dibujar(painter, x, y, centro.x, centro.y, escala_x, escalas.y, this.rotacion.intValue, transparencia)
     }
@@ -78,9 +85,9 @@ class ActorMotor extends ActorBaseMotor {
     	// permite que varios actores usen la misma grilla.
     	// PILAX!
 //        if (imagen instanceof Grilla)
-//            self._imagen = copy.copy(imagen)
+//          imagen = copy.copy(imagen)
 //        else:
-            self._imagen = imagen
+            _imagen = imagen
     }
 	
 }
@@ -123,7 +130,7 @@ class ImagenMotor {
         painter => [
         	save
         	val centro = motor.centroFisico
-	        translate(x + centro.key, centro.value - y)
+	        translate(x + centro.x, centro.y - y)
 	        rotate(rotacion)
 	        scale(escala_x, escala_y)
 	        if (transparencia != 0) { 

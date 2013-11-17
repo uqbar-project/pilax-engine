@@ -32,12 +32,20 @@ class Figura implements ObjetoGrafico {
 		cuerpo.position.x.aPixels
 	}
 	
+	override setX(double x) {
+		cuerpo.position.set(x.aMetros.floatValue, cuerpo.position.y)
+	}
+	
 	override getY() {
 		cuerpo.position.y.aPixels
 	}
 	
+	override setY(double y) {
+		cuerpo.position.set(cuerpo.position.x, y.aMetros.floatValue)
+	}
+	
 	override getRotacion() {
-		- Math.toDegrees(cuerpo.angle)
+		-Math.toDegrees(cuerpo.angle)
 	}
 	
 	def impulsar(float dx, float dy) {

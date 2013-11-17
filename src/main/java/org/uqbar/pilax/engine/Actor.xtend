@@ -27,8 +27,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	protected ActorMotor actorMotor
 	@Property EscenaBase escena
 	@Property int radioDeColision = 10
-	@Property Pair<Double,Double> velocidad = origen
-	@Property Pair<Double,Double> posicionAnterior = origen
+	@Property Pair<Double,Double> velocidad = origen   // read-only
+	@Property Pair<Double,Double> posicionAnterior = origen  // read-only
 	// velocidad
 	@Property boolean fijo
 	@Property Pair<Double, Double> centro
@@ -90,12 +90,10 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	override getX() {
-		// REVIEW: double para interpolar
-		actorMotor.x
+		actorMotor.posicion.x
 	}
 	
-	def void setX(double x) {
-		// REVIEW: double para interpolar
+	override void setX(double x) {
 		actorMotor.x = x
 	}
 	
@@ -104,10 +102,10 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	override getY() {
-		actorMotor.y
+		actorMotor.posicion.y
 	}
 	
-	def void setY(double y) {
+	override void setY(double y) {
 		actorMotor.y = y
 	}
 	
@@ -274,7 +272,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	 * Calcula la velocidad horizontal y vertical del actor.
 	 */	
 	def protected actualizarVelocidad() {
-		velocidad = Math.abs(posicionAnterior.x - x) -> Math.abs(posicionAnterior.y - y)
+		velocidad = x - posicionAnterior.x -> y - posicionAnterior.y
 		posicionAnterior = x -> y
 	}
 	
@@ -363,6 +361,10 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		val xr = Math.sin(angInRads) * distanciaRadio
 		val yr = Math.cos(angInRads) * distanciaRadio
 		posicion.x + xr -> posicion.y + yr
+	}
+	
+	def isVivo() {
+		vivo
 	}
 	
 }

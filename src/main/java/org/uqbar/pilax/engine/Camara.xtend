@@ -61,10 +61,22 @@ class Camara {
 	def getPosicion() {
 		(x -> y)
 	}
+	
+	def void setPosicion(Pair<Double,Double> p) {
+		eventos.mueveCamara.emitir(new DataEventoMovimiento(p, p - this.posicion))
+		motor.centroDeLaCamara = p
+	}
 
 	def setX(double x) {
-		eventos.mueveCamara.emitir(new DataEventoMovimiento((x -> y), (x - this.x -> 0d)))
-		motor.centroDeLaCamara = (x -> this.y)
+		posicion = x -> this.y
+//		eventos.mueveCamara.emitir(new DataEventoMovimiento((x -> y), (x - this.x -> 0d)))
+//		motor.centroDeLaCamara = (x -> this.y)
+	}
+	
+	def setY(double y) {
+		posicion = this.x -> y
+//		eventos.mueveCamara.emitir(new DataEventoMovimiento(this.x-> y, 0d -> y - this.y))
+//		motor.centroDeLaCamara = this.x -> y
 	}
 
 	def double getX() {
@@ -73,14 +85,6 @@ class Camara {
 
 	def getMotor() {
 		Pilas.instance.mundo.motor
-	}
-
-	/**Define la posición vertical de la cámara.
-        :param y: Posición vertical.
-        */
-	def setY(double y) {
-		eventos.mueveCamara.emitir(new DataEventoMovimiento(this.x-> y, 0d -> y - this.y))
-		motor.centroDeLaCamara = this.x -> y
 	}
 
 	def double getY() {

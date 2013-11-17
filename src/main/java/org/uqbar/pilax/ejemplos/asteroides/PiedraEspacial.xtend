@@ -1,6 +1,7 @@
 package org.uqbar.pilax.ejemplos.asteroides
 
 import com.google.common.collect.Iterables
+
 import java.util.List
 import org.uqbar.pilax.actores.animacion.ActorExplosion
 import org.uqbar.pilax.engine.ActorPiedra
@@ -8,6 +9,7 @@ import org.uqbar.pilax.engine.Tamanio
 
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension com.google.common.collect.Iterables.*
 
 class PiedraEspacial extends ActorPiedra {
 	List<PiedraEspacial> piedras
@@ -17,13 +19,13 @@ class PiedraEspacial extends ActorPiedra {
 	}
 	
 	new(List<PiedraEspacial> piedras, double x, double y, Tamanio tamanio) {
-		super(tamanio, x, y, calcularVelocidad, calcularVelocidad)
+		super(tamanio, x, y)
+		this.movimiento = calcularMovimiento -> calcularMovimiento
         this.piedras = piedras
 	}
 	
-	def static double calcularVelocidad() {
-		val posibles_velocidades = Iterables.concat(range(-10, -2), range(2, 10))
-        choice(posibles_velocidades) / 10d
+	def double calcularMovimiento() {
+        choice((-10..-2) + (2..10)) / 10d
 	}
 	
 	override eliminar() {
