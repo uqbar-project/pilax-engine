@@ -14,19 +14,22 @@ import org.uqbar.pilax.habilidades.disparar.Municion
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 
-// TODO: agregar generics para manejar la colision
+// TODO: 1) agregar generics para manejar la colision
+//  2) rediseñar el hecho de que puede trabajar configurandole la clase del Actor a disparar
+//  	o bien una Municion que es la que realmente dispara (pero ahora todo se dice de la misma forma
+//			con un Class) 
 class Disparar extends Habilidad {
 	Class municion = Bala
-	int frecuenciaDeDisparo = 10
 	@Property List<Actor> enemigos = newArrayList
-	int anguloSalidaDisparos = 0
 	@Property double offsetDisparos = 0
+
+	int frecuenciaDeDisparo = 10
+	int anguloSalidaDisparos = 0
 	Procedure0 cuandoDispara
 	double escala = 1
 	(Actor, Actor) => void cuando_elimina_enemigo
-	
 	List<Actor> proyectiles = newArrayList
-	int contador_frecuencia_disparo = 0
+	int contadorFrecuenciaDisparo = 0
 	
 	new(Actor receptor) {
 		super(receptor)
@@ -42,26 +45,26 @@ class Disparar extends Habilidad {
 	}
 	
 	override actualizar() {
-        contador_frecuencia_disparo = contador_frecuencia_disparo + 1
+        contadorFrecuenciaDisparo = contadorFrecuenciaDisparo + 1
 
-        if (pulsa_disparar)
-            if (contador_frecuencia_disparo > frecuenciaDeDisparo) {
-                contador_frecuencia_disparo = 0
+        if (pulsaDisparar)
+            if (contadorFrecuenciaDisparo > frecuenciaDeDisparo) {
+                contadorFrecuenciaDisparo = 0
                 disparar
             }
-        _eliminar_disparos_innecesarios
+        eliminarDisparosInnecesarios
 	}
 	
-    def _agregar_disparo(Actor proyectil) {
+    def agregarDisparo(Actor proyectil) {
         proyectil.escala = escala
         proyectiles.add(proyectil)
     }
 
-    def _eliminar_disparos_innecesarios() {
-        for (d : proyectiles.copy) {
-            if (d.estaFueraDeLaPantalla) {
-                d.eliminar
-                proyectiles.remove(d)
+    def eliminarDisparosInnecesarios() {
+        for (p : proyectiles.copy) {
+            if (p.estaFueraDeLaPantalla) {
+                p.eliminar
+                proyectiles.remove(p)
             }
         }
 	}
@@ -70,28 +73,27 @@ class Disparar extends Habilidad {
 		val puntoOrigen = receptor.getPuntoADistanciaSobreRectaRotacion(offsetDisparos)
 		
         if (issubclass(municion, Municion)) {
-//            val objeto_a_disparar = municion.newInstanceWith(parametros_municion) as Municion
-            val objeto_a_disparar = municion.newInstance as Municion
+//            val municion = municion.newInstanceWith(parametros_municion) as Municion
+            val municion = municion.newInstance as Municion
 
-            objeto_a_disparar.disparar(puntoOrigen.x, puntoOrigen.y,
+            municion.disparar(puntoOrigen.x, puntoOrigen.y,
                                    receptor.rotacion - 90,
                                    receptor.rotacion + -(anguloSalidaDisparos),
                                    0,
                                    0)
 
-            for (disparo : objeto_a_disparar.proyectiles) {
-                _agregar_disparo(disparo)
+            for (disparo : municion.proyectiles) {
+                agregarDisparo(disparo)
                 disparo.fijo = receptor.fijo
 			}
 		}
         else if (issubclass(municion, Actor)) {
-        	
-        	val objeto_a_disparar = municion.newInstanceWith(puntoOrigen.x, puntoOrigen.y,
+        	val proyectil = municion.newInstanceWith(puntoOrigen.x, puntoOrigen.y,
                                               receptor.rotacion - 90,
                                               receptor.rotacion + -(anguloSalidaDisparos))
 
-            _agregar_disparo(objeto_a_disparar)
-            objeto_a_disparar.fijo = receptor.fijo
+            agregarDisparo(proyectil)
+            proyectil.fijo = receptor.fijo
         }
         else
             throw new PilaxException("No se puede disparar este objeto.")
@@ -100,7 +102,7 @@ class Disparar extends Habilidad {
             cuandoDispara.apply
 	}
 
-    def pulsa_disparar() {
+    def pulsaDisparar() {
         return Pilas.instance.escenaActual.control.boton
 	}
 	

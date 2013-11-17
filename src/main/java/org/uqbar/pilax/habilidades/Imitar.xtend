@@ -16,10 +16,11 @@ class Imitar extends Habilidad {
 	def void setObjetoAImitar(ObjetoGrafico aImitar) {
 		receptor.id = aImitar.id
 //         Y nos guardamos una referencia al objeto físico al que imita.
-//         Posterormente en las colisiones fisicas comprobaremos si el
+//         Posteriormente en las colisiones fisicas comprobaremos si el
 //         objeto tiene el atributo "figura" para saber si estamos delante
 //         de una figura fisica o no.
-        receptor.figura = aImitar
+		if (aImitar instanceof Figura)
+        	receptor.figura = aImitar as Figura
         _objetoAImitar = aImitar
 	}	
 	

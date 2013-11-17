@@ -47,6 +47,10 @@ class DataEventoMouse extends DataEventoMovimiento {
 		this.boton = boton
 	}
 	
+	def isBotonPrincipal() {
+		boton == MouseButton.LeftButton
+	}
+	
 }
 
 class DataEventoMovimiento extends DataEvento {

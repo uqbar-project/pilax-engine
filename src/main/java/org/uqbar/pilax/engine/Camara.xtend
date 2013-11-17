@@ -53,13 +53,13 @@ class Camara {
         */
 	def getAreaVisible() {
 		val areaMotor = Pilas.instance.mundo.motor.area
-		val ancho = areaMotor.key
-		val alto = areaMotor.value
-		return new Area(x.intValue - ancho / 2, x.intValue + ancho / 2, y.intValue + alto / 2, y.intValue - alto / 2)
+		val ancho = areaMotor.ancho
+		val alto = areaMotor.alto
+		return new Area(x - ancho / 2, x + ancho / 2, y + alto / 2, y - alto / 2)
 	}
 	
 	def getPosicion() {
-		(x -> y)
+		x -> y
 	}
 	
 	def void setPosicion(Pair<Double,Double> p) {
@@ -69,18 +69,14 @@ class Camara {
 
 	def setX(double x) {
 		posicion = x -> this.y
-//		eventos.mueveCamara.emitir(new DataEventoMovimiento((x -> y), (x - this.x -> 0d)))
-//		motor.centroDeLaCamara = (x -> this.y)
 	}
 	
 	def setY(double y) {
 		posicion = this.x -> y
-//		eventos.mueveCamara.emitir(new DataEventoMovimiento(this.x-> y, 0d -> y - this.y))
-//		motor.centroDeLaCamara = this.x -> y
 	}
 
 	def double getX() {
-		motor.centroDeLaCamara.x.doubleValue
+		motor.centroDeLaCamara.x
 	}
 
 	def getMotor() {
@@ -88,7 +84,7 @@ class Camara {
 	}
 
 	def double getY() {
-		motor.centroDeLaCamara.y.doubleValue
+		motor.centroDeLaCamara.y
 	}
 
 	/** Mueve la cámara hacia una posición en particular.

@@ -67,24 +67,21 @@ class Figura implements ObjetoGrafico {
         // TODO: convertir a metros
         val anterior = velocidadLineal
 
-		var float dx
-		var float dy
-
-        if (vel.x == null)
-            dx = anterior.x
-        if (vel.y == null)
-            dy = anterior.y
+		var dx = if (vel.x == null) anterior.x else 0f
+		var dy = if (vel.y == null) anterior.y else 0f
 
         val b2vec = _cuerpo.linearVelocity
         b2vec.x = dx
         b2vec.y = dy
 
-        // Añadimos eltry, porque aparece el siguiente error:
+        // Añadimos el try, porque aparece el siguiente error:
         // TypeError: in method 'b2Vec2___call__', argument 2 of type 'int32'
         try {
             _cuerpo.linearVelocity = b2vec
         }
-        catch (RuntimeException e)
-            pass
+        catch (RuntimeException e) {
+        	e.printStackTrace
+        }
+            
 	}
 }

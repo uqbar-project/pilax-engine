@@ -9,10 +9,11 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
 class RebotarComoPelota extends Habilidad {
 	Circulo circulo
 	
-	new(Actor receptor) {       super(receptor)
+	new(Actor receptor) {
+		super(receptor)
         val error = randint(-10, 10) / 10.0
 
-        circulo = new Circulo((receptor.x + error).intValue, (receptor.y + error).intValue, receptor.radioDeColision)
+        circulo = new Circulo(receptor.x + error, receptor.y + error, receptor.radioDeColision)
         receptor.aprender(Imitar) => [ objetoAImitar = circulo ]
         // PILAX !
 //        receptor.impulsar = self.impulsar

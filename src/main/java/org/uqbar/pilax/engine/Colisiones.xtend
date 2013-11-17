@@ -62,16 +62,12 @@ class Colision<A extends Actor, B extends Actor> {
                     if (id(a) != id(b) && Utils.colisionan(a, b)) {
                         funcion.apply(a, b)
                     }
-
-                    // verifica si alguno de los dos objetos muere en la colision.
-                    if (!a.esActor) {
-                        if (grupoA.contains(a))
-                            grupoA.remove(a)
-                    }
+                    // verifica si alguno de los dos objetos murio en la colision.
+                    if (!a.esActor)
+                        grupoA.remove(a)
 
                     if (!b.esActor)
-                        if (grupoB.contains(b))
-                            grupoB.remove(b)
+                        grupoB.remove(b)
                 }
                 catch (RuntimeException e) {
                     grupoA.remove(a)
@@ -83,32 +79,21 @@ class Colision<A extends Actor, B extends Actor> {
 	
 	def verificarColisionesFisicasEnTupla(UUID id_actor_a, UUID id_actor_b) {
         /** Toma dos grupos de actores y analiza colisiones entre ellos.*/
-        for (a : grupoA) {
-            for (b : grupoB) {
+        for (a : grupoA.copy) {
+            for (b : grupoB.copy) {
                 try {
-                	val a_id = if (_es_objeto_fisico_con_actor_asociado(a))
-                        			a.figura.id
-                    			else
-                        			a.id
-
-					val b_id = if (_es_objeto_fisico_con_actor_asociado(b)) 
-                        			b.figura.id
-                    			else
-                        			b.id
+                	val a_id = if (a.tieneFiguraFisica) a.figura.id else a.id
+					val b_id = if (b.tieneFiguraFisica) b.figura.id else b.id
 
                     if (a_id == id_actor_a && b_id == id_actor_b) {
                         this.funcion.apply(a, b)
 
-                        // verifica si alguno de los dos objetos muere en la colision.
-                        if (_es_objeto_fisico_con_actor_asociado(a))
-                            if (!a.esActor)
-                                if (grupoA.contains(a))
-                                    grupoA.remove(a)
+                        // verifica si alguno de los dos objetos murio en la colision.
+                        if (a.tieneFiguraFisica && !a.esActor)
+                            grupoA.remove(a)
 
-						if (_es_objeto_fisico_con_actor_asociado(b))
-                            if (!b.esActor)
-                                if (grupoB.contains(b))
-                                    grupoB.remove(b)
+						if (b.tieneFiguraFisica && !b.esActor)
+                        	grupoB.remove(b)
                     }
 				}
                 catch (RuntimeException e) {
@@ -119,7 +104,7 @@ class Colision<A extends Actor, B extends Actor> {
         }
     }
     
-    def _es_objeto_fisico_con_actor_asociado(Actor actor) {
+    def tieneFiguraFisica(Actor actor) {
         return actor.figura != null
     }
     

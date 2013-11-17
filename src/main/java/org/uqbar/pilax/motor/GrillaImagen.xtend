@@ -62,7 +62,7 @@ class GrillaImagen extends ImagenMotor {
             cuadroActual = 0
             haAvanzado = false
         }
-        setCuadro(cuadroActual)
+        cuadro = cuadroActual
         return haAvanzado
 	}
 }

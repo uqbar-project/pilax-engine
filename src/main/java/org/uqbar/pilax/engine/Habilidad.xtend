@@ -11,4 +11,10 @@ abstract class Habilidad {
 	
 	def void eliminar() {}
 	
+	// helpers
+	
+	def escena() {
+		Pilas.instance.escenaActual
+	}
+	
 }

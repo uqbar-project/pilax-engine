@@ -4,13 +4,8 @@ import org.uqbar.pilax.actores.ActorMono
 import org.uqbar.pilax.actores.ActorTexto
 import org.uqbar.pilax.comportamientos.ComportamientoGirar
 import org.uqbar.pilax.engine.Pilas
-import org.uqbar.pilax.engine.Tecla
-import org.uqbar.pilax.habilidades.MoverseConTeclado
-import org.uqbar.pilax.interpolacion.tweener.easing.CircEaseOut
-import org.uqbar.pilax.interpolacion.tweener.easing.LinearEasing
-
-import static org.uqbar.pilax.utils.Utils.*
-import org.uqbar.pilax.habilidades.SeMantieneEnPantalla
+import org.uqbar.pilax.habilidades.RebotarComoPelota
+import org.uqbar.pilax.habilidades.Arrastrable
 
 class EjemploMono {
 	
@@ -18,12 +13,14 @@ class EjemploMono {
 		Pilas.iniciar
 		
 		val mono = new ActorMono(50, 100)
-//		mono.aprender(RebotarComoPelota)
+		mono.aprender(RebotarComoPelota)
+		mono.aprender(Arrastrable)
+		
 //		mono.aprender(SeguirAlMouse)
-		mono.aprender(MoverseConTeclado) => [
-			conRotacion = true
-		]
-		mono.aprender(SeMantieneEnPantalla)
+//		mono.aprender(MoverseConTeclado) => [
+//			conRotacion = true
+//		]
+//		mono.aprender(SeMantieneEnPantalla)
 		
 		mono.decir("Hola mundo!")
 		

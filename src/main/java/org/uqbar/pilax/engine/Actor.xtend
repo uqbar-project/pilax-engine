@@ -9,12 +9,13 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
 import org.uqbar.pilax.actores.ActorGlobo
 import org.uqbar.pilax.actores.PosicionCentro
 import org.uqbar.pilax.comunes.ObjetoGrafico
+import org.uqbar.pilax.fisica.Figura
+import org.uqbar.pilax.geom.Area
 import org.uqbar.pilax.habilidades.Imitar
 import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import org.uqbar.pilax.geom.Area
 
 /**
  * 
@@ -32,8 +33,8 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	// velocidad
 	@Property boolean fijo
 	@Property Pair<Double, Double> centro
-	// cosas raras
-	@Property Object figura
+	// Acoplamiento a la fisica!
+	@Property Figura figura
 	
 	new(String imagen, double x, double y) {
 		this(Pilas.instance.mundo.motor.cargarImagen(imagen), x, y)
@@ -97,8 +98,12 @@ class Actor extends Estudiante implements ObjetoGrafico {
 		actorMotor.x = x
 	}
 	
+	def void setPosicion(Pair<Double,Double> p) {
+		actorMotor.posicion = x -> y
+	}
+	
 	def void setPosicion(double x, double y) {
-        actorMotor.setPosicion = x -> y
+        actorMotor.posicion = x -> y
 	}
 	
 	override getY() {
