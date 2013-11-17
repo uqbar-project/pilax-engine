@@ -34,7 +34,7 @@ class ActorGlobo extends Actor {
             escena.clickDeMouse.conectar("", [d|cuando_quieren_avanzar])
 
         if (autoEliminar)
-            escena.tareas.unaVez(3, [|eliminar; false])
+            escena.tareas.unaVez(3, [|eliminar])
 	}
 	
 	def static crearSuperficie(String texto, int x, int y, int ancho_globo, int alto_globo) {

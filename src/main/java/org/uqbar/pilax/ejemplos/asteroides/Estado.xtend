@@ -9,6 +9,7 @@ abstract class Estado {
 	def boolean actualizar()
 }
 
+
 class Jugando extends Estado {
 	int nivel
 	EscenaAsteroides juego
@@ -17,7 +18,7 @@ class Jugando extends Estado {
 		this.nivel = nivel
 		this.juego = juego
 		juego.crearAsteroides(nivel * 3)
-		Pilas.instance.mundo.agregarTarea(1, [|actualizar])
+		Pilas.instance.mundo.agregarTareaCondicional(1, [|actualizar])
 	}
 	
 	override actualizar() {
@@ -38,11 +39,11 @@ class Iniciando extends Estado {
 	new(EscenaAsteroides juego, int nivel) {
         this.nivel = nivel
         this.juego = juego
-		texto = new ActorTexto("Iniciando el nivel" + nivel)
+		texto = new ActorTexto("Iniciando el nivel " + nivel)
         texto.color = Color.white
         contador_de_segundos = 0
         // Cada un segundo le avisa al estado que cuente.
-        Pilas.instance.mundo.agregarTarea(1, [|actualizar])
+        Pilas.instance.mundo.agregarTareaCondicional(1, [|actualizar])
 	}
 	
 	override actualizar() {
@@ -70,7 +71,7 @@ class PierdeVida extends Estado {
 
 		juego.contadorDeVidas.quitarUnaVida
         if (juego.contadorDeVidas.leQuedanVidas)
-            Pilas.instance.mundo.agregarTarea(1, [| actualizar])
+            Pilas.instance.mundo.agregarTareaCondicional(1, [| actualizar])
         else
             juego.cambiarEstado(new PierdeTodoElJuego(juego))
 	}

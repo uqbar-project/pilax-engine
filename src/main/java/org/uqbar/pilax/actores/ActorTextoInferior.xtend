@@ -30,7 +30,7 @@ class ActorTextoInferior extends ActorTexto {
         fijo = true
 
         if (auto_eliminar)
-            escena.tareas.unaVez(retraso, [|this.eliminar ; false])
+            escena.tareas.unaVez(retraso, [| eliminar ])
 		
 	}
 	

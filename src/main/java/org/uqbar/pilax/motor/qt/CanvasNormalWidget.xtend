@@ -242,13 +242,13 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
             Qt.Key.Key_Minus.value -> Tecla::MINUS,
             Qt.Key.Key_Control.value -> Tecla::CTRL,
             Qt.Key.Key_Alt.value -> Tecla::ALT,
+            Qt.Key.Key_AltGr.value -> Tecla::ALT, //?
             Qt.Key.Key_Escape.value -> Tecla::ESCAPE
         }
 
-        if (teclas.containsKey(tecla_qt))
-            return teclas.get(tecla_qt)
-        else
+        if (!teclas.containsKey(tecla_qt))
             throw new PilaxException("Tecla QT no soportada por PILAX! Codigo:" + tecla_qt)
+        teclas.get(tecla_qt)
     }
 
     def pantallaCompleta() {

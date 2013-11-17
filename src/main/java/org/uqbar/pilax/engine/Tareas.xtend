@@ -10,7 +10,7 @@ import static extension org.uqbar.pilax.utils.PythonUtils.*
  * 
  */
 class Tareas {
-	var List<Tarea> tareasPlanificadas = newArrayList
+	var List<AbstractTarea> tareasPlanificadas = newArrayList
     var contadorDeTiempo = 0f
     
     def obtener_cantidad_de_tareasPlanificadas() {
@@ -21,7 +21,7 @@ class Tareas {
     /**Agrega una nueva tarea para ejecutarse luego.
        :param tarea: Referencia a la tarea que se debe agregar.
     */
-	def agregar(Tarea tarea) {
+	def agregar(AbstractTarea tarea) {
         tareasPlanificadas.add(tarea)
         tarea
     }
@@ -30,14 +30,14 @@ class Tareas {
      * """Elimina una tarea de la lista de tareas planificadas.
         :param tarea: Referencia a la tarea que se tiene que eliminar.
         """ */
-    def eliminarTarea(Tarea tarea) {
+    def eliminarTarea(AbstractTarea tarea) {
         tareasPlanificadas.remove(tarea)
     }
 
-        /**Actualiza los contadores de tiempo y ejecuta las tareas pendientes.
-
-        :param dt: Tiempo transcurrido desde la anterior llamada.
-        */
+    /**
+     * Actualiza los contadores de tiempo y ejecuta las tareas pendientes.
+     * 	@param dt Tiempo transcurrido desde la anterior llamada.
+     */
     def actualizar(float dt) {
         contadorDeTiempo = contadorDeTiempo + dt
         val tareasAEliminar = newArrayList
@@ -69,11 +69,11 @@ class Tareas {
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
     */	
-    def unaVez(float time_out, Function0<Boolean> function) { // tenia params
+    def unaVez(float time_out, () => void function) { // tenia params
         agregarTarea(time_out, function, true)
     }
     
-    def protected agregarTarea(float timeOut, Function0<Boolean> function, boolean unaVez) {
+    def protected agregarTarea(float timeOut, () => void function, boolean unaVez) {
         agregar(new Tarea(this, contadorDeTiempo + timeOut, timeOut, function, unaVez))
     }
 
@@ -82,7 +82,7 @@ class Tareas {
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
     */
-    def siempre(float time_out, Function0<Boolean> function) { // tenia params
+    def siempre(float time_out, () => void function) { // tenia params
         agregarTarea(time_out, function, false)
 	}
 
@@ -94,19 +94,10 @@ class Tareas {
         :param function: Función a ejecutar para lanzar la tarea.
         :param params: Parámetros que tiene que recibir la función a ejecutar.
     */
-    def condicional(float time_out, Function0<Boolean> function) { // tenia params
-        agregar(new TareaCondicional(this, contadorDeTiempo + time_out, time_out, function, false))
+    def condicional(float timeOut, () => boolean function) { // tenia params
+        agregar(new TareaCondicional(this, contadorDeTiempo + timeOut, timeOut, function))
     }
 
-       /**Elimina una tarea de la lista de tareas planificadas.
-
-        :param tarea: Referencia a la tarea que se tiene que eliminar.
-        */
-    def eliminar_tarea(Tarea tarea) {
-        tareasPlanificadas.remove(tarea)
-    }
-
-        /**Elimina todas las tareas de la lista de planificadas.*/
     def eliminarTodas() {
         tareasPlanificadas = newArrayList
     }

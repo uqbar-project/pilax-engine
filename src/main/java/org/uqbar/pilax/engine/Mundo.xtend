@@ -37,11 +37,15 @@ class Mundo {
 	// ** TAREAS
 	// *********************************
 	
-	def agregarTareaUnaVez(float timeOut, Function0<Boolean> function) { // tenia params
+	def agregarTareaUnaVez(float timeOut, () => void function) {
         return tareas.unaVez(timeOut, function)
     }
     
-    def agregarTarea(float timeOut, Function0<Boolean> function) {
+    def agregarTarea(float timeOut, () => void function) {
+        return tareas.agregarTarea(timeOut, function, false)
+    }
+    
+    def agregarTareaCondicional(float timeOut, () => boolean function) {
         return tareas.condicional(timeOut, function)
 	}
 

@@ -14,6 +14,7 @@ import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.PilaxException
+import org.uqbar.pilax.engine.EscenaBase
 
 class PilasExtensions {
 	
@@ -26,7 +27,7 @@ class PilasExtensions {
 	}
 	
 	// TODO: borrar luego refactorizando. Es una chanchada de pilas
-	def static eventos(Object obj) {
+	def static EscenaBase eventos(Object obj) {
 		Pilas.instance.escenaActual
 	}
 	
@@ -42,11 +43,8 @@ class PilasExtensions {
 	// ** Closures
 	// *********************************
 	
-	def static void nTimes(Function0 procedure, int times) {
-		for (n : 1..times) {
-			procedure.apply
-		}
-	}
+	def static void nTimes(Function0 procedure, int times) {	for (n : 1..times) procedure.apply	}
+	def static void nTimes(Procedure0 procedure, int times) {	for (n : 1..times) procedure.apply	}
 	
 	// *********************************
 	// ** Miscs

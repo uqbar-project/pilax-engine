@@ -33,9 +33,9 @@ class EscenaMenu extends EscenaBase {
 
     def crearElMenuPrincipal() { 
         val Map<String,Procedure0> opciones = newHashMap(
-        		"Comenzar a jugar" -> [| this.comenzarAJugar], 
-        		"Ver ayuda" -> [| this.mostrarAyudaDelJuego], 
-        		"Salir" -> [| this.salirDelJuego])
+        		"Comenzar a jugar" -> [| comenzarAJugar], 
+        		"Ver ayuda" -> [| mostrarAyudaDelJuego], 
+        		"Salir" -> [| salirDelJuego])
         menu = new Menu(opciones, 0, -50)
 	}
 

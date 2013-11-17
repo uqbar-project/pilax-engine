@@ -29,7 +29,7 @@ class ActorMono extends Actor {
 	def sonreir() {
         this.imagen = image_smile
         // Luego de un segundo regresa a la normalidad
-        Pilas.instance.mundo.agregarTareaUnaVez(2, [|this.normal ; false])
+        Pilas.instance.mundo.agregarTareaUnaVez(2, [| normal ])
 //        this.sound_smile.reproducir()
 	}
 	

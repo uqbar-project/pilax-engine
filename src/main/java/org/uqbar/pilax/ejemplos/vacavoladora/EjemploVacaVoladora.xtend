@@ -24,16 +24,18 @@ class EjemploVacaVoladora {
 	def static void main(String[] args) {
 		Pilas.iniciar
 
-		val fondo = new Fondo('vaca_voladora/nubes.png')
+		new Fondo('vaca_voladora/nubes.png')
 		puntos = new ActorPuntaje(-290, 210)
-		val vaca = new Vaca
+		vaca = new Vaca
 		
-		Pilas.instance.mundo.agregarTarea(2f, [| crearItem]);
-		Pilas.instance.mundo.colisiones.agregar(vaca, items, [v,i| cuantoTocaItem(v, i)]);
-		Pilas.instance.mundo.agregarTarea(3.3f, [| crearEnemigo ]);
-		Pilas.instance.mundo.colisiones.agregar(vaca, enemigos, [v,e| cuantoTocaEnemigo(v, e)]);
+		Pilas.instance.mundo => [
+			agregarTarea(2, [| crearEstrella ])
+			colisiones.agregar(vaca, items, [v,i| cuantoTocaItem(v, i)])
+			agregarTarea(3.3f, [| crearEnemigo ])
+			colisiones.agregar(vaca, enemigos, [v,e| cuantoTocaEnemigo(v, e)]);	
+		]
 
-		[|new Nube].nTimes(8)
+		[| new Nube ].nTimes(8)
 		Pilas.instance.ejecutar
 	}
 
@@ -51,14 +53,12 @@ class EjemploVacaVoladora {
 	    enemigo.eliminar
 	}
 	
-	def static crearItem() {
+	def static crearEstrella() {
 		items.add(new Item)
-	    return true
 	}
     
 	def static crearEnemigo() {
 	    enemigos.add(new Enemigo)
-	    return true
 	}
 	
 }

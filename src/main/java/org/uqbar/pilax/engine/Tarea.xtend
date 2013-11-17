@@ -1,49 +1,63 @@
 package org.uqbar.pilax.engine
 
-class Tarea {
+abstract class AbstractTarea {
 	@Property Tareas planificador
     @Property float timeOut
     @Property float dt
-    @Property () => Boolean funcion
-    @Property boolean unaVez
-
-	new(Tareas planificador, float timeOut, float dt, () => Boolean funcion, boolean unaVez) {
+	@Property boolean unaVez
+	
+	new(Tareas planificador, float timeOut, float dt, boolean unaVez) {
 		this.planificador = planificador
         this.timeOut = timeOut
         this.dt = dt
-        this.funcion = funcion
         this.unaVez = unaVez
 	}
 	
-	def ejecutar() {
+	def void ejecutar()
+
+}
+
+class Tarea extends AbstractTarea {
+    @Property () => void funcion
+
+	new(Tareas planificador, float timeOut, float dt, () => void funcion, boolean unaVez) {
+		super(planificador, timeOut, dt, unaVez)
+        this.funcion = funcion
+	}
+	
+	override ejecutar() {
         funcion.apply
     }
-	/** "Quita la tarea del planificador para que no se vuelva a ejecutar." */
-    def eliminar() {
+	/** Quita la tarea del planificador para que no se vuelva a ejecutar. */
+    def void eliminar() {
         planificador.eliminarTarea(this)
     }
 
-	/**"Termina la tarea (alias de eliminar)." */
-    def terminar() {
+	/** Termina la tarea (alias de eliminar). */
+    def void terminar() {
         eliminar
 	}
 		
 }
 
+/**
+ * Ejecuta la tarea en forma de una funcion que se evalua
+ * a un booleano.
+ * Se detiene si no devuelve True.
+ */
+ //TODO: no heredar de Tarea tradicional !
+class TareaCondicional extends AbstractTarea {
+	() => boolean condicion
 
-class TareaCondicional extends Tarea {
-
-	new(Tareas planificador, float timeOut, float dt, () => Boolean funcion, boolean unaVez) {
-		super(planificador, timeOut, dt, funcion, unaVez)
+	new(Tareas planificador, float timeOut, float dt, () => Boolean condicion) {
+		super(planificador, timeOut, dt, false)
+		this.condicion = condicion
 	}
-	
-	/** """Ejecuta la tarea, y se detiene si no devuelve True.""" */	
+		
 	override ejecutar() {
-        val retorno = super.ejecutar()
-
-        if (!retorno)
+        val seguir = condicion.apply
+        if (!seguir)
             unaVez = true
-        retorno
 	}
 	
 }
