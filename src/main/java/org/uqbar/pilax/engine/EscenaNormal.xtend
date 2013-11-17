@@ -62,11 +62,9 @@ abstract class EscenaBase {
         log = new Evento('log')                                 		// ['data']
 	}
 	
-	
+	// ** template methods
 	def void iniciar()
-	
 	def void pausar() {}
-	
 	def void reanudar() {}
 	
 	def void agregarActor(Actor actor) {
@@ -109,6 +107,10 @@ abstract class EscenaBase {
     
     def reanudarFisica() {
         fisica.reanudarMundo
+    }
+    
+    def cambiarEscenaActual(EscenaBase escena) {
+    	pilas.cambiarEscena(escena)
     }
 	
 }

@@ -15,9 +15,9 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 class Menu extends Actor {
 	static val DEMORA = 14
 	Map<String,Procedure0> opciones	
-	List<ActorOpcion> opciones_como_actores
-	int demora_al_responder
-	int opcion_actual
+	List<ActorOpcion> opcionesComoActores
+	int demoraAlResponder
+	int opcionActual
 	Control control_menu
 	
 	new(Map<String, Procedure0> opciones, int x, int y) {
@@ -26,12 +26,12 @@ class Menu extends Actor {
 	
 	new(Map<String, Procedure0> opciones, int x, int y, String fuente, Color color_normal, Color color_resaltado) {
 		super("invisible.png", x, y)
-		opciones_como_actores = newArrayList
-        demora_al_responder = 0
-        crear_texto_de_las_opciones(opciones, fuente, color_normal, color_resaltado)
+		opcionesComoActores = newArrayList
+        demoraAlResponder = 0
+        crearTextoDeLasOpciones(opciones, fuente, color_normal, color_resaltado)
         this.opciones = opciones
         seleccionar_primer_opcion
-        opcion_actual = 0
+        opcionActual = 0
         // contador para evitar la repeticion de teclas
         activar
 
@@ -49,13 +49,13 @@ class Menu extends Actor {
 	}
 	
 	def seleccionar_primer_opcion() {
-        if (!opciones_como_actores.nullOrEmpty)
-            opciones_como_actores.get(0).resaltar
+        if (!opcionesComoActores.nullOrEmpty)
+            opcionesComoActores.get(0).resaltar
 	}
 	
 	def activar() {
-        escena.mueveMouse.conectar(id + "mouseMueve", [d| cuando_mueve_el_mouse(d)])
-        escena.clickDeMouse.conectar(id + "mouseClick", [d| cuando_hace_click_con_el_mouse(d)])
+        escena.mueveMouse.conectar(id + "mouseMueve", [d| cuandoMueveElMouse(d)])
+        escena.clickDeMouse.conectar(id + "mouseClick", [d| cuandoHaceClickConElMouse(d)])
 	}
 	
 	def desactivar() {
@@ -63,27 +63,23 @@ class Menu extends Actor {
         escena.clickDeMouse.desconectarPorId(id + "mouseClick")
     }
     
-    def crear_texto_de_las_opciones(Map<String,Procedure0> opciones, String fuente, Color color_normal, Color color_resaltado) {
+    def crearTextoDeLasOpciones(Map<String,Procedure0> opciones, String fuente, Color color_normal, Color color_resaltado) {
     	var indice = 0
         for (opcion : opciones.entrySet) {
             val y = this.y - indice * 50
-            val texto = opcion.key
-            val funcion = opcion.value
-            
-            val opcionActor = new ActorOpcion(texto, 0d, y, funcion, fuente, color_normal, color_resaltado)
-            opciones_como_actores.add(opcionActor)
+            opcionesComoActores += new ActorOpcion(opcion.key, 0d, y, opcion.value, fuente, color_normal, color_resaltado) 
             indice = indice + 1
         }
 	}
     
-    def cuando_mueve_el_mouse(DataEventoMovimiento evento) {
+    def cuandoMueveElMouse(DataEventoMovimiento evento) {
     	var i = 0
-        for (opcion : opciones_como_actores) {
+        for (opcion : opcionesComoActores) {
             if (opcion.colisionaConPunto(evento.posicion)) {
-                if (i != opcion_actual) {
-                    _deshabilitar_opcion_actual()
-                    opcion_actual = i
-                    opciones_como_actores.get(i).resaltar
+                if (i != opcionActual) {
+                    deshabilitarOpcionActual
+                    opcionActual = i
+                    opcionesComoActores.get(i).resaltar
                 }
                 return true
             }
@@ -91,46 +87,46 @@ class Menu extends Actor {
         }
 	}
     
-    def cuando_hace_click_con_el_mouse(DataEventoMouse evento) {
-        if (cuando_mueve_el_mouse(evento))
-            seleccionar_opcion_actual
+    def cuandoHaceClickConElMouse(DataEventoMouse evento) {
+        if (cuandoMueveElMouse(evento))
+            seleccionarOpcionActual
     }
     
-    def mover_cursor(int delta) {
-        _deshabilitar_opcion_actual
-        opcion_actual = opcion_actual + delta
+    def moverCursor(int delta) {
+        deshabilitarOpcionActual
+        opcionActual = opcionActual + delta
         opcionSeleccionada.resaltar
     }
     
-    def seleccionar_opcion_actual() {
+    def seleccionarOpcionActual() {
         opcionSeleccionada.seleccionar
     }
     
     def getOpcionSeleccionada() {
-    	opciones_como_actores.get(opcion_actual)
+    	opcionesComoActores.get(opcionActual)
     }
     
-    def _deshabilitar_opcion_actual() {
+    def deshabilitarOpcionActual() {
         opcionSeleccionada.resaltar(false)
     }
     
 	override actualizar() {
-		if (demora_al_responder < 0) {
+		if (demoraAlResponder < 0) {
             if (control_menu.boton) {
                 control_menu.limpiar()
-                seleccionar_opcion_actual()
-                demora_al_responder = DEMORA
+                seleccionarOpcionActual()
+                demoraAlResponder = DEMORA
 			}
-            if (control_menu.abajo && opcion_actual < opciones_como_actores.size - 1) {
-                mover_cursor(1)
-                demora_al_responder = DEMORA
+            if (control_menu.abajo && opcionActual < opcionesComoActores.size - 1) {
+                moverCursor(1)
+                demoraAlResponder = DEMORA
             }
-            else if (control_menu.arriba && opcion_actual > 0) {
-                mover_cursor(-1)
-                demora_al_responder = DEMORA
+            else if (control_menu.arriba && opcionActual > 0) {
+                moverCursor(-1)
+                demoraAlResponder = DEMORA
             }
 		}
-        demora_al_responder = demora_al_responder - 1
+        demoraAlResponder = demoraAlResponder - 1
 	}
 	
 }

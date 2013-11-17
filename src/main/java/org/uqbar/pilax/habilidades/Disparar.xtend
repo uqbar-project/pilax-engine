@@ -14,16 +14,16 @@ import org.uqbar.pilax.habilidades.disparar.Municion
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 
+// TODO: agregar generics para manejar la colision
 class Disparar extends Habilidad {
 	Class municion = Bala
 	int frecuenciaDeDisparo = 10
 	@Property List<Actor> enemigos = newArrayList
 	int anguloSalidaDisparos = 0
 	@Property double offsetDisparos = 0
-	Pair<Double,Double> offsetOrigenAutor = origen
 	Procedure0 cuandoDispara
 	double escala = 1
-	Procedure2<Actor, Actor> cuando_elimina_enemigo
+	(Actor, Actor) => void cuando_elimina_enemigo
 	
 	List<Actor> proyectiles = newArrayList
 	int contador_frecuencia_disparo = 0
@@ -33,7 +33,11 @@ class Disparar extends Habilidad {
 	}
 	
 	def void setEnemigos(List<Actor> enemigos) {
-        this.enemigos = enemigos
+        definirColision(enemigos, cuando_elimina_enemigo)
+	}
+	
+	def definirColision(List grupo_enemigos, (Actor,Actor) => void cuando_elimina_enemigo) {
+        _enemigos = grupo_enemigos
         pilas.escenaActual.colisiones.agregar(proyectiles, enemigos, cuando_elimina_enemigo)
 	}
 	

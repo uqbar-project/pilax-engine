@@ -1,18 +1,18 @@
 package org.uqbar.pilax.ejemplos.asteroides
 
+import java.util.Map
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import org.uqbar.pilax.actores.interfaz.Menu
+import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.EscenaBase
 import org.uqbar.pilax.engine.Fondo
 import org.uqbar.pilax.engine.Pilas
-import org.uqbar.pilax.engine.Actor
+import org.uqbar.pilax.engine.Tamanio
+
+import static org.uqbar.pilax.utils.PythonUtils.*
+import static org.uqbar.pilax.utils.Utils.*
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-import static extension org.uqbar.pilax.utils.Utils.*
-
-import org.uqbar.pilax.actores.interfaz.Menu
-import org.uqbar.pilax.engine.Tamanio
-import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
-import java.util.Map
 
 class EscenaMenu extends EscenaBase {
 	Actor logotipo
@@ -20,38 +20,38 @@ class EscenaMenu extends EscenaBase {
 	
 	override iniciar() {
 		new Fondo("data/menu.png")
-        crear_titulo_del_juego
+        crearTituloDelJuego
         Pilas.instance.avisar("Use el teclado para controlar el menu.")
-        crear_el_menu_principal
-        crear_asteroides
+        crearElMenuPrincipal
+        crearAsteroides
 	}
 	
-	def crear_titulo_del_juego() {
+	def crearTituloDelJuego() {
         logotipo = new Actor("data/titulo.png", 0, 300)
         interpolar(logotipo, "y", #[200])
     }
 
-    def crear_el_menu_principal() { 
+    def crearElMenuPrincipal() { 
         val Map<String,Procedure0> opciones = newHashMap(
-        		"Comenzar a jugar" -> [| this.comenzar_a_jugar], 
-        		"Ver ayuda" -> [| this.mostrar_ayuda_del_juego], 
-        		"Salir" -> [| this.salir_del_juego])
+        		"Comenzar a jugar" -> [| this.comenzarAJugar], 
+        		"Ver ayuda" -> [| this.mostrarAyudaDelJuego], 
+        		"Salir" -> [| this.salirDelJuego])
         menu = new Menu(opciones, 0, -50)
 	}
 
-    def void comenzar_a_jugar() {
-        pilas.cambiarEscena(new EscenaAsteroides)
+    def void comenzarAJugar() {
+        cambiarEscenaActual(new EscenaAsteroides)
     }
 
-    def void mostrar_ayuda_del_juego() {
+    def void mostrarAyudaDelJuego() {
 //        pilas.cambiarEscena(escena_ayuda.Ayuda())
     }
 
-    def void salir_del_juego() {
+    def void salirDelJuego() {
         pilas.terminar
     }
 
-    def crear_asteroides() {
+    def crearAsteroides() {
         val fueraDeLaPantalla = #[-600, -650, -700, -750, -800]
         for (n : range(5)) {
             val x = choice(fueraDeLaPantalla)

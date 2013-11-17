@@ -1,12 +1,17 @@
 package org.uqbar.pilax.actores.animacion
 
-import org.uqbar.pilax.actores.animacion.ActorAnimacion
-import org.uqbar.pilax.motor.GrillaImagen
-import org.uqbar.pilax.habilidades.PuedeExplotar
-import org.uqbar.pilax.habilidades.MoverseConTeclado
+import java.util.List
+import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import org.uqbar.pilax.ejemplos.asteroides.PiedraEspacial
+import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.habilidades.Disparar
+import org.uqbar.pilax.habilidades.MoverseConTeclado
+import org.uqbar.pilax.habilidades.PuedeExplotar
+import org.uqbar.pilax.motor.GrillaImagen
 
 class ActorNave extends ActorAnimacion {
+	Disparar habilidadDisparar
+	() => void cuandoEliminaEnemigo
 	
 	new(double x, double y, double velocidad) {
 		super(new GrillaImagen("nave.png", 2), x, y, true)
@@ -15,15 +20,14 @@ class ActorNave extends ActorAnimacion {
 		aprender(PuedeExplotar)
 		
 //		municion = new ActorMisil
-		aprender(Disparar) => [
+		habilidadDisparar = aprender(Disparar) => [
+            offsetDisparos = 29d
 //			municion=self.municion,
-//                       angulo_salida_disparo=0,
-//                       frecuencia_de_disparo=6,
-                       offsetDisparos= 29d
-//                       escala=0.7
+//          angulo_salida_disparo=0,
+//          frecuencia_de_disparo=6,
+//          escala=0.7
 		]
-		aprender(MoverseConTeclado) 
-		=> [
+		aprender(MoverseConTeclado)	=> [
 				velocidadMaxima=velocidad
             	aceleracion=1
                 deceleracion=0.04
@@ -33,23 +37,13 @@ class ActorNave extends ActorAnimacion {
 		]
 	}
 	
-//	    def definir_enemigos(self, grupo, cuando_elimina_enemigo=None):
-//        """Hace que una nave tenga como enemigos a todos los actores del grupo.
-//
-//        :param grupo: El grupo de actores que serán sus enemigos.
-//        :type grupo: array
-//        :param cuando_elimina_enemigo: Funcion que se ejecutará cuando se elimine un enemigo.
-//
-//        """
-//        self.cuando_elimina_enemigo = cuando_elimina_enemigo
-//        self.habilidades.Disparar.definir_colision(grupo, self.hacer_explotar_al_enemigo)
-//
-//    def hacer_explotar_al_enemigo(self, mi_disparo, el_enemigo):
-//        """Es el método que se invoca cuando se produce una colisión 'tiro <-> enemigo'
-//
-//        :param mi_disparo: El disparo de la nave.
-//        :param el_enemigo: El enemigo que se eliminará.
-//        """
-//        mi_disparo.eliminar()
-//        el_enemigo.eliminar()
+	def definirEnemigos(List<PiedraEspacial> piedras, Procedure0 cuando_elimina_enemigo) {
+		cuandoEliminaEnemigo = cuando_elimina_enemigo
+        habilidadDisparar.definirColision(piedras, [d,e| hacer_explotar_al_enemigo(d, e)])
+	}
+	
+    def hacer_explotar_al_enemigo(Actor mi_disparo, Actor el_enemigo) {
+        mi_disparo.eliminar
+        el_enemigo.eliminar
+    }
 }

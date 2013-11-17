@@ -36,7 +36,7 @@ class EscenaAsteroides extends EscenaBase {
     def crearNave() {
         nave = new ActorNave(0, 0, 2)
         nave.aprender(SeMantieneEnPantalla)
-//        nave.definir_enemigos(piedras, [|cuando_explota_asterioide])
+        nave.definirEnemigos(piedras, [|cuando_explota_asterioide])
         colisiones.agregar(nave, piedras, [n,p| explotar_y_terminar(n,p)])
 	}
 	
