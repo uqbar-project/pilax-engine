@@ -1,20 +1,17 @@
 package org.uqbar.pilax.utils
 
-import com.trolltech.qt.gui.QColor
-import java.awt.Color
 import java.io.File
 import java.util.Collection
 import java.util.List
 import java.util.UUID
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import org.eclipse.xtext.xbase.lib.Functions.Function0
 import org.eclipse.xtext.xbase.lib.IntegerExtensions
 import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
+import org.uqbar.pilax.engine.EscenaBase
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.PilaxException
-import org.uqbar.pilax.engine.EscenaBase
+import org.uqbar.pilax.geom.Angulo
 
 class PilasExtensions {
 	
@@ -151,7 +148,7 @@ class PilasExtensions {
 	}
 	
 	def static Pair<Double,Double> operator_plus(Pair<Double,Double> p1, Pair<Double,Double> p2) {
-		(p1.key + p2.key -> p1.value + p2.value)
+		(p1.x + p2.x -> p1.y + p2.y)
 	}
 	
 	def static Pair<Double,Double> operator_divide(Pair<Double,Double> pair, Integer divisor) {
@@ -187,5 +184,14 @@ class PilasExtensions {
 	
 	def static int abs(int n) {
 		Math.abs(n)		
+	}
+	
+	// ***************************
+	// ** geom
+	
+	def static Pair<Double,Double> polarACartesiana(Angulo angulo, double largo) {
+		val rx = Math.cos(angulo.radianes) * largo;
+		val ry = Math.sin(angulo.radianes) * largo;
+		(rx -> ry)
 	}
 }

@@ -30,7 +30,7 @@ class Pilas {
 		service.shutdownNow		
 	}
 	
-	def escenaActual() {
+	def EscenaBase escenaActual() {
 		mundo.gestorEscenas.escenaActual
 	}
 	

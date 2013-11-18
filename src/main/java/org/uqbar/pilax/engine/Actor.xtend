@@ -99,7 +99,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	}
 	
 	def void setPosicion(Pair<Double,Double> p) {
-		actorMotor.posicion = x -> y
+		actorMotor.posicion = p.x -> p.y
 	}
 	
 	def void setPosicion(double x, double y) {

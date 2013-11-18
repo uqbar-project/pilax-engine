@@ -28,7 +28,7 @@ abstract class EscenaBase {
 	@Property Evento<DataEventoMovimiento> mueveCamara
 	@Property Evento<DataEventoMouse> mueveMouse
 	@Property Evento<DataEventoMouse> clickDeMouse
-	@Property Evento terminaClick
+	@Property Evento<DataEventoMouse> terminaClick
 	@Property Evento<DataEventoRuedaMouse> mueveRueda
 	@Property Evento<DataEventoTeclado> pulsaTecla
 	@Property Evento<DataEventoTeclado> sueltaTecla

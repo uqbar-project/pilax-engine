@@ -6,6 +6,9 @@ import org.uqbar.pilax.comportamientos.ComportamientoGirar
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.habilidades.RebotarComoPelota
 import org.uqbar.pilax.habilidades.Arrastrable
+import org.uqbar.pilax.habilidades.disparar.Bala
+import org.uqbar.pilax.habilidades.Rodear
+import org.uqbar.pilax.ejemplos.vacavoladora.Item
 
 class EjemploMono {
 	
@@ -13,8 +16,16 @@ class EjemploMono {
 		Pilas.iniciar
 		
 		val mono = new ActorMono(50, 100)
-		mono.aprender(RebotarComoPelota)
+//		mono.aprender(RebotarComoPelota)
 		mono.aprender(Arrastrable)
+		
+		for (i : 0..2) {
+			val bala = new Item
+			bala.aprender(Rodear) => [ 
+				actorARodear = mono
+				angulo.incrementar(i * 30)
+			]
+		}
 		
 //		mono.aprender(SeguirAlMouse)
 //		mono.aprender(MoverseConTeclado) => [
@@ -44,5 +55,5 @@ class EjemploMono {
 		
 		Pilas.instance.ejecutar
 	}
-	
+
 }
