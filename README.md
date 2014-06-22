@@ -15,6 +15,10 @@ A monkey's hello world
 
 ![optimised.gif](https://bitbucket.org/repo/E88de9/images/738932536-optimised.gif)
 
+An its source code:
+
+![codigo-mono.png](https://bitbucket.org/repo/E88de9/images/1622112670-codigo-mono.png)
+
 Pingu's different images on clicks
 
 ![pingu.gif](https://bitbucket.org/repo/E88de9/images/2606151836-pingu.gif)
