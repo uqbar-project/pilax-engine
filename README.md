@@ -17,7 +17,7 @@ A monkey's hello world
 
 An its source code:
 
-![codigo-mono.png](https://bitbucket.org/repo/E88de9/images/1622112670-codigo-mono.png)
+![codigo-mono.png](https://bitbucket.org/repo/E88de9/images/96558429-codigo-mono.png)
 
 Pingu's different images on clicks
 
