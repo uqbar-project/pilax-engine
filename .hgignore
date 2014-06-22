@@ -1,0 +1,8 @@
+# use glob syntax.
+syntax: glob
+
+target
+.project
+.classpath
+.settings
+src/main/xtend-gen
