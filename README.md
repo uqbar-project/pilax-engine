@@ -1,6 +1,6 @@
 # Pilax-Engine #
 
-Pilax is a port of the [Pilas Engine](http://pilas-engine.com.ar/) to the [Xtend programming language](http://www.eclipse.org/xtend/) therefore to the JVM.
+Pilax is a port of the [Pilas Engine](http://pilas-engine.com.ar/) (Created by Hugo Ruscitti) to the [Xtend programming language](http://www.eclipse.org/xtend/) therefore to the JVM.
 
 Pilas Engine is a 2d game engine written in Python.
 So Pilax is a game engine for the Java VM.
@@ -34,3 +34,7 @@ A complete small game with a flying "super cow" gathering stars and avoiding bom
 The asteroids classic game:
 
 ![asteroids.gif](https://bitbucket.org/repo/E88de9/images/846998328-asteroids.gif)
+
+### Licensing ###
+
+As pilas-engine, pilax is licensed under [LGPLv3](http://www.gnu.org/licenses/gpl-3.0.html)
