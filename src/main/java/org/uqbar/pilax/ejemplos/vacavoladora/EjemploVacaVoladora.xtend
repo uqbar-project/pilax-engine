@@ -14,6 +14,7 @@ import static org.uqbar.pilax.utils.Utils.*
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.engine.Estudiante
 
 class EjemploVacaVoladora {
 	static ActorPuntaje puntos
@@ -127,7 +128,7 @@ class Perdiendo extends Estado {
 	
 	override iniciar() {
         vaca.definir_animacion(#[0])
-        vaca.centroRelativo = PosicionCentro.centrada
+        vaca.centroRelativo = Estudiante.centrada()
 	}
     
     override actualizar() {

@@ -6,3 +6,4 @@ target
 .classpath
 .settings
 src/main/xtend-gen
+src/main/generated-sources

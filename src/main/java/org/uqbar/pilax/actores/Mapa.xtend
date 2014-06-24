@@ -1,17 +1,15 @@
 package org.uqbar.pilax.actores
 
+import java.util.List
+import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Actor
-import org.uqbar.pilax.motor.ImagenMotor
-import org.uqbar.pilax.motor.GrillaImagen
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.eventos.DataEventoMovimiento
-import org.uqbar.pilax.utils.Utils
+import org.uqbar.pilax.motor.GrillaImagen
+import org.uqbar.pilax.motor.Superficie
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import java.util.ArrayList
-import java.util.List
-import org.uqbar.pilax.motor.Superficie
 
 class Mapa extends Actor {
 	int filas = 20

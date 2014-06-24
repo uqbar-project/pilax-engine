@@ -23,7 +23,7 @@ class ActorTextoInferior extends ActorTexto {
         anterior_texto = this
         _crear_sombra()
 
-        centroRelativo = PosicionCentro.centrada
+        centroRelativo = centrada()
         izquierda = bordes.izquierda + 10
         color = Color.white
         abajo = bordes.abajo + 10

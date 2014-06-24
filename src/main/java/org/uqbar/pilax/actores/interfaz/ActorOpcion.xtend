@@ -18,7 +18,7 @@ class ActorOpcion extends ActorTexto {
         color_resaltado = colorResaltado
         color = colorNormal
         z = -300
-        centroRelativo = PosicionCentro.centrada
+        centroRelativo = centrada
 	}
 	
 	def resaltar() {

@@ -4,6 +4,7 @@ import java.util.List
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
+import org.uqbar.pilax.actores.PosicionCentro
 
 //REVIEW: no se si está bueno que se maneje todo por la clase de las habilidades :S
 class Estudiante {
@@ -123,6 +124,10 @@ class Estudiante {
         }
         else
             comportamientoActual = null
+    }
+    
+    def static centrada() {
+    	PosicionCentro.CENTRO -> PosicionCentro.CENTRO
     }
 	
 }

@@ -8,6 +8,7 @@ import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
 import org.uqbar.pilax.actores.ActorGlobo
 import org.uqbar.pilax.actores.PosicionCentro
+import static extension org.uqbar.pilax.actores.PosicionCentroExtensions.*
 import org.uqbar.pilax.comunes.ObjetoGrafico
 import org.uqbar.pilax.fisica.Figura
 import org.uqbar.pilax.geom.Area
