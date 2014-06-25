@@ -15,13 +15,13 @@ import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.fisica.Fisica
 import org.uqbar.pilax.motor.Lienzo
 import org.uqbar.pilax.motor.qt.FPS
-import org.uqbar.pilax.motor.qt.Motor
 import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
 import org.uqbar.pilax.depurador.modos.ModoAngulo
 import org.uqbar.pilax.depurador.modos.ModoCamara
+import org.uqbar.pilax.motor.qt.MotorQT
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -37,15 +37,15 @@ class DepuradorImpl implements Depurador {
         this.posicion_del_mouse = origen
     }
 	
-	override comienzaDibujado(Motor motor, QPainter painter) {
+	override comienzaDibujado(MotorQT motor, QPainter painter) {
     	modos.forEach[ comienzaDibujado(motor, painter, lienzo)]
 	}
 	
-	override dibujaAlActor(Motor motor, QPainter painter, Actor actor) {
+	override dibujaAlActor(MotorQT motor, QPainter painter, Actor actor) {
 		modos.forEach[ dibujaAlActor(motor, painter, lienzo, actor) ]
 	}
 	
-	override terminaDibujado(Motor motor, QPainter painter) {
+	override terminaDibujado(MotorQT motor, QPainter painter) {
 		if (!modos.nullOrEmpty) {
             mostrarCantidadDeCuerpos(painter)
             mostrarCantidadDeActores(painter)
@@ -176,11 +176,11 @@ abstract class ModoDepurador {
 		this.tecla = tecla
 	}
 	
-	def void comienzaDibujado(Motor motor, QPainter painter, Lienzo lienzo) {}
+	def void comienzaDibujado(MotorQT motor, QPainter painter, Lienzo lienzo) {}
 	
-	def void dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {}
+	def void dibujaAlActor(MotorQT motor, QPainter painter, Lienzo lienzo, Actor actor) {}
 	
-	def void terminaDibujado(Motor motor, QPainter painter, Lienzo lienzo) {}
+	def void terminaDibujado(MotorQT motor, QPainter painter, Lienzo lienzo) {}
 	
 	def void saleDelModo() {}
 	

@@ -9,11 +9,11 @@ import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
-import org.uqbar.pilax.motor.qt.Motor
 import java.util.List
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import com.trolltech.qt.gui.QBrush
+import org.uqbar.pilax.motor.qt.MotorQT
 
 class Lienzo extends ImagenMotor {
     

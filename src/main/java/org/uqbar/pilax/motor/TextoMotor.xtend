@@ -7,11 +7,11 @@ import com.trolltech.qt.gui.QPainter
 import java.awt.Color
 import java.util.Map
 import org.eclipse.xtext.xbase.lib.Pair
-import org.uqbar.pilax.motor.qt.Motor
 import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.motor.qt.MotorQT
 
 /**
  * 
@@ -27,7 +27,7 @@ class TextoMotor extends ImagenMotor {
     @Property String texto
     Pair<Integer,Integer> areaTexto
 
-    new(String texto, int magnitud, Motor motor, boolean vertical, String fuente) {
+    new(String texto, int magnitud, MotorQT motor, boolean vertical, String fuente) {
     	this.texto = texto
         this.vertical = vertical
         this.fuente = fuente

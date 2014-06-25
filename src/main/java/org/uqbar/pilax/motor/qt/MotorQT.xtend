@@ -3,22 +3,25 @@ package org.uqbar.pilax.motor.qt
 import com.trolltech.qt.gui.QApplication
 import com.trolltech.qt.gui.QFont
 import com.trolltech.qt.gui.QFontMetrics
-import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.GestorEscenas
 import org.uqbar.pilax.engine.Mundo
 import org.uqbar.pilax.engine.Pilas
+import org.uqbar.pilax.geom.Area
 import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
 import org.uqbar.pilax.motor.Lienzo
+import org.uqbar.pilax.motor.Motor
 import org.uqbar.pilax.motor.Superficie
 import org.uqbar.pilax.motor.TextoMotor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.geom.Area
 
-//RENAME: deberia ser MotorQT implements Motor
-class Motor {
+/**
+ * Implementacion del Motor basada en QT
+ * 
+ * @author jfernandes
+ */
+class MotorQT implements Motor {
 	QApplication application
 	double anchoOriginal
 	double altoOriginal
@@ -38,7 +41,7 @@ class Motor {
 		application = QApplication.instance()
 	}	
 	
-	def void iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
+	override iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
 		anchoOriginal = ancho
 		altoOriginal = alto
 		
@@ -59,41 +62,45 @@ class Motor {
         }		
 	}
 	
-	def crearActor(ImagenMotor imagen, double x, double y) {
+	override crearActor(ImagenMotor imagen, double x, double y) {
 		new ActorMotor(imagen, x, y)
 	}
 	
 	/** Centro de la ventana para situar el punto (0, 0)*/
-	def getCentroFisico() {
+	override getCentroFisico() {
         area / 2
 	}
 	
-	def getArea() {
+	override getArea() {
 		(anchoOriginal -> altoOriginal)
 	}
 	
-	def ejecutarBuclePrincipal(Mundo mundo) {
+	override ejecutarBuclePrincipal(Mundo mundo) {
 		QApplication.exec
 	}
 	
-	def cargarImagen(String path) {
+	override visible() {
+		ventana.show
+	}
+	
+	override cargarImagen(String path) {
 		new ImagenMotor(path)
 	}
 	
-	def crearTexto(String texto, int magnitud, String fuente) {
+	override crearTexto(String texto, int magnitud, String fuente) {
        new TextoMotor(texto, magnitud, this, false, fuente)
     }
     
-    def crearSuperficie(int ancho, int alto) {
+    override crearSuperficie(int ancho, int alto) {
     	new Superficie(ancho, alto)
     }
 	
-	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto) {
+	override Pair<Integer, Integer> obtenerAreaDeTexto(String texto) {
 		obtenerAreaDeTexto(texto, 10, false, null)
 	}
 	
 	//TODO: cambio en pilas 0.82!
-	def Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, String fuente) {
+	override Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, String fuente) {
 		val nombre_de_fuente = if (fuente != null)
             						TextoMotor.cargar_fuente_desde_cache(fuente)
         						else
@@ -125,13 +132,17 @@ class Motor {
 		new Lienzo
 	}
 	
-	def getBordes() {
+	override getBordes() {
 		val anchoBorde = area.ancho / 2
 		val altoBorde = area.alto / 2
     	return new Area(-anchoBorde, anchoBorde, altoBorde, -altoBorde)
 	}
 	
-	def terminar() {
+	override getAncho() {
+		ventana.width
+	}
+	
+	override terminar() {
 		ventana.close
 	}
 	

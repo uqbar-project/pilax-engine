@@ -7,9 +7,9 @@ import org.uqbar.pilax.depurador.ModoDepurador
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.motor.Lienzo
-import org.uqbar.pilax.motor.qt.Motor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.motor.qt.MotorQT
 
 class ModoRadiosDeColision extends ModoDepurador {
 	
@@ -17,7 +17,7 @@ class ModoRadiosDeColision extends ModoDepurador {
 		super(impl, Tecla.F9)
 	}
 	
-	override dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {
+	override dibujaAlActor(MotorQT motor, QPainter painter, Lienzo lienzo, Actor actor) {
 		val posicion = actor.posicionRelativaACamara
         lienzo.circulo(painter, posicion.x.intValue, posicion.y.intValue, actor.radioDeColision, Color.white, depurador.grosor_de_lineas.intValue)
 	}

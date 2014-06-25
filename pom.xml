@@ -9,6 +9,13 @@
     <version>1.0</version>
   </parent>
   
+  <properties>
+  	<qtJambiVersion>4.7.0.beta02</qtJambiVersion>
+  	<!-- 
+  	 <qtJambiVersion>4.8.5</qtJambiVersion>
+  	 -->
+  </properties>
+  
    <dependencies>
 		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
@@ -32,7 +39,19 @@
 		<dependency>
 			<groupId>com.trolltech.qt</groupId>
 			<artifactId>qtjambi</artifactId>
-			<version>4.7.0.beta02</version>
+			<version>${qtJambiVersion}</version>
+		</dependency>
+		<!-- 
+		 -->
+		<dependency>
+			<groupId>com.trolltech.qt</groupId>
+			<artifactId>qtjambi-awtbridge</artifactId>
+			<version>20120531</version>
+		</dependency>
+		 <dependency>
+			<groupId>com.trolltech.qt</groupId>
+			<artifactId>qtjambi-awtbridge-linux64-gcc</artifactId>
+			<version>20120531</version>
 		</dependency>
 		<dependency>
 			<groupId>com.trolltech.qt</groupId>
@@ -42,7 +61,7 @@
 		<dependency>
 			<groupId>com.trolltech.qt</groupId>
 			<artifactId>qtjambi-linux64-gcc</artifactId>
-			<version>4.7.0.beta02</version>
+			<version>${qtJambiVersion}</version>
 		</dependency>
     	<!-- /QT -->
    </dependencies>

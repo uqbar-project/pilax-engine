@@ -14,11 +14,11 @@ import org.uqbar.pilax.engine.PilaxException
 import org.uqbar.pilax.fisica.box2d.Box2DExtensions
 import org.uqbar.pilax.fisica.figuras.Rectangulo
 import org.uqbar.pilax.motor.Lienzo
-import org.uqbar.pilax.motor.qt.Motor
 
 import static extension org.uqbar.pilax.fisica.box2d.Box2DExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import com.trolltech.qt.gui.QPainter
+import org.uqbar.pilax.motor.qt.MotorQT
 
 class Fisica implements MotorFisica {
 	static final boolean ENABLED = true

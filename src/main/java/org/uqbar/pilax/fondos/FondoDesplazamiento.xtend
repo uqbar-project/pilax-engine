@@ -49,7 +49,7 @@ class FondoDesplazamiento extends Fondo {
 		}
 		
         // Resituar capa cuando se sale del todo de la ventana
-        ancho = Pilas.instance.mundo.motor.ventana.width
+        ancho = Pilas.instance.mundo.motor.ancho
         if (this.ciclico) {
             for (capa : this.capas) {
                 if (capa.derecha < -ancho / 2) {

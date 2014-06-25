@@ -1,9 +1,7 @@
 package org.uqbar.pilax.engine
 
-import org.eclipse.xtext.xbase.lib.Functions.Function0
-import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.fisica.Fisica
-import org.uqbar.pilax.motor.qt.Motor
+import org.uqbar.pilax.motor.Motor
 
 class Mundo {
 	@Property GestorEscenas gestorEscenas

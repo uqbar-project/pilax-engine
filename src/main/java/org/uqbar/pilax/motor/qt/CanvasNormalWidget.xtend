@@ -36,7 +36,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	QPainter painter
 	boolean pausaHabilitada
 	Pair<Double,Double> mouse
-	Motor motor
+	MotorQT motor
 	List<Actor> listaActores
 	FPS fps
 	double escala
@@ -47,7 +47,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	GestorEscenas gestorEscenas
 	ActorPausa actorPausa
 	
-	new(Motor motor, List<Actor> lista_actores, double ancho, double alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
+	new(MotorQT motor, List<Actor> lista_actores, double ancho, double alto, GestorEscenas gestor_escenas, boolean permitir_depuracion, double rendimiento) {
 		super(null as QWidget)
 //        this.painter = new QPainter()
         mouseTracking = true

@@ -1,10 +1,11 @@
 package org.uqbar.pilax.engine
 
 import java.util.List
-import org.uqbar.pilax.motor.qt.Motor
-import java.util.concurrent.Executors
 import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import org.uqbar.pilax.actores.ActorTextoInferior
+import org.uqbar.pilax.motor.qt.MotorQT
+import org.uqbar.pilax.motor.Motor
 
 class Pilas {
 	private static Pilas INSTANCE 
@@ -15,10 +16,14 @@ class Pilas {
 	
 	def static iniciar() {
 		INSTANCE = new Pilas
-		val motor = new Motor;
+		val motor = crearMotor();
 		INSTANCE.mundo = new Mundo(motor, 640, 480)
 		INSTANCE.mundo.gestorEscenas.cambiarEscena(new EscenaNormal)
-        motor.ventana.show
+        motor.visible()
+	}
+	
+	def static Motor crearMotor() {
+		new MotorQT
 	}
 	
 	def static Pilas instance() {

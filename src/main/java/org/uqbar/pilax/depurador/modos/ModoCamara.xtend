@@ -9,11 +9,11 @@ import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.motor.Lienzo
-import org.uqbar.pilax.motor.qt.Motor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import org.uqbar.pilax.utils.Utils
 import java.util.Iterator
+import org.uqbar.pilax.motor.qt.MotorQT
 
 class ModoCamara extends ModoDepurador {
 	Pair<Double, Double> posicionOriginal
@@ -44,7 +44,7 @@ class ModoCamara extends ModoDepurador {
 		Math.abs(a - b) / 100
 	}
 	
-	override dibujaAlActor(Motor motor, QPainter painter, Lienzo lienzo, Actor actor) {
+	override dibujaAlActor(MotorQT motor, QPainter painter, Lienzo lienzo, Actor actor) {
 //		if (control.derecha) {
 //			proximoActor
 //		}
