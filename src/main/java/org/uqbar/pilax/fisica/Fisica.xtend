@@ -1,24 +1,22 @@
 package org.uqbar.pilax.fisica
 
+import com.trolltech.qt.gui.QPainter
 import java.awt.Color
 import java.util.List
-import org.eclipse.xtext.xbase.lib.Pair
 import org.jbox2d.callbacks.ContactListener
 import org.jbox2d.collision.shapes.CircleShape
 import org.jbox2d.collision.shapes.PolygonShape
 import org.jbox2d.dynamics.Body
 import org.jbox2d.dynamics.World
-import org.jbox2d.pooling.normal.DefaultWorldPool
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.PilaxException
 import org.uqbar.pilax.fisica.box2d.Box2DExtensions
 import org.uqbar.pilax.fisica.figuras.Rectangulo
 import org.uqbar.pilax.motor.Lienzo
+import org.uqbar.pilax.motor.PilasPainter
 
 import static extension org.uqbar.pilax.fisica.box2d.Box2DExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import com.trolltech.qt.gui.QPainter
-import org.uqbar.pilax.motor.qt.MotorQT
 
 class Fisica implements MotorFisica {
 	static final boolean ENABLED = true
@@ -193,11 +191,11 @@ class Fisica implements MotorFisica {
 		figuras_a_eliminar.add(f.cuerpo)
 	}
 	
-	def dibujar_figuras_sobre_lienzo(QPainter painter, Lienzo lienzo) {
+	def dibujar_figuras_sobre_lienzo(PilasPainter painter, Lienzo lienzo) {
 		dibujar_figuras_sobre_lienzo(painter, lienzo, 1)
 	}
 	
-	def dibujar_figuras_sobre_lienzo(QPainter painter, Lienzo lienzo, int grosor) {
+	def dibujar_figuras_sobre_lienzo(PilasPainter painter, Lienzo lienzo, int grosor) {
        	/** Dibuja todas las figuras en una pizarra. Indicado para depuracion.
 
         :param motor: Referencia al motor de pilas.

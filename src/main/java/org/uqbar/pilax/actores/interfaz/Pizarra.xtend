@@ -36,9 +36,9 @@ class Pizarra extends Actor implements Canvas {
 		(imagen.ancho / 2) + x  ->	(self.imagen.alto / 2) - y   
 	}
 	
-	override pintar_parte_de_imagen(ImagenMotor imagen, double origen_x, double origen_y, double ancho, double alto, double x, double y) {
+	override pintarParteDeImagen(ImagenMotor imagen, double origen_x, double origen_y, double ancho, double alto, double x, double y) {
         val coord = obtener_coordenada_fisica(x, y)
-        this.imagen.pintar_parte_de_imagen(imagen, origen_x, origen_y, ancho, alto, coord.x, coord.y)
+        this.imagen.pintarParteDeImagen(imagen, origen_x, origen_y, ancho, alto, coord.x, coord.y)
     }
 
 }

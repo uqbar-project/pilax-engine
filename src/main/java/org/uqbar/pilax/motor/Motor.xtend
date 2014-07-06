@@ -15,7 +15,6 @@ import org.uqbar.pilax.geom.Area
  * @author jfernandes
  */
 interface Motor {
-	
 	def void iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento)
 	def void ejecutarBuclePrincipal(Mundo mundo)
 	def void visible()
@@ -39,4 +38,9 @@ interface Motor {
 	def ActorMotor crearActor(ImagenMotor imagen, double x, double y)
 	def Superficie crearSuperficie(int ancho, int alto)
 	def TextoMotor crearTexto(String texto, int magnitud, String fuente)
+	def Lienzo crearLienzo()
+	
+	def PilasImage loadImage(String fullPath)
+	def PilasImage createImage(int width, int height)
+	def PilasPainter createPainter()
 }

@@ -11,7 +11,6 @@ import com.trolltech.qt.gui.QWheelEvent
 import com.trolltech.qt.gui.QWidget
 import com.trolltech.qt.opengl.QGLWidget
 import java.util.List
-import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.actores.ActorPausa
 import org.uqbar.pilax.depurador.Depurador
 import org.uqbar.pilax.depurador.DepuradorDeshabilitado
@@ -30,10 +29,9 @@ import static org.uqbar.pilax.utils.PythonUtils.*
 
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import org.uqbar.pilax.utils.Utils
 
 class CanvasNormalWidget extends QGLWidget /*QWidget */  {
-	QPainter painter
+	QTPilasPainter painter
 	boolean pausaHabilitada
 	Pair<Double,Double> mouse
 	MotorQT motor
@@ -85,16 +83,16 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	override protected paintEvent(QPaintEvent event) {
 		//PILAX ( tuve que mover esto para que genere un nuevo painter cada
 		// vez, sino me fallaba. En pilas no es así! :(
-		painter = new QPainter
-		painter.begin(this)
+		painter = new QTPilasPainter(new QPainter)
+		painter.QPainter.begin(this)
 
-        painter.scale(escala)
+        painter.QPainter.scale(escala)
 
-		painter.setRenderHints(new QPainter.RenderHints(QPainter.RenderHint.Antialiasing,
+		painter.QPainter.setRenderHints(new QPainter.RenderHints(QPainter.RenderHint.Antialiasing,
         			QPainter.RenderHint.HighQualityAntialiasing,
         			QPainter.RenderHint.SmoothPixmapTransform));
 
-        painter.fillRect(0, 0, original_width.intValue, original_height.intValue, new QColor(128, 128, 128))
+        painter.QPainter.fillRect(0, 0, original_width.intValue, original_height.intValue, new QColor(128, 128, 128))
         depurador.comienzaDibujado(motor, painter)
 
         if (gestorEscenas.escenaActual != null) {

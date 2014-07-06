@@ -1,10 +1,10 @@
 package org.uqbar.pilax.depurador
 
-import com.trolltech.qt.gui.QPainter
 import java.awt.Color
 import java.util.List
-import org.eclipse.xtext.xbase.lib.Pair
+import org.uqbar.pilax.depurador.modos.ModoAngulo
 import org.uqbar.pilax.depurador.modos.ModoArea
+import org.uqbar.pilax.depurador.modos.ModoCamara
 import org.uqbar.pilax.depurador.modos.ModoFisica
 import org.uqbar.pilax.depurador.modos.ModoPosicion
 import org.uqbar.pilax.depurador.modos.ModoPuntosDeControl
@@ -14,14 +14,13 @@ import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.fisica.Fisica
 import org.uqbar.pilax.motor.Lienzo
+import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.motor.PilasPainter
 import org.uqbar.pilax.motor.qt.FPS
 import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.PythonUtils.*
-import org.uqbar.pilax.depurador.modos.ModoAngulo
-import org.uqbar.pilax.depurador.modos.ModoCamara
-import org.uqbar.pilax.motor.qt.MotorQT
 
 class DepuradorImpl implements Depurador {
 	List<ModoDepurador> modos
@@ -37,15 +36,15 @@ class DepuradorImpl implements Depurador {
         this.posicion_del_mouse = origen
     }
 	
-	override comienzaDibujado(MotorQT motor, QPainter painter) {
+	override comienzaDibujado(Motor motor, PilasPainter painter) {
     	modos.forEach[ comienzaDibujado(motor, painter, lienzo)]
 	}
 	
-	override dibujaAlActor(MotorQT motor, QPainter painter, Actor actor) {
+	override dibujaAlActor(Motor motor, PilasPainter painter, Actor actor) {
 		modos.forEach[ dibujaAlActor(motor, painter, lienzo, actor) ]
 	}
 	
-	override terminaDibujado(MotorQT motor, QPainter painter) {
+	override terminaDibujado(Motor motor, PilasPainter painter) {
 		if (!modos.nullOrEmpty) {
             mostrarCantidadDeCuerpos(painter)
             mostrarCantidadDeActores(painter)
@@ -57,7 +56,7 @@ class DepuradorImpl implements Depurador {
 		}
 	}
 	
-	def mostrarCantidadDeCuerpos(QPainter painter) {
+	def mostrarCantidadDeCuerpos(PilasPainter painter) {
         val bordes = Utils.bordes
         //HACK casteo a fisica jbox
         val total_de_cuerpos = (pilas.escenaActual.fisica as Fisica).cantidad_de_cuerpos()
@@ -65,27 +64,27 @@ class DepuradorImpl implements Depurador {
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 50, Color.white)
     }
     
-    def mostrarCantidadDeActores(QPainter painter) {
+    def mostrarCantidadDeActores(PilasPainter painter) {
         val bordes = Utils.bordes
         val total_de_actores = Pilas.instance.escenaActual.actores.size
         val texto = "Cantidad de actores: " + total_de_actores
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 30, Color.white)
 	}
 	
-	def mostrarCuadrosPorSegundo(QPainter painter) {
+	def mostrarCuadrosPorSegundo(PilasPainter painter) {
         val bordes = Utils.bordes
         val rendimiento = fps.cuadros_por_segundo
         val texto = "Cuadros por segundo: " + rendimiento
         lienzo.texto_absoluto(painter, texto, bordes.izquierda + 10, bordes.abajo + 10, Color.white)
     }
     
-    def mostrarPosicionDelMouse(QPainter painter) {
+    def mostrarPosicionDelMouse(PilasPainter painter) {
         val bordes = Utils.bordes
         val texto = "Posición del mouse: x=" + posicion_del_mouse.x + " y=" + posicion_del_mouse.y
         lienzo.texto_absoluto(painter, texto, bordes.derecha - 230, bordes.abajo + 10, Color.white)
     }
     
-    def mostrarNombresDeModos(QPainter painter) {
+    def mostrarNombresDeModos(PilasPainter painter) {
         var dy = 0
         val bordes = Utils.bordes
 
@@ -96,7 +95,7 @@ class DepuradorImpl implements Depurador {
         }
 	}
 	
-	def mostrarCantidadDeImagenesCacheadas(QPainter painter) {
+	def mostrarCantidadDeImagenesCacheadas(PilasPainter painter) {
         val bordes = Utils.bordes
         val total_de_imagenes_cacheadas = 0 // PILAX pilas.mundo.motor.libreria_imagenes.obtener_cantidad()
         val texto = "Cantidad de imagenes cacheadas: " + total_de_imagenes_cacheadas
@@ -176,11 +175,11 @@ abstract class ModoDepurador {
 		this.tecla = tecla
 	}
 	
-	def void comienzaDibujado(MotorQT motor, QPainter painter, Lienzo lienzo) {}
+	def void comienzaDibujado(Motor motor, PilasPainter painter, Lienzo lienzo) {}
 	
-	def void dibujaAlActor(MotorQT motor, QPainter painter, Lienzo lienzo, Actor actor) {}
+	def void dibujaAlActor(Motor motor, PilasPainter painter, Lienzo lienzo, Actor actor) {}
 	
-	def void terminaDibujado(MotorQT motor, QPainter painter, Lienzo lienzo) {}
+	def void terminaDibujado(Motor motor, PilasPainter painter, Lienzo lienzo) {}
 	
 	def void saleDelModo() {}
 	

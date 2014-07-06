@@ -2,17 +2,19 @@ package org.uqbar.pilax.motor.qt
 
 import com.trolltech.qt.gui.QApplication
 import com.trolltech.qt.gui.QFont
+import com.trolltech.qt.gui.QFontDatabase
 import com.trolltech.qt.gui.QFontMetrics
+import com.trolltech.qt.gui.QPainter
+import com.trolltech.qt.gui.QPixmap
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.util.Map
+import javax.imageio.ImageIO
 import org.uqbar.pilax.engine.GestorEscenas
 import org.uqbar.pilax.engine.Mundo
 import org.uqbar.pilax.engine.Pilas
-import org.uqbar.pilax.geom.Area
-import org.uqbar.pilax.motor.ActorMotor
-import org.uqbar.pilax.motor.ImagenMotor
-import org.uqbar.pilax.motor.Lienzo
-import org.uqbar.pilax.motor.Motor
-import org.uqbar.pilax.motor.Superficie
-import org.uqbar.pilax.motor.TextoMotor
+import org.uqbar.pilax.motor.java2d.AbstractMotor
+import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
@@ -21,13 +23,10 @@ import static extension org.uqbar.pilax.utils.PilasExtensions.*
  * 
  * @author jfernandes
  */
-class MotorQT implements Motor {
+class MotorQT extends AbstractMotor {
 	QApplication application
-	double anchoOriginal
-	double altoOriginal
 	String titulo
 	@Property Ventana ventana
-	@Property Pair<Double, Double> centroDeLaCamara = origen
 	CanvasNormalWidget canvas
 	boolean permitirDepuracion = true
 	
@@ -46,9 +45,10 @@ class MotorQT implements Motor {
 		altoOriginal = alto
 		
 		this.titulo = titulo
-		ventana = new Ventana(null)
-		ventana.resize(ancho, alto)
-        ventana.setWindowTitle(titulo)
+		ventana = new Ventana(null) => [
+			resize(ancho, alto)
+    	    setWindowTitle(titulo)
+		]
 		
 		canvas = new CanvasNormalWidget(this, Pilas.instance.todosActores, ancho, alto, gestor, permitirDepuracion, rendimiento)
         ventana.canvas = canvas
@@ -62,17 +62,32 @@ class MotorQT implements Motor {
         }		
 	}
 	
-	override crearActor(ImagenMotor imagen, double x, double y) {
-		new ActorMotor(imagen, x, y)
+	override loadImage(String fullPath) {
+		if (fullPath.toLowerCase.endsWith("jpeg") || fullPath.toLowerCase.endsWith("jpg")) {
+           new QTImage(cargarJpeg(fullPath))
+        }
+        else {
+           new QTImage(new QPixmap(fullPath))
+        }
 	}
 	
-	/** Centro de la ventana para situar el punto (0, 0)*/
-	override getCentroFisico() {
-        area / 2
+	def QPixmap cargarJpeg(String ruta) {
+		val byteArrayOut = new ByteArrayOutputStream        
+        ImageIO.write(ImageIO.read(new File(ruta)), "png", byteArrayOut);
+        val pixmapImage = new QPixmap()
+        pixmapImage.loadFromData(byteArrayOut.toByteArray)
+        pixmapImage
 	}
 	
-	override getArea() {
-		(anchoOriginal -> altoOriginal)
+	override createImage(int width, int height) { 	new QTImage(new QPixmap(width, height)) }
+	
+	override createPainter() {
+		new QTPilasPainter(new QPainter /*  => [
+			setRenderHint(QPainter.RenderHint.HighQualityAntialiasing, true)
+        	setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, true)
+        	setRenderHint(QPainter.RenderHint.Antialiasing, true)
+        ]*/
+        )
 	}
 	
 	override ejecutarBuclePrincipal(Mundo mundo) {
@@ -83,26 +98,10 @@ class MotorQT implements Motor {
 		ventana.show
 	}
 	
-	override cargarImagen(String path) {
-		new ImagenMotor(path)
-	}
-	
-	override crearTexto(String texto, int magnitud, String fuente) {
-       new TextoMotor(texto, magnitud, this, false, fuente)
-    }
-    
-    override crearSuperficie(int ancho, int alto) {
-    	new Superficie(ancho, alto)
-    }
-	
-	override Pair<Integer, Integer> obtenerAreaDeTexto(String texto) {
-		obtenerAreaDeTexto(texto, 10, false, null)
-	}
-	
 	//TODO: cambio en pilas 0.82!
 	override Pair<Integer, Integer> obtenerAreaDeTexto(String texto, int magnitud, boolean vertical, String fuente) {
 		val nombre_de_fuente = if (fuente != null)
-            						TextoMotor.cargar_fuente_desde_cache(fuente)
+            						cargar_fuente_desde_cache(fuente)
         						else
             						""
         val metrica = fontMetric(nombre_de_fuente, magnitud)
@@ -128,16 +127,6 @@ class MotorQT implements Motor {
         new QFontMetrics(new QFont(fontName, size))
 	}
 	
-	def crearLienzo() {
-		new Lienzo
-	}
-	
-	override getBordes() {
-		val anchoBorde = area.ancho / 2
-		val altoBorde = area.alto / 2
-    	return new Area(-anchoBorde, anchoBorde, altoBorde, -altoBorde)
-	}
-	
 	override getAncho() {
 		ventana.width
 	}
@@ -145,5 +134,32 @@ class MotorQT implements Motor {
 	override terminar() {
 		ventana.close
 	}
+	
+	// TODO: habilitar cache !
+    static Map<String, Integer> CACHE_FUENTES = newHashMap()
+	/**
+     * Carga o convierte una fuente para ser utilizada dentro del motor.
+     *
+     * Permite a los usuarios referirse a las fuentes como ruta a archivos, sin
+     *  tener que preocuparse por el font-family.
+	 *
+     * :param fuenteComoRuta: Ruta al archivo TTF que se quiere utilizar.
+	 *	
+     *  Ejemplo:
+	 *
+     *      >>> Texto.cargar_fuente_desde_cache('myttffile.ttf')
+     *      'Visitor TTF1'
+     */    
+    public def static String cargar_fuente_desde_cache(String fuenteComoRuta) {
+        var int idFuente
+        if (!CACHE_FUENTES.containsKey(fuenteComoRuta)) {
+            idFuente = QFontDatabase.addApplicationFont(Utils.obtenerRutaAlRecurso(fuenteComoRuta))
+            CACHE_FUENTES.put(fuenteComoRuta, idFuente)
+        }
+        else
+            idFuente = CACHE_FUENTES.get(fuenteComoRuta)
+
+        return QFontDatabase.applicationFontFamilies(idFuente).first
+    }
 	
 }

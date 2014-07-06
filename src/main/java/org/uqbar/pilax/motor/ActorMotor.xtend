@@ -1,11 +1,5 @@
 package org.uqbar.pilax.motor
 
-import com.trolltech.qt.gui.QPainter
-import com.trolltech.qt.gui.QPixmap
-import java.io.ByteArrayOutputStream
-import java.io.File
-import javax.imageio.ImageIO
-import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Pilas
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
@@ -64,7 +58,7 @@ class ActorMotor extends ActorBaseMotor {
 		this.imagen = imagen
 	}
 
-    def dibujar(QPainter painter) {
+    def dibujar(PilasPainter painter) {
         var escala_x = escalas.x
 
         if (espejado) 
@@ -93,7 +87,7 @@ class ActorMotor extends ActorBaseMotor {
 }
 
 class ImagenMotor {
-	@Property QPixmap imagen
+	@Property PilasImage imagen
 	@Property String ruta
 	
 	new() {
@@ -102,24 +96,11 @@ class ImagenMotor {
 	
 	new(String path) {
 		ruta = path.resolveFullPathFromClassPath
-		if (ruta.toLowerCase.endsWith("jpeg") || ruta.toLowerCase.endsWith("jpg")) {
-           imagen = cargarJpeg(ruta)
-        }
-        else {
-            imagen = new QPixmap(ruta)
-        }
+		_imagen = motor.loadImage(ruta)
 	}
 	
-	new (QPixmap imagen) {
+	new (PilasImage imagen) {
 		_imagen = imagen
-	}
-	
-	def QPixmap cargarJpeg(String ruta) {
-		val byteArrayOut = new ByteArrayOutputStream        
-        ImageIO.write(ImageIO.read(new File(ruta)), "png", byteArrayOut);
-        val pixmapImage = new QPixmap()
-        pixmapImage.loadFromData(byteArrayOut.toByteArray)
-        pixmapImage
 	}
 	
 	/**
@@ -130,7 +111,7 @@ class ImagenMotor {
 	 *  rotacion: angulo de inclinacion en sentido de las agujas del reloj.
 	 *
 	 */    
-    def void dibujar(QPainter painter, double x, double y, double dx, double dy, double escala_x, double escala_y, double rotacion, double transparencia) {
+    def void dibujar(PilasPainter painter, double x, double y, double dx, double dy, double escala_x, double escala_y, double rotacion, double transparencia) {
         painter => [
         	save
         	val centro = motor.centroFisico
@@ -145,37 +126,22 @@ class ImagenMotor {
         painter.restore
 	}
 
-	def getMotor() {
-		mundo.motor
-	}
+	def getMotor() { mundo.motor }
+	def getMundo() { Pilas.instance.mundo }
 	
-	def getMundo() {
-		Pilas.instance.mundo
-	}
-	
-	def protected dibujarPixmap(QPainter painter, double x, double y) {
+	def protected dibujarPixmap(PilasPainter painter, double x, double y) {
         painter.drawPixmap(x.intValue, y.intValue, imagen)
     }
     
-    def getAncho() {
-        imagen.size.width.doubleValue
-    }
+    def getAncho() { imagen.width }
+    def void setAncho(double ancho) { imagen.width = ancho }
+    def getAlto() { imagen.height }
     
-    def void setAncho(double ancho) {
-        imagen.size.width = ancho.intValue
-    }
-
-    def getAlto() {
-        imagen.size.height.doubleValue
-    }
-
    	/* Retorna una tupla con la coordenada del punto medio del la imagen. */
     def getCentro() {
         ancho / 2 -> alto / 2
     }
 
-    def boolean avanzar() {
-    	false 
-    }
+    def boolean avanzar() { false }
 	
 }

@@ -1,19 +1,18 @@
 package org.uqbar.pilax.depurador.modos
 
-import com.trolltech.qt.gui.QPainter
 import java.awt.Color
-import org.eclipse.xtext.xbase.lib.Pair
+import java.util.Iterator
 import org.uqbar.pilax.depurador.DepuradorImpl
 import org.uqbar.pilax.depurador.ModoDepurador
 import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.motor.Lienzo
+import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.motor.PilasPainter
+import org.uqbar.pilax.utils.Utils
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import org.uqbar.pilax.utils.Utils
-import java.util.Iterator
-import org.uqbar.pilax.motor.qt.MotorQT
 
 class ModoCamara extends ModoDepurador {
 	Pair<Double, Double> posicionOriginal
@@ -44,7 +43,7 @@ class ModoCamara extends ModoDepurador {
 		Math.abs(a - b) / 100
 	}
 	
-	override dibujaAlActor(MotorQT motor, QPainter painter, Lienzo lienzo, Actor actor) {
+	override dibujaAlActor(Motor motor, PilasPainter painter, Lienzo lienzo, Actor actor) {
 //		if (control.derecha) {
 //			proximoActor
 //		}

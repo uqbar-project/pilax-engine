@@ -1,10 +1,8 @@
 package org.uqbar.pilax.engine
 
-import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import static extension org.uqbar.pilax.utils.PythonUtils.*
-import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
+import org.uqbar.pilax.motor.PilasPainter
 
-import com.trolltech.qt.gui.QPainter
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class Fondo extends Actor {
 	
@@ -30,12 +28,9 @@ class FondoPlano extends Fondo {
 		super("plano.png")
 	}
 	
-	override dibujar(QPainter painter) {
-        painter.save()
+	override dibujar(PilasPainter painter) {
         val s = motor.centroDeLaCamara.x -> -motor.centroDeLaCamara.y 
-
-        painter.drawTiledPixmap(origen, motor.area, this.imagen.imagen, s % 30)
-        painter.restore
+		painter.drawTiledPixmap(origen, motor.area, this.imagen.imagen, s % 30)
 	}
 
 }

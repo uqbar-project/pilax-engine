@@ -11,18 +11,24 @@ import com.trolltech.qt.gui.QPainter
 import com.trolltech.qt.gui.QPen
 import com.trolltech.qt.gui.QPixmap
 import java.awt.Color
-import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.geom.Area
 import org.uqbar.pilax.motor.ImagenMotor
+import org.uqbar.pilax.motor.PilasImage
+import org.uqbar.pilax.motor.PilasPainter
 import org.uqbar.pilax.utils.Utils
 
 import static com.trolltech.qt.core.Qt.Key.*
 import static com.trolltech.qt.core.Qt.KeyboardModifier.*
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
-import com.trolltech.qt.core.Qt.BrushStyle
 
+/**
+ * 
+ * @author jfernandes
+ */
 class QtExtensions {
+	
+	def static PilasPainter createPainter() { motor.createPainter }
 	
 	def static asQRect(Area a) {
 		new QRectF(a.izquierda, a.derecha, a.arriba, a.abajo)
@@ -57,22 +63,17 @@ class QtExtensions {
 	}
 	
 	def static void drawTiledPixmap(QPainter painter, ImagenMotor imagen, double x, double y, double ancho, double alto){
-		val dx = x % imagen.ancho
+		drawTiledPixmap(painter, (imagen.imagen as QTImage).image, x, y, ancho, alto)
+	}
+	
+	def static void drawTiledPixmap(QPainter painter, QPixmap imagen, double x, double y, double ancho, double alto){
+		val dx = x % imagen.width
         val dy = 0d
-        painter.drawTiledPixmap(0, y.intValue, ancho.intValue, imagen.alto.intValue, imagen.imagen, (Math.abs(dx) % imagen.ancho).intValue, (dy % imagen.alto).intValue)
+        painter.drawTiledPixmap(0, y.intValue, ancho.intValue, imagen.height, imagen, (Math.abs(dx) % imagen.width).intValue, (dy % imagen.height).intValue)
 	}
 	
-	def static void drawTiledPixmap(QPainter painter, Pair<Double,Double> pos, Pair<Double,Double> size, QPixmap pixmap, Pair<Double,Double> s) {
-		painter.drawTiledPixmap(pos.x.intValue, pos.y.intValue, size.x.intValue, size.y.intValue, pixmap, s.x.intValue, s.y.intValue)
-	}
-	
-	def static QPainter createQPainter() {
-		val painter = new QPainter /*  => [
-			setRenderHint(QPainter.RenderHint.HighQualityAntialiasing, true)
-        	setRenderHint(QPainter.RenderHint.SmoothPixmapTransform, true)
-        	setRenderHint(QPainter.RenderHint.Antialiasing, true)
-        ]*/
-        painter
+	def static void drawTiledPixmap(QPainter painter, Pair<Double,Double> pos, Pair<Double,Double> size, QPixmap pixmap, Pair<Double,Double> pixmapTopLeft) {
+		painter.drawTiledPixmap(pos.x.intValue, pos.y.intValue, size.x.intValue, size.y.intValue, pixmap, pixmapTopLeft.x.intValue, pixmapTopLeft.y.intValue)
 	}
 	
 	def static QColor asQColor(Color color) {
@@ -123,7 +124,7 @@ class QtExtensions {
 		event.modifiers.isSet(modifier)
 	}
 	
-	def static drawPixmap(QPainter painter, double x, double y, QPixmap pixmap, double dx, double dy, double ancho, double alto) {
+	def static drawPixmap(PilasPainter painter, double x, double y, PilasImage pixmap, double dx, double dy, double ancho, double alto) {
 		painter.drawPixmap(x.intValue,y.intValue, pixmap, dx.intValue, dy.intValue, ancho.intValue, alto.intValue)
 	}
 	

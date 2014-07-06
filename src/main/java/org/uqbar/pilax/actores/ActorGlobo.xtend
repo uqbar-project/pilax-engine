@@ -73,37 +73,37 @@ class ActorGlobo extends Actor {
         val imagenGlobo = motor.cargarImagen("globo.png")
 
         // esquina sup-izq
-        imagen.pintar_parte_de_imagen(imagenGlobo, 0, 0, 12, 12, 0, 0)
+        imagen.pintarParteDeImagen(imagenGlobo, 0, 0, 12, 12, 0, 0)
 
         // borde superior
         for (r : range(0, ancho + 12, 12))
-            imagen.pintar_parte_de_imagen(imagenGlobo, 12, 0, 12, 12, 12 + r, 0)
+            imagen.pintarParteDeImagen(imagenGlobo, 12, 0, 12, 12, 12 + r, 0)
 
          // esquina sup-der
-        imagen.pintar_parte_de_imagen(imagenGlobo, 100, 0, 12, 12, 12 + ancho + 12, 0)
+        imagen.pintarParteDeImagen(imagenGlobo, 100, 0, 12, 12, 12 + ancho + 12, 0)
 
         // centro del dialogo
         for (y : range(0, alto + 12, 12)) {
             // borde izquierdo
-            imagen.pintar_parte_de_imagen(imagenGlobo, 0, 12, 12, 12, 0, 12 + y)
+            imagen.pintarParteDeImagen(imagenGlobo, 0, 12, 12, 12, 0, 12 + y)
             // linea horizontal blanca, para el centro del dialogo.
             for (x : range(0, ancho + 12, 12)) {
-                imagen.pintar_parte_de_imagen(imagenGlobo, 12, 12, 12, 12, 12 + x, 12 + y)
+                imagen.pintarParteDeImagen(imagenGlobo, 12, 12, 12, 12, 12 + x, 12 + y)
             }
 
             // borde derecho
-           	imagen.pintar_parte_de_imagen(imagenGlobo, 100, 12, 12, 12, 12 + ancho + 12, 12 + y)
+           	imagen.pintarParteDeImagen(imagenGlobo, 100, 12, 12, 12, 12 + ancho + 12, 12 + y)
 		}
         // parte inferior
-        imagen.pintar_parte_de_imagen(imagenGlobo, 0, 35, 12, 12, 0, 0 + alto + 12 + 12)
+        imagen.pintarParteDeImagen(imagenGlobo, 0, 35, 12, 12, 0, 0 + alto + 12 + 12)
 
         // linea horizontal de la parte inferior
         for (x : range(0, ancho + 12, 12))
-            imagen.pintar_parte_de_imagen(imagenGlobo, 12, 35, 12, 12, 12 + x, 0 + alto + 12 + 12)
+            imagen.pintarParteDeImagen(imagenGlobo, 12, 35, 12, 12, 12 + x, 0 + alto + 12 + 12)
 
-        imagen.pintar_parte_de_imagen(imagenGlobo, 100, 35, 12, 12, 12 + ancho + 12, 0 + alto + 12 + 12)
+        imagen.pintarParteDeImagen(imagenGlobo, 100, 35, 12, 12, 12 + ancho + 12, 0 + alto + 12 + 12)
         // Pico de la parte de abajo
-        imagen.pintar_parte_de_imagen(imagenGlobo, 67, 35, 33, 25, ancho - 12, 0 + alto + 12 + 12)
+        imagen.pintarParteDeImagen(imagenGlobo, 67, 35, 33, 25, ancho - 12, 0 + alto + 12 + 12)
 	}
 	
 	/** "Función que se ejecuta al hacer click para avanzar o eliminar el globo." */

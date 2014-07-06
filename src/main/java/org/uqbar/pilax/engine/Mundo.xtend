@@ -11,7 +11,8 @@ class Mundo {
 	new(Motor motor, int ancho, int alto) {
 		this.motor = motor
 		this.gestorEscenas = new GestorEscenas
-		this.motor.iniciarVentana(ancho, alto, "PilaX (Pilas Engine en XTend)", false, gestorEscenas, 60)
+//		this.motor.iniciarVentana(ancho, alto, "PilaX (Pilas Engine en XTend)", false, gestorEscenas, 60)
+		this.motor.iniciarVentana(ancho, alto, "PilaX (Pilas Engine en XTend)", false, gestorEscenas, 24)
         gravedad = (0d -> -10d)
 	}
 	

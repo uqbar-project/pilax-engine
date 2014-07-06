@@ -4,8 +4,8 @@ import java.util.List
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import org.uqbar.pilax.actores.ActorTextoInferior
-import org.uqbar.pilax.motor.qt.MotorQT
 import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.motor.qt.MotorQT
 
 class Pilas {
 	private static Pilas INSTANCE 
@@ -16,14 +16,15 @@ class Pilas {
 	
 	def static iniciar() {
 		INSTANCE = new Pilas
-		val motor = crearMotor();
+		val motor = crearMotor
 		INSTANCE.mundo = new Mundo(motor, 640, 480)
 		INSTANCE.mundo.gestorEscenas.cambiarEscena(new EscenaNormal)
-        motor.visible()
+        motor.visible
 	}
 	
 	def static Motor crearMotor() {
 		new MotorQT
+//		new MotorJava2D
 	}
 	
 	def static Pilas instance() {
@@ -40,7 +41,7 @@ class Pilas {
 	}
 	
 	def fondos() {
-		escenaActual.actores.filter[it.esFondo]
+		escenaActual.actores.filter[esFondo]
 	}
 	
 	def static void main(String[] args) {

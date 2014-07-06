@@ -9,6 +9,6 @@ import org.uqbar.pilax.motor.ImagenMotor
  */
 interface Canvas {
 	
-	def void pintar_parte_de_imagen(ImagenMotor imagen, double origen_x, double origen_y, double ancho, double alto, double x, double y)
+	def void pintarParteDeImagen(ImagenMotor imagen, double origen_x, double origen_y, double ancho, double alto, double x, double y)
 	
 }

@@ -6,10 +6,10 @@ import org.uqbar.pilax.engine.Fondo
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.eventos.DataEventoMovimiento
 import org.uqbar.pilax.motor.ImagenMotor
-
-import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import org.uqbar.pilax.motor.PilasPainter
 
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class FondoDesplazamientoHorizontal extends Fondo {
 	List<Capa> capas = newArrayList
@@ -20,7 +20,7 @@ class FondoDesplazamientoHorizontal extends Fondo {
         z = 1000
 	}
 	
-	override dibujar(QPainter painter) {
+	override dibujar(PilasPainter painter) {
 		painter.save
         val area = mundo.area
 
@@ -61,8 +61,8 @@ class Capa {
         this.velocidad = velocidad
 	}
 	
-	def dibujar_tiled_horizontal(QPainter painter, double ancho, double alto) {
-		painter.drawTiledPixmap(imagen, x, y, ancho, alto)
+	def dibujar_tiled_horizontal(PilasPainter painter, double ancho, double alto) {
+		painter.drawTiledPixmap(imagen.imagen, x.intValue, y.intValue, ancho.intValue, alto.intValue)
 	}
     
     def moverHorizontal(double dx) {

@@ -1,21 +1,20 @@
 package org.uqbar.pilax.engine
 
-import com.trolltech.qt.gui.QPainter
 import java.util.List
 import java.util.UUID
-import org.eclipse.xtext.xbase.lib.Pair
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure0
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure2
 import org.uqbar.pilax.actores.ActorGlobo
 import org.uqbar.pilax.actores.PosicionCentro
-import static extension org.uqbar.pilax.actores.PosicionCentroExtensions.*
 import org.uqbar.pilax.comunes.ObjetoGrafico
 import org.uqbar.pilax.fisica.Figura
 import org.uqbar.pilax.geom.Area
 import org.uqbar.pilax.habilidades.Imitar
 import org.uqbar.pilax.motor.ActorMotor
 import org.uqbar.pilax.motor.ImagenMotor
+import org.uqbar.pilax.motor.PilasPainter
 
+import static extension org.uqbar.pilax.actores.PosicionCentroExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 /**
@@ -95,47 +94,28 @@ class Actor extends Estudiante implements ObjetoGrafico {
         return posicion - centroReferencia 
 	}
 	
-	override getX() {
-		actorMotor.posicion.x
-	}
+	override getX() { actorMotor.posicion.x }
+	override void setX(double x) { actorMotor.x = x }
 	
-	override void setX(double x) {
-		actorMotor.x = x
-	}
+	def void setPosicion(Pair<Double,Double> p) { actorMotor.posicion = p.x -> p.y }
+	def void setPosicion(double x, double y) { actorMotor.posicion = x -> y }
 	
-	def void setPosicion(Pair<Double,Double> p) {
-		actorMotor.posicion = p.x -> p.y
-	}
-	
-	def void setPosicion(double x, double y) {
-        actorMotor.posicion = x -> y
-	}
-	
-	override getY() {
-		actorMotor.posicion.y
-	}
-	
-	override void setY(double y) {
-		actorMotor.y = y
-	}
+	override getY() { actorMotor.posicion.y }
+	override void setY(double y) { actorMotor.y = y }
 	
 	def void setCentro(Pair<Double,Double> centro) {
 		_centro = centro
         actorMotor.centro = centro
 	}
 	
-	def getImagen() {
-		actorMotor.imagen
-	}
+	def getImagen() { actorMotor.imagen }
 	
 	def void setImagen(ImagenMotor imagen) {
         actorMotor.imagen = imagen
         centro = centroDeImagen
 	}
 	
-	def esFondo() {
-		false
-	}
+	def esFondo() { false }
 	
 	def void eliminar() {
 		// provisional hasta hacer una active annotation !
@@ -147,9 +127,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
 	
 	List<ActorListener> listeners = newArrayList
 	
-	def addListener(ActorListener l) {
-		listeners.add(l)
-	}
+	def addListener(ActorListener l) { listeners.add(l) }
 	
 	def notify(Procedure2<ActorListener, EventChain> notification, Procedure0 realTask) {
 		new EventChainImpl(listeners.iterator, notification, realTask).proceed(this)
@@ -166,22 +144,18 @@ class Actor extends Estudiante implements ObjetoGrafico {
         }
 	}
 
-	def getActoresDeEscena() {
-		Pilas.instance.escenaActual.actores
-	}
+	def getActoresDeEscena() { Pilas.instance.escenaActual.actores }
 	
-	def protected eliminarAnexados() {
-		anexados.forEach[it.eliminar]
-	}
+	def protected eliminarAnexados() { anexados.forEach[it.eliminar] }
 	
-	def dibujar(QPainter aplicacion) {
+	def dibujar(PilasPainter aplicacion) { 
 		actorMotor.dibujar(aplicacion)
 	}
+	
 	/** Indica si el actor está fuera del area visible de la pantalla.*/
 	def estaFueraDeLaPantalla() {
-        if (fijo) {
+        if (fijo)
             return false
-        }
         val areaVisible = escena.camara.areaVisible
         return derecha < areaVisible.izquierda ||
         		izquierda > areaVisible.derecha ||
@@ -189,9 +163,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
         		arriba < areaVisible.abajo
 	}
 	
-    override getRotacion() {
-    	actorMotor.rotacion
-    }
+    override getRotacion() { actorMotor.rotacion }
     
     def void setRotacion(double rotacion) {
     	val rot = if (rotacion < 0) 360 + rotacion else rotacion 
@@ -202,9 +174,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     	actorMotor.transparencia = transparencia
     }
     
-    def getTransparencia() {
-    	actorMotor.transparencia
-    }
+    def getTransparencia() { actorMotor.transparencia }
     
     def getIzquierda() {
         x - (centro.x * escala)
@@ -227,7 +197,7 @@ class Actor extends Estudiante implements ObjetoGrafico {
     }
     
     def void setAncho(double ancho) {
-    	imagen.imagen.size.width = ancho.intValue
+    	imagen.imagen.width = ancho.intValue
     }
     
     def getAlto() {

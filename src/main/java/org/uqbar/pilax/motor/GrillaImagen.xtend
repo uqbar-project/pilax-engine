@@ -51,7 +51,7 @@ class GrillaImagen extends ImagenMotor {
         dy = frameRow * cuadroAlto
 	}
 	
-	override protected dibujarPixmap(QPainter painter, double x, double y) {
+	override protected dibujarPixmap(PilasPainter painter, double x, double y) {
 		painter.drawPixmap(x, y, imagen, dx, dy, cuadroAncho, cuadroAlto)
 	}
 	
@@ -68,6 +68,6 @@ class GrillaImagen extends ImagenMotor {
 	}
 	
 	def dibujarse_sobre_una_pizarra(Canvas pizarra, int x, int y) {
-        pizarra.pintar_parte_de_imagen(this, dx, dy, cuadroAncho, cuadroAlto, x, y)
+        pizarra.pintarParteDeImagen(this, dx, dy, cuadroAncho, cuadroAlto, x, y)
     }
 }
