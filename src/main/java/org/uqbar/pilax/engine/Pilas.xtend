@@ -7,7 +7,7 @@ import org.uqbar.pilax.actores.ActorTextoInferior
 import org.uqbar.pilax.motor.Motor
 import org.uqbar.pilax.motor.qt.MotorQT
 
-class create {
+class Pilas {
 	private static Pilas INSTANCE 
 	@Property Mundo mundo
 	@Property List<Actor> todosActores = newArrayList
