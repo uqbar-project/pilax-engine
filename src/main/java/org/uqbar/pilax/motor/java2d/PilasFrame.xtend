@@ -12,6 +12,8 @@ import org.uqbar.pilax.engine.GestorEscenas
 import org.uqbar.pilax.motor.Motor
 import java.awt.Graphics2D
 
+import static extension org.uqbar.pilax.utils.PilasExtensions.*
+
 /**
  * 
  */
@@ -41,20 +43,14 @@ class PilasFrame extends Frame {
        })
 	}
 	
-	override update(Graphics g) {
-		super.update(g)
-		paintPilas(g)
-	}
-
-	protected def paintPilas(Graphics gra) {
+	def paintPilas() {
 		createBufferStrategy(2)
 		val g = bufferStrategy.drawGraphics as Graphics2D
-		g.clearRect(0, 0, getWidth, getHeight)
 		
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		
-		val painter = createPainter
+		val painter = new Java2DPainter(g)
 		
 		val previousColor = g.color
 		g.color = new Color(128, 128, 128)
@@ -63,7 +59,7 @@ class PilasFrame extends Frame {
         depurador.comienzaDibujado(motor, painter)
 
         if (gestorEscenas.escenaActual != null) {
-            for (actor : gestorEscenas.escenaActual.actores) {
+            for (actor : gestorEscenas.escenaActual.actores.copy) {
                 try {
                     if (!actor.estaFueraDeLaPantalla)
                         actor.dibujar(painter)
@@ -76,19 +72,9 @@ class PilasFrame extends Frame {
                 depurador.dibujaAlActor(motor, painter, actor)
 			}
 		}
-		sleep
-		graphics.dispose
+		g.dispose
 		bufferStrategy.show
         depurador.terminaDibujado(motor, painter)
-	}
-	
-	protected def sleep() {
-		try {
-			Thread.sleep(0, 1);
-		}
-		catch(InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 	}
 	
 	override paintComponents(Graphics g) {

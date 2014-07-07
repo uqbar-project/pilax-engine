@@ -3,6 +3,7 @@ package org.uqbar.pilax.ejemplos
 import org.uqbar.pilax.actores.ActorMono
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.habilidades.Arrastrable
+import org.uqbar.pilax.comportamientos.ComportamientoGirar
 
 class EjemploMono {
 	
@@ -12,6 +13,7 @@ class EjemploMono {
 		val mono = new ActorMono(50, 100)
 //		mono.aprender(Rota)
 		mono.aprender(Arrastrable)
+		mono.hacer(new ComportamientoGirar(5, 5))
 //		
 //		for (i : 1..3) {
 //			val estrella = new Item

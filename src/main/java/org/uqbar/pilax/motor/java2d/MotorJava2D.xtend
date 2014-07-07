@@ -29,7 +29,7 @@ class MotorJava2D extends AbstractMotor {
 	
 	override ejecutarBuclePrincipal(Mundo mundo) {
 		val timer = new Timer
-		timer.schedule([| frame.repaint], 0, 1000 / fps)
+		timer.schedule([| frame.paintPilas], 0, 1000 / fps)
 	}
 	
 	override visible() { frame.visible = true }
