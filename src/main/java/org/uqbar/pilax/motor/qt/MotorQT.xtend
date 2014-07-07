@@ -43,6 +43,7 @@ class MotorQT extends AbstractMotor {
 	override iniciarVentana(int ancho, int alto, String titulo, boolean pantalla_completa, GestorEscenas gestor, float rendimiento) {
 		anchoOriginal = ancho
 		altoOriginal = alto
+		gestorEscenas = gestor
 		
 		this.titulo = titulo
 		ventana = new Ventana(null) => [
@@ -61,6 +62,9 @@ class MotorQT extends AbstractMotor {
             canvas.pantallaCompleta
         }		
 	}
+	
+	override fps() { canvas.fps }
+	override pausaHabilitada() { canvas.pausaHabilitada }
 	
 	override loadImage(String fullPath) {
 		if (fullPath.toLowerCase.endsWith("jpeg") || fullPath.toLowerCase.endsWith("jpg")) {

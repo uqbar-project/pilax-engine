@@ -25,18 +25,16 @@ import org.uqbar.pilax.eventos.DataEventoRuedaMouse
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
 
-import static org.uqbar.pilax.utils.PythonUtils.*
-
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
 class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	QTPilasPainter painter
-	boolean pausaHabilitada
+	@Property boolean pausaHabilitada
 	Pair<Double,Double> mouse
 	MotorQT motor
 	List<Actor> listaActores
-	FPS fps
+	@Property FPS fps
 	double escala
 	//capaz es de QWidget
 	double original_width
@@ -116,7 +114,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	override protected timerEvent(QTimerEvent event) {
 //		[|
 	        try {
-	            realizarActualizacionLogica
+	            motor.realizarActualizacionLogica
 		    }
 	        catch(RuntimeException e) {
 	        	e.printStackTrace
@@ -124,30 +122,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 //        ].execAsync
         update
     }
-
-    def realizarActualizacionLogica() {
-        for (x : range(fps.actualizar)){
-            if (!pausaHabilitada) {
-                actualizarEventosYActores
-                actualizarEscena
-            }
-        }
-    }
-
-    def protected actualizarEscena() {
-        gestorEscenas.actualizar
-	}
-
-    def actualizarEventosYActores() {
-        eventos.actualizar.emitir(new DataEvento)
-        try {
-        	gestorEscenas.escenaActual.actores.copy.forEach[preActualizar; actualizar]
-        }
-        catch (RuntimeException e) {
-            throw new PilaxException("Error actualizando actores de la escena!", e)
-        }
-	}
-	
+    	
 	override protected mouseMoveEvent(QMouseEvent e) {
         var posRelativa = (e.pos / escala).aRelativa + motor.centroDeLaCamara
         gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(posRelativa, posRelativa - mouse, null))
@@ -271,7 +246,7 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
             pausaHabilitada = true
             actorPausa = new ActorPausa()
             actorPausa.fijo = true
-            eventos.pulsaTecla.conectar('tecla_en_pausa', [d| actualizarEventosYActores])
+            eventos.pulsaTecla.conectar('tecla_en_pausa', [d| motor.actualizarEventosYActores])
         }
 	}
 	
