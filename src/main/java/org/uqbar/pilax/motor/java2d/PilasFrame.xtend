@@ -14,17 +14,19 @@ import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import org.uqbar.pilax.depurador.Depurador
 import org.uqbar.pilax.depurador.DepuradorDeshabilitado
+import org.uqbar.pilax.depurador.DepuradorImpl
 import org.uqbar.pilax.engine.GestorEscenas
+import org.uqbar.pilax.engine.Tecla
 import org.uqbar.pilax.eventos.DataEvento
 import org.uqbar.pilax.eventos.DataEventoMouse
 import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
 import org.uqbar.pilax.eventos.MouseButton
 import org.uqbar.pilax.motor.Motor
+import org.uqbar.pilax.motor.qt.FPS
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.Utils.*
-import org.uqbar.pilax.engine.Tecla
 
 /**
  * 
@@ -37,6 +39,7 @@ class PilasFrame extends Frame implements MouseListener, MouseMotionListener, Ke
 	Depurador depurador
 	Motor motor
 	GestorEscenas gestorEscenas
+	@Property FPS fps
 	
 	new(Motor motor, double width, double height, GestorEscenas gestorEscenas, boolean depuracion, double rendimiento) {
 		this.motor = motor
@@ -44,10 +47,11 @@ class PilasFrame extends Frame implements MouseListener, MouseMotionListener, Ke
 		originalHeight = height
 		this.gestorEscenas = gestorEscenas
 		mouse = origen
+		fps = new FPS(rendimiento, true)
 		
-		depurador = /*if (depuracion)
+		depurador = if (depuracion)
             			new DepuradorImpl(motor.crearLienzo, fps)
-			        else*/
+			        else
             			new DepuradorDeshabilitado
 		addMouseListener(this)
 		
@@ -226,7 +230,6 @@ class PilasFrame extends Frame implements MouseListener, MouseMotionListener, Ke
 	}
 	
 	override keyTyped(KeyEvent e) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

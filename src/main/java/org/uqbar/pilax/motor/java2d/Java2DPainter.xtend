@@ -2,14 +2,17 @@ package org.uqbar.pilax.motor.java2d
 
 import java.awt.AlphaComposite
 import java.awt.Color
+import java.awt.FontMetrics
 import java.awt.Graphics
 import java.awt.Graphics2D
+import java.awt.Image
+import java.awt.Rectangle
+import java.awt.TexturePaint
 import java.awt.image.ImageObserver
 import org.uqbar.pilax.motor.PilasImage
 import org.uqbar.pilax.motor.PilasPainter
-import java.awt.Image
-import java.awt.TexturePaint
-import java.awt.Rectangle
+import org.uqbar.pilax.utils.Utils
+import java.awt.Font
 
 /**
  * @author jfernandes
@@ -58,7 +61,7 @@ class Java2DPainter implements PilasPainter, ImageObserver {
 	}
 	
 	override drawLine(Pair<Double, Double> p1, Pair<Double, Double> p2) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		graphics.drawLine(p1.key.intValue, p2.key.intValue, p1.value.intValue, p2.value.intValue)
 	}
 	
 	override drawText(PilasImage image, String text, int x, int y, int size, String font, Color color) {
@@ -70,7 +73,12 @@ class Java2DPainter implements PilasPainter, ImageObserver {
 	}
 	
 	override drawAbsoluteText(String text, double x, double y, int size, String font, Color color) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+//		p.pen = color.asQColor
+//		val nombre_de_fuente = if (font != null) MotorQT.cargar_fuente_desde_cache(font) else p.font.family
+//        p.font = new QFont(nombre_de_fuente, size)
+//        p.drawText(Utils.aAbsoluta(x, y), text)
+		val pos = Utils.aAbsoluta(x, y)
+		graphics.drawString(text, pos.key.intValue, pos.value.intValue)
 	}
 	
 	override drawTiledPixmap(Pair<Double, Double> origen, Pair<Double, Double> area, PilasImage image, Pair<Double, Double> imageTopLeft) {
@@ -86,8 +94,9 @@ class Java2DPainter implements PilasPainter, ImageObserver {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override setPen(Color color, int i) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override setPen(Color color, int tickness) {
+		//TODO
+		graphics.color = color // ?
 	}
 	
 	override fillRect(Pair<Double, Double> p1, Pair<Double, Double> p2, Color color) {
@@ -95,15 +104,16 @@ class Java2DPainter implements PilasPainter, ImageObserver {
 	}
 	
 	override drawEllipse(double x, double y, double w, double h) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		graphics.drawOval(x.intValue, y.intValue, w.intValue, h.intValue)
 	}
 	
 	override fillRect(Pair<Double, Double> p, double w, double h, Color color) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		//TODO: color
+		graphics.fillRect(p.key.intValue, p.value.intValue, w.intValue, h.intValue)
 	}
 	
 	override drawRect(Pair<Double, Double> xy, double ancho, double alto) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		graphics.drawRect(xy.key.intValue, xy.value.intValue, ancho.intValue, alto.intValue)
 	}
 	
 	// ********* image observer

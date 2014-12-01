@@ -28,7 +28,7 @@ class MotorJava2D extends AbstractMotor {
 		gestorEscenas = gestor
 		fps = rendimiento.intValue
 		fpsCounter = new FPS(fps, false)
-		frame = new PilasFrame(this, ancho, alto, gestor, false, rendimiento) => [
+		frame = new PilasFrame(this, ancho, alto, gestor, true, rendimiento) => [
 			size = (ancho -> alto).toDimension
 			title = titulo
 		]
