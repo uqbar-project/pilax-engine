@@ -4,12 +4,18 @@ import org.uqbar.pilax.engine.Actor
 import org.uqbar.pilax.engine.Habilidad
 import org.uqbar.pilax.eventos.DataEvento
 import org.uqbar.pilax.eventos.DataEventoMouse
+import org.uqbar.pilax.eventos.HandlerEvento
 import org.uqbar.pilax.fisica.Figura
 import org.uqbar.pilax.fisica.Fisica
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 
+/**
+ * @author jfernandes
+ */
 class Arrastrable extends Habilidad {
+	HandlerEvento<DataEventoMouse> moveHandler = [d| cuandoArrastra(d)]
+	HandlerEvento<DataEventoMouse> dragEndHandler = [d| cuandoTerminaDeArrastrar(d)]
 	
 	new(Actor receptor) {
 		super(receptor)
@@ -20,8 +26,8 @@ class Arrastrable extends Habilidad {
 	def cuandoIntentaArrastrar(DataEventoMouse evento) {
 		if (evento.botonPrincipal) {
             if (receptor.colisionaConPunto(evento.posicion)) {
-                escena.terminaClick.conectar('cuando_termina_de_arrastrar') [d| cuandoTerminaDeArrastrar(d)]
-                escena.mueveMouse.conectar('cuando_arrastra') [d| cuandoArrastra(d)]
+                escena.terminaClick.conectar(dragEndHandler) 
+                escena.mueveMouse.conectar(moveHandler)
                 comienzaAArrastrar
             }
         }
@@ -34,9 +40,9 @@ class Arrastrable extends Habilidad {
 	}
 	
 	def cuandoTerminaDeArrastrar(DataEvento evento) {
-		escena.mueveMouse.desconectarPorId('cuando_arrastra')
+		escena.mueveMouse.desconectar(moveHandler)
         terminaDeArrastrar
-        escena.mueveMouse.desconectarPorId('cuando_termina_de_arrastrar')
+        escena.mueveMouse.desconectar(dragEndHandler)
 	}
 	
 	def terminaDeArrastrar() {
@@ -50,14 +56,10 @@ class Arrastrable extends Habilidad {
 	}
 	
 	def cuandoArrastra(DataEventoMouse evento) {
-		if (receptor.tieneFisica) {
-			println('''dragging: «receptor.posicion» + «evento.delta»''')
+		if (receptor.tieneFisica)
             fisica.cuandoMueveElMouse(evento.posicion.x.intValue, evento.posicion.y.intValue)
-        }
-        else {
-        	println('''dragging: «receptor.posicion» + «evento.delta»''')
+        else
         	receptor.posicion = receptor.posicion + evento.delta
-        }
 	}
 	
 	def getTieneFisica(Actor actor) {

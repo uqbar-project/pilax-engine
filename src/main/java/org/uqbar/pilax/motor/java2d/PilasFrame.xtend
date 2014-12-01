@@ -5,26 +5,31 @@ import java.awt.Frame
 import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.RenderingHints
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 import java.awt.event.MouseEvent
 import java.awt.event.MouseListener
+import java.awt.event.MouseMotionListener
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import org.uqbar.pilax.depurador.Depurador
 import org.uqbar.pilax.depurador.DepuradorDeshabilitado
 import org.uqbar.pilax.engine.GestorEscenas
+import org.uqbar.pilax.eventos.DataEvento
 import org.uqbar.pilax.eventos.DataEventoMouse
+import org.uqbar.pilax.eventos.DataEventoTeclado
 import org.uqbar.pilax.eventos.Evento
 import org.uqbar.pilax.eventos.MouseButton
 import org.uqbar.pilax.motor.Motor
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
 import static extension org.uqbar.pilax.utils.Utils.*
-import java.awt.event.MouseMotionListener
+import org.uqbar.pilax.engine.Tecla
 
 /**
  * 
  */
-class PilasFrame extends Frame implements MouseListener, MouseMotionListener {
+class PilasFrame extends Frame implements MouseListener, MouseMotionListener, KeyListener {
 	double originalWidth
 	double originalHeight
 	double escala = 1.0
@@ -53,6 +58,7 @@ class PilasFrame extends Frame implements MouseListener, MouseMotionListener {
 			}
        })
        addMouseMotionListener(this)
+       addKeyListener(this)
 	}
 	
 	def paintPilas() {
@@ -145,6 +151,82 @@ class PilasFrame extends Frame implements MouseListener, MouseMotionListener {
         gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(posRelativa, posRelativa - mouse, null))
 		mouse = posRelativa
         depurador.cuandoMueveElMouse(x.intValue, y.intValue)
+	}
+	
+	// key listener
+	
+	override keyPressed(KeyEvent event) {
+		// Se mantiene este lanzador de eventos por la clase Control
+        if (event.escape) eventos.pulsaTeclaEscape.emitir(new DataEvento)
+//        if (event.pausa) alternarPausa
+//        if (event.fullScreen) alternarPantallaCompleta
+
+        val codigo_de_tecla = event.keyCode.toTeclaPilas
+        eventos.pulsaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, false /*event.isAutoRepeat*/, String.valueOf(event.keyChar)))
+        depurador.cuandoPulsaTecla(codigo_de_tecla, event.keyChar)
+	}
+	
+	def toTeclaPilas(int code) {
+		switch code {
+			// direcciones
+			case KeyEvent.VK_DOWN: Tecla.ABAJO
+			case KeyEvent.VK_UP: Tecla.ARRIBA
+			case KeyEvent.VK_LEFT: Tecla.IZQUIERDA
+			case KeyEvent.VK_RIGHT: Tecla.DERECHA
+			// letras
+			case KeyEvent.VK_A: Tecla.a
+			case KeyEvent.VK_B: Tecla.b
+			case KeyEvent.VK_C: Tecla.c
+			case KeyEvent.VK_D: Tecla.d
+			case KeyEvent.VK_E: Tecla.e
+			case KeyEvent.VK_F: Tecla.f
+			case KeyEvent.VK_G: Tecla.g
+			case KeyEvent.VK_H: Tecla.h
+			case KeyEvent.VK_I: Tecla.i
+			case KeyEvent.VK_J: Tecla.j
+			case KeyEvent.VK_K: Tecla.k
+			case KeyEvent.VK_M: Tecla.m
+			case KeyEvent.VK_N: Tecla.n
+			case KeyEvent.VK_O: Tecla.o
+			case KeyEvent.VK_P: Tecla.p
+			case KeyEvent.VK_Q: Tecla.q
+			case KeyEvent.VK_R: Tecla.r
+			case KeyEvent.VK_S: Tecla.s
+			case KeyEvent.VK_T: Tecla.t
+			case KeyEvent.VK_U: Tecla.u
+			case KeyEvent.VK_V: Tecla.v
+			case KeyEvent.VK_W: Tecla.w
+			case KeyEvent.VK_X: Tecla.x
+			case KeyEvent.VK_Y: Tecla.y
+			case KeyEvent.VK_Z: Tecla.z
+			// f's
+			case KeyEvent.VK_F1: Tecla.F1
+			case KeyEvent.VK_F2: Tecla.F2
+			case KeyEvent.VK_F3: Tecla.F3
+			case KeyEvent.VK_F4: Tecla.F4
+			case KeyEvent.VK_F5: Tecla.F5
+			case KeyEvent.VK_F6: Tecla.F6
+			case KeyEvent.VK_F7: Tecla.F7
+			case KeyEvent.VK_F8: Tecla.F8
+			case KeyEvent.VK_F9: Tecla.F9
+			case KeyEvent.VK_F10: Tecla.F10
+			case KeyEvent.VK_F11: Tecla.F11
+			case KeyEvent.VK_F12: Tecla.F12
+		}
+	}
+	
+	def isEscape(KeyEvent event) { event.keyCode == KeyEvent.VK_ESCAPE }
+	def isPausa(KeyEvent event) { event.keyCode == KeyEvent.VK_PAUSE }
+	def isFullScreen(KeyEvent event) { event.keyCode == KeyEvent.VK_F && event.altDown }
+	
+	override keyReleased(KeyEvent event) {
+		val codigo_de_tecla = event.keyCode.toTeclaPilas
+        // Se mantiene este lanzador de eventos por la clase Control
+        eventos.sueltaTecla.emitir(new DataEventoTeclado(codigo_de_tecla, false /* event.isAutoRepeat */, String.valueOf(event.keyChar)))
+	}
+	
+	override keyTyped(KeyEvent e) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

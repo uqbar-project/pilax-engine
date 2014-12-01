@@ -1,11 +1,10 @@
 package org.uqbar.pilax.ejemplos
 
 import org.uqbar.pilax.actores.ActorMono
-import org.uqbar.pilax.comportamientos.ComportamientoGirar
 import org.uqbar.pilax.ejemplos.vacavoladora.Item
 import org.uqbar.pilax.engine.Pilas
 import org.uqbar.pilax.habilidades.Arrastrable
-import org.uqbar.pilax.habilidades.Rodear
+import org.uqbar.pilax.habilidades.MoverseConTeclado
 
 class EjemploMono {
 	
@@ -14,6 +13,7 @@ class EjemploMono {
 		
 		val mono = new ActorMono(50, 100)
 		mono.aprender(Arrastrable)
+		mono.aprender(MoverseConTeclado)
 //		mono.hacerLuego(new ComportamientoGirar(5, 5), true)
 //		
 		for (i : 1..3) {
