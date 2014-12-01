@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import org.uqbar.pilax.actores.ActorTextoInferior
 import org.uqbar.pilax.motor.Motor
-import org.uqbar.pilax.motor.qt.MotorQT
+import org.uqbar.pilax.motor.java2d.MotorJava2D
 
 class Pilas {
 	private static Pilas INSTANCE 
@@ -23,8 +23,8 @@ class Pilas {
 	}
 	
 	def static Motor crearMotor() {
-		new MotorQT
-//		new MotorJava2D
+//		new MotorQT
+		new MotorJava2D
 	}
 	
 	def static Pilas instance() {

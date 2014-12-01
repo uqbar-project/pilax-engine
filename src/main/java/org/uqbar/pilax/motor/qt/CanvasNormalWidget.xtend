@@ -27,6 +27,7 @@ import org.uqbar.pilax.eventos.Evento
 
 import static extension org.uqbar.pilax.motor.qt.QtExtensions.*
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import com.trolltech.qt.core.Qt.MouseButton
 
 class CanvasNormalWidget extends QGLWidget /*QWidget */  {
 	QTPilasPainter painter
@@ -161,8 +162,17 @@ class CanvasNormalWidget extends QGLWidget /*QWidget */  {
     
     def protected triggerearEventoDeMouseClick(QMouseEvent e, Evento<DataEventoMouse> evento) {
 		val posRelativa = (e.pos / escala).aRelativa
-		val d = new DataEventoMouse(posRelativa, origen(), e.button)
+		val d = new DataEventoMouse(posRelativa, origen(), e.button.toPilasButton)
         evento.emitir(d)
+	}
+	
+	def getToPilasButton(MouseButton button) {
+		switch button {
+			case LeftButton : org.uqbar.pilax.eventos.MouseButton.LEFT
+			case RightButton : org.uqbar.pilax.eventos.MouseButton.RIGHT
+			case MidButton : org.uqbar.pilax.eventos.MouseButton.MIDDLE
+			default : org.uqbar.pilax.eventos.MouseButton.LEFT
+		}
 	}
 
     def _obtener_codigo_de_tecla_normalizado(int tecla_qt) {

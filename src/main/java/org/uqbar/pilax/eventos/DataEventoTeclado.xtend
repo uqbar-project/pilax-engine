@@ -1,7 +1,5 @@
 package org.uqbar.pilax.eventos
 
-import com.trolltech.qt.core.Qt.MouseButton
-import org.eclipse.xtext.xbase.lib.Pair
 import org.uqbar.pilax.engine.Tecla
 
 /**
@@ -48,9 +46,15 @@ class DataEventoMouse extends DataEventoMovimiento {
 	}
 	
 	def isBotonPrincipal() {
-		boton == MouseButton.LeftButton
+		boton == MouseButton.LEFT
 	}
 	
+}
+
+enum MouseButton {
+	LEFT,
+	RIGHT,
+	MIDDLE
 }
 
 class DataEventoMovimiento extends DataEvento {

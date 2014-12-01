@@ -40,9 +40,8 @@ class MotorJava2D extends AbstractMotor {
 		val timer = new Timer
 		timer.schedule([| frame.paintPilas], 0, 1000 / fps)
 		timer.schedule([| realizarActualizacionLogica ], 0, 1000 / 100)
-		val a = synchronized(lock) {
+		synchronized(lock) {
 			lock.wait
-			42
 		}
 	}
 	
@@ -53,9 +52,8 @@ class MotorJava2D extends AbstractMotor {
 	override visible() { frame.visible = true }
 	override terminar() { 
 		frame.visible = false
-		val a = synchronized(lock) {
+		synchronized(lock) {
 			lock.notify
-			42
 		}
 	}
 	override getAncho() { frame.width }

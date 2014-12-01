@@ -50,9 +50,12 @@ class Arrastrable extends Habilidad {
 	}
 	
 	def cuandoArrastra(DataEventoMouse evento) {
-		if (receptor.tieneFisica)
+		if (receptor.tieneFisica) {
+			println('''dragging: «receptor.posicion» + «evento.delta»''')
             fisica.cuandoMueveElMouse(evento.posicion.x.intValue, evento.posicion.y.intValue)
+        }
         else {
+        	println('''dragging: «receptor.posicion» + «evento.delta»''')
         	receptor.posicion = receptor.posicion + evento.delta
         }
 	}

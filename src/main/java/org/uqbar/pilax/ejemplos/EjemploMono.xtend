@@ -14,14 +14,14 @@ class EjemploMono {
 		
 		val mono = new ActorMono(50, 100)
 		mono.aprender(Arrastrable)
-		mono.hacerLuego(new ComportamientoGirar(5, 5), true)
+//		mono.hacerLuego(new ComportamientoGirar(5, 5), true)
 //		
 		for (i : 1..3) {
 			val estrella = new Item
-			estrella.aprender(Rodear) => [ 
-				actorARodear = mono
-				angulo.incrementar(i * 30)
-			]
+//			estrella.aprender(Rodear) => [ 
+//				actorARodear = mono
+//				angulo.incrementar(i * 30)
+//			]
 		}
 //		
 //		mono.decir("Hola mundo!")

@@ -3,23 +3,32 @@ package org.uqbar.pilax.motor.java2d
 import java.awt.Color
 import java.awt.Frame
 import java.awt.Graphics
+import java.awt.Graphics2D
 import java.awt.RenderingHints
+import java.awt.event.MouseEvent
+import java.awt.event.MouseListener
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
 import org.uqbar.pilax.depurador.Depurador
 import org.uqbar.pilax.depurador.DepuradorDeshabilitado
 import org.uqbar.pilax.engine.GestorEscenas
+import org.uqbar.pilax.eventos.DataEventoMouse
+import org.uqbar.pilax.eventos.Evento
+import org.uqbar.pilax.eventos.MouseButton
 import org.uqbar.pilax.motor.Motor
-import java.awt.Graphics2D
 
 import static extension org.uqbar.pilax.utils.PilasExtensions.*
+import static extension org.uqbar.pilax.utils.Utils.*
+import java.awt.event.MouseMotionListener
 
 /**
  * 
  */
-class PilasFrame extends Frame {
+class PilasFrame extends Frame implements MouseListener, MouseMotionListener {
 	double originalWidth
 	double originalHeight
+	double escala = 1.0
+	Pair<Double,Double> mouse
 	Depurador depurador
 	Motor motor
 	GestorEscenas gestorEscenas
@@ -29,11 +38,13 @@ class PilasFrame extends Frame {
 		originalWidth = width
 		originalHeight = height
 		this.gestorEscenas = gestorEscenas
+		mouse = origen
 		
 		depurador = /*if (depuracion)
             			new DepuradorImpl(motor.crearLienzo, fps)
 			        else*/
             			new DepuradorDeshabilitado
+		addMouseListener(this)
 		
 		addWindowListener(new WindowAdapter() {
 			override windowClosing(WindowEvent e) {
@@ -41,6 +52,7 @@ class PilasFrame extends Frame {
 				System.exit(0)
 			}
        })
+       addMouseMotionListener(this)
 	}
 	
 	def paintPilas() {
@@ -84,4 +96,55 @@ class PilasFrame extends Frame {
 	def createPainter() {
 		new Java2DPainter(graphics)
 	}
+	
+	// mouse listener
+	
+	override mouseClicked(MouseEvent e) {
+		triggerearEventoDeMouseClick(e, gestorEscenas.escenaActual.clickDeMouse)
+	}
+	
+	override mousePressed(MouseEvent e) {
+		triggerearEventoDeMouseClick(e, gestorEscenas.escenaActual.clickDeMouse)
+	}
+	
+	override mouseReleased(MouseEvent e) {
+		triggerearEventoDeMouseClick(e, gestorEscenas.escenaActual.terminaClick)
+	}
+	
+	override mouseEntered(MouseEvent e) {
+	}
+	
+	override mouseExited(MouseEvent e) {
+		//todo
+	}
+	
+	def protected triggerearEventoDeMouseClick(MouseEvent e, Evento<DataEventoMouse> evento) {
+		val posRelativa = ((e.XOnScreen.doubleValue -> e.YOnScreen.doubleValue) / escala).aRelativa
+		val d = new DataEventoMouse(posRelativa, origen(), e.button.toPilasButton)
+        evento.emitir(d)
+	}
+	
+	def toPilasButton(int java2dbutton) {
+		switch java2dbutton {
+			case MouseEvent.BUTTON1 : MouseButton.LEFT
+			case MouseEvent.BUTTON2 : MouseButton.RIGHT
+			case MouseEvent.BUTTON3 : MouseButton.MIDDLE
+			default : MouseButton.LEFT
+		}
+	}
+	
+	def Pair<Double,Double> operator_divide(Pair<Double,Double> pair, Double d) {
+		(pair.x / d -> pair.y / d)
+	}
+	
+	override mouseDragged(MouseEvent e) {
+	}
+	
+	override mouseMoved(MouseEvent e) {
+		var posRelativa = ((e.XOnScreen.doubleValue -> e.YOnScreen.doubleValue) / escala).aRelativa + motor.centroDeLaCamara
+        gestorEscenas.escenaActual.mueveMouse.emitir(new DataEventoMouse(posRelativa, posRelativa - mouse, null))
+		mouse = posRelativa
+        depurador.cuandoMueveElMouse(x.intValue, y.intValue)
+	}
+	
 }
